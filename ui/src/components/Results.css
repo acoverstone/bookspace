@@ -1,0 +1,13 @@
+.results-outer {
+    margin-top: 10px;
+}
+
+.search-result-col {
+    margin-top:10px;
+    /* height: 250px; */
+}
+
+.results-details {
+    text-align: center;
+    margin: 0 auto;
+}

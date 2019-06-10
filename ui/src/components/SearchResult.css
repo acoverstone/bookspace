@@ -1,0 +1,56 @@
+.search-result-outer {
+    /* text-align: center; */
+    outline: none;
+    border: none;
+    /* background-color: #fcfcfc; */
+}
+
+.search-result-cover {
+    float: left;
+    display: block;
+    margin-right: 25px;
+    margin-bottom: 10px;
+    width: 128px;
+    height:200px;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.search-result-title {
+    font-family: "Open Sans", sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 24px;
+    cursor: pointer;
+  }
+  
+.search-result-author {
+    color: #999;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.search-result-body {
+    margin-top:10px;
+    font-size: 13px;
+    cursor: pointer;
+  }
+
+
+.search-result-buttons {
+    text-align: center;
+    margin-top:15px;
+}  
+
+.btn-search-result {
+    background-color: white !important;
+    color: #777 !important;
+    font-size: 13px !important;
+    outline: 0 !important;
+    box-shadow: 0 !important;
+}
+
+.btn-search-result:focus {
+outline: none !important;
+box-shadow: none !important;
+}

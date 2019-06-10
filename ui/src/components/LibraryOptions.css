@@ -1,0 +1,14 @@
+.library-options {
+    text-align: center; 
+    font-size:14px;
+    color: #999;
+}
+
+.library-options span {
+    cursor:pointer; 
+}
+
+.library-option-active {
+    color:#777;
+    font-weight:bold;
+}

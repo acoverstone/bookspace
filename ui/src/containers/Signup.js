@@ -1,0 +1,180 @@
+import React, { Component } from "react";
+import {
+  FormGroup,
+  FormControl,
+  FormLabel
+} from "react-bootstrap";
+import LoaderButton from "../components/LoaderButton";
+import { LinkContainer } from "react-router-bootstrap";
+import "./Signup.css";
+
+export default class Signup extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isLoading: false,
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      confirmationCode: "",
+      newUser: null,
+      errorText:""
+    };
+  }
+
+  validateForm() {
+    return (
+      this.state.email.length > 0 &&
+      this.state.password.length > 6 &&
+      this.state.password === this.state.confirmPassword
+    );
+  }
+
+  validateConfirmationForm() {
+    return this.state.confirmationCode.length > 0;
+  }
+
+  handleChange = event => {
+    this.setState({
+      [event.target.id]: event.target.value
+    });
+  }
+
+  handleSubmit = async event => {
+    event.preventDefault();
+    this.setState({ isLoading: true });
+
+    try {
+      const res = await fetch('http://localhost:8000/api/signup', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          first_name: this.state.name,
+          email: this.state.email,
+          password: this.state.password,
+        })
+      });
+
+      if(!res.ok) {
+        throw Error(res.status);
+      }
+
+      const resJson = await res.json();
+      this.setState({ isLoading: false, errorText: "",name: "",email: "",password: "",confirmPassword: "", });
+      this.props.setCurrentUser(resJson);
+      this.props.history.push("/");
+    
+    } catch (error) {
+      console.log(error.message);
+      if(error.message === "422") {
+        this.setState({errorText: "This email already exists in the database, please reset your password or choose another email.", isLoading: false });
+      } else {
+        this.setState({errorText: "Something went wrong, please try again later.", isLoading: false })
+      }
+    } 
+  }
+
+
+  handleConfirmationSubmit = async event => {
+    event.preventDefault();
+    this.setState({ isLoading: true });
+  }
+
+  renderConfirmationForm() {
+    return (
+      <form onSubmit={this.handleConfirmationSubmit}>
+        <FormGroup controlId="confirmationCode" bsSize="large">
+          <FormLabel>Confirmation Code</FormLabel>
+          <FormControl
+            autoFocus
+            type="tel"
+            value={this.state.confirmationCode}
+            onChange={this.handleChange}
+          />
+        </FormGroup>
+        <LoaderButton
+          block
+          bsSize="large"
+          disabled={!this.validateConfirmationForm()}
+          type="submit"
+          isLoading={this.state.isLoading}
+          text="Verify"
+          loadingText="Verifying…"
+        />
+      </form>
+    );
+  }
+
+  renderForm() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+      <FormGroup controlId="name">
+          <FormLabel>First Name</FormLabel>
+          <FormControl
+            autoFocus
+            type="text"
+            value={this.state.name}
+            onChange={this.handleChange}
+          />
+        </FormGroup>
+        <FormGroup controlId="email">
+          <FormLabel>Email</FormLabel>
+          <FormControl
+            type="email"
+            value={this.state.email}
+            onChange={this.handleChange}
+          />
+        </FormGroup>
+        <FormGroup controlId="password">
+          <FormLabel>Password</FormLabel>
+          <FormControl
+            value={this.state.password}
+            onChange={this.handleChange}
+            type="password"
+          />
+        </FormGroup>
+        <FormGroup controlId="confirmPassword">
+          <FormLabel>Confirm Password</FormLabel>
+          <FormControl
+            value={this.state.confirmPassword}
+            onChange={this.handleChange}
+            type="password"
+          />
+        </FormGroup>
+
+        <div className="signup-button-outer">
+          <LoaderButton
+          className="signup-button"
+            block
+            disabled={!this.validateForm()}
+            type="submit"
+            isLoading={this.state.isLoading}
+            text="Signup"
+            loadingText="Loading…"
+          />
+        </div>
+        <LinkContainer to="/signup">
+          <p className="sign-up no-select">Forgot your password?</p>
+        </LinkContainer>
+        <p className="error-text-signup">{this.state.errorText}</p>
+      </form>
+    );
+  }
+
+  render() {
+    return (
+      <div className="Signup">
+        {this.renderForm()}
+        {/* {this.state.newUser === null
+          ? this.renderForm()
+          : this.renderConfirmationForm()} */}
+      </div>
+    );
+  }
+}

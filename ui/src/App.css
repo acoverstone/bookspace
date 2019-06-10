@@ -1,0 +1,49 @@
+.App {
+  margin-top: 15px;
+
+}
+
+.App .navbar-brand {
+  font-weight: bold;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 600;
+  color: #575757;
+}
+
+.right-nav {
+  margin-right: 12px;
+  cursor: pointer;
+  color: #474747;
+}
+
+.library-button {
+  margin-right: 12px;
+}
+
+
+.no-select {
+  user-select: none; /* supported by Chrome and Opera */
+   -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+   -moz-user-select: none; /* Firefox */
+   -ms-user-select: none; /* Internet Explorer/Edge */
+}
+
+textarea:focus, 
+textarea.form-control:focus, 
+input.form-control:focus, 
+input[type=text]:focus, 
+input[type=password]:focus, 
+input[type=email]:focus, 
+input[type=number]:focus, 
+[type=text].form-control:focus, 
+[type=password].form-control:focus, 
+[type=email].form-control:focus, 
+[type=tel].form-control:focus, 
+[contenteditable].form-control:focus {
+  /* box-shadow: 0 1px 6px 0 rgba(32, 33, 36, 0.27);
+  border-color: rgba(223,225, 229,0); */
+  box-shadow: none;
+  border-color: #ccc; 
+  outline: none;
+}
