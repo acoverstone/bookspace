@@ -34,6 +34,12 @@ export default class SearchArea extends Component {
     this.setState({searchType:"author"});
   }
 
+  onEnter = e => {
+    if(e.keyCode === 13){
+      this.searchBooks();
+    }
+  }
+
   surpriseMe = async () => {
     this.setState({ surpriseIsLoading: true });
     console.log("SURPRISE!");
@@ -92,7 +98,7 @@ export default class SearchArea extends Component {
   render() {
     return (
       <div>
-        <SearchBar searchType={this.state.searchType} searchAuthor={this.searchAuthor} searchTitle={this.searchTitle} onInputChange={this.onInputChange} autoFocus={true}/>
+        <SearchBar searchType={this.state.searchType} searchAuthor={this.searchAuthor} searchTitle={this.searchTitle} onInputChange={this.onInputChange} onEnter={this.onEnter} autoFocus={true}/>
         <div className="search-buttons-outer" >
           <div className="search-buttons-inner">
             <LoaderButton

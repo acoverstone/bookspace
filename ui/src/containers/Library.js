@@ -18,6 +18,11 @@ export default class Library extends Component {
     }
   }
   
+  onEnter = e => {
+    if(e.keyCode === 13){
+      console.log('value', e.target.value);
+    }
+  }
 
   onSearchChange = event => {
     this.setState({
@@ -51,7 +56,7 @@ export default class Library extends Component {
                 }
                 <LibraryOptions selected={this.state.selected} selectOption={this.selectOption} />
                 {(this.props.currentUser==null)
-                  ?  <p className="not-logged-in-msg no-select" ><span>Login</span> or <span>Signup</span> to start your own Library.</p>
+                  ?  <p className="not-logged-in-msg no-select" ><span><a href="/login">Login</a></span> or <span href="/signup"><a href="/signup">Signup</a></span> to start your own Library.</p>
                   :  <p className="not-logged-in-msg no-select" ></p>
                 }
               </div>
@@ -59,7 +64,7 @@ export default class Library extends Component {
           </Row>
           <Row>
             <Col xs={{span:12}}  md={{span:8, offset:2}} lg={{span:6, offset:3}}>
-              <SearchBar searchType={this.state.searchType} searchAuthor={this.searchAuthor} searchTitle={this.searchTitle} onInputChange={this.onSearchChange} autoFocus={false}/>
+              <SearchBar searchType={this.state.searchType} searchAuthor={this.searchAuthor} searchTitle={this.searchTitle} onInputChange={this.onSearchChange} onEnter={this.onEnter} autoFocus={false}/>
             </Col>
           </Row>
         </div>

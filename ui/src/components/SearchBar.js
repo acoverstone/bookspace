@@ -38,7 +38,7 @@ export default class SearchBar extends Component {
             <div className="search-text"></div>
               <input className="search-input" type="text" title="Search" autoCorrect="off" autoCapitalize="off"  autoComplete="off"
                     onFocus={this.onFocus} onBlur={this.onBlur} placeholder="Search by Title or Author" 
-                    name="searchString" onChange={this.props.onInputChange} autoFocus={this.props.autoFocus} ></input>
+                    name="searchString" onChange={this.props.onInputChange} autoFocus={this.props.autoFocus} onKeyDown={this.props.onEnter}></input>
           </div>
           <div className="search-choice-outer">
             <div className="search-choice-inner">

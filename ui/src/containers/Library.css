@@ -21,10 +21,12 @@
   font-size: 13px;
   color: #777;
   margin-bottom: 0;
-  margin-top:-5px;
+  margin-top:-7px;
 }
 
-.not-logged-in-msg span {
+.not-logged-in-msg span a{
   cursor: pointer;
   font-weight: bold;
+  color:#777;
+  text-decoration: none;
 }
