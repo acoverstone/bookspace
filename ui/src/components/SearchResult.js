@@ -54,7 +54,7 @@ export default class SearchResult extends Component {
       <div>
       <Card className="search-result-outer">
         
-        <Card.Body>
+        <Card.Body style={{paddingRight:".5rem", paddingLeft:".5rem"}}>
           <img className="search-result-cover" src={this.props.result.Image} alt={this.props.result.Title}  />
           <Card.Title  className="search-result-title">{this.props.result.Title}</Card.Title>
           <Card.Subtitle  className="search-result-author">{this.getAuthors()}</Card.Subtitle>

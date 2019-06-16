@@ -62,20 +62,6 @@ export default class Library extends Component {
               <SearchBar searchType={this.state.searchType} searchAuthor={this.searchAuthor} searchTitle={this.searchTitle} onInputChange={this.onSearchChange} autoFocus={false}/>
             </Col>
           </Row>
-              {/* {(this.props.currentUser==null) ?
-                <div>
-                  <h1>Sample Library</h1>
-                  <LibraryOptions selected={this.state.selected} selectOption={this.selectOption} />
-                  <SearchBar searchType={this.state.searchType} searchAuthor={this.searchAuthor} searchTitle={this.searchTitle} onInputChange={this.onSearchChange}/>
-                  <p className="not-logged-in-msg"><b>Login</b> or <b>Signup</b> to start your own Library.</p>
-                </div>      
-                : 
-                <div>
-                  <h1>Your Library</h1>
-                  <LibraryOptions selected={this.state.selected} selectOption={this.selectOption}/>
-                  <SearchBar searchType={this.state.searchType} searchAuthor={this.searchAuthor} searchTitle={this.searchTitle} onInputChange={this.onSearchChange}/>
-                </div>
-                } */}
         </div>
       </Container>
     )
