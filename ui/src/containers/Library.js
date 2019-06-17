@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import {Container, Row, Col} from 'react-bootstrap';
 import LibraryOptions from '../components/LibraryOptions'
 import SearchBar from '../components/SearchBar'
+import Reading from '../components/Reading'
+import ToRead from '../components/ToRead'
+import ReadAlready from '../components/ReadAlready'
 import "./Library.css";
 
 
@@ -65,6 +68,19 @@ export default class Library extends Component {
           <Row>
             <Col xs={{span:12}}  md={{span:8, offset:2}} lg={{span:6, offset:3}}>
               <SearchBar searchType={this.state.searchType} searchAuthor={this.searchAuthor} searchTitle={this.searchTitle} onInputChange={this.onSearchChange} onEnter={this.onEnter} autoFocus={false}/>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={{span:12}}  md={{span:10, offset:1}}>
+              {(this.props.currentUser==null) ?
+                <div></div>  :
+              (this.state.selected === "to-read") ?
+                <ToRead toReadList={this.props.currentUser["library"]["to_read_list"]}/> :
+              (this.state.selected === "read-already") ?
+                <ReadAlready />
+              :
+              <Reading />
+            }
             </Col>
           </Row>
         </div>
