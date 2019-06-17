@@ -21,7 +21,7 @@ type User struct {
 	Password       string    `json:"password"`
 	LastLogin      time.Time `json:"last_login"`
 	RecentSearches []string  `json:"recent_searches"`
-	// UserLibrary Library `json:"library"`
+	Library        Library   `json:"library"`
 }
 
 // EmailRef represents a reference document for looking up a user by email - ensures unique
@@ -68,6 +68,11 @@ func Signup(firstName, email, password string) (*User, error) {
 		return nil, fmt.Errorf("error getting user id count from bucket")
 	}
 
+	library := Library{
+		ToReadList:  []LibraryBook{},
+		ReadingList: []LibraryBook{},
+	}
+
 	// Create user object
 	newUser := User{
 		UserID:         newID,
@@ -77,6 +82,7 @@ func Signup(firstName, email, password string) (*User, error) {
 		Password:       hashPass(email, password),
 		LastLogin:      time.Now(),
 		RecentSearches: []string{},
+		Library:        library,
 	}
 	key := getKeyFromUserID(newID)
 
@@ -93,14 +99,13 @@ func Signup(firstName, email, password string) (*User, error) {
 		return nil, fmt.Errorf("email exists")
 	}
 
-	// Store in database
+	// Store user in database
 	_, err = db.Insert(key, newUser, 0)
 	if err != nil {
 		return nil, fmt.Errorf("error inserting user to bucket")
 	}
 
 	return &newUser, nil
-
 }
 
 func getKeyFromUserID(userID uint64) string {
