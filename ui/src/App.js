@@ -12,12 +12,15 @@ class App extends Component {
   
     this.state = {
       currentUser: null,
-      isAuthenticating: true
+      isAuthenticating: true,
+      headerTriggered: false,
     };
+
   }
 
   async componentDidMount() {
     try {
+      window.addEventListener('scroll', this.handleScroll);
       const res = await fetch('http://localhost:8000/api/login', {
         method: 'GET',
         credentials: 'include'
@@ -40,6 +43,10 @@ class App extends Component {
     }
     this.setState({ isAuthenticating: false });
   }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
+  };
   
   isUserAuthenticated = () => {
     return this.state.currentUser == null;
@@ -76,6 +83,17 @@ class App extends Component {
     }
     
   }
+
+  handleScroll= event => {
+ 
+    if(window.scrollY > 20 && !this.state.headerTriggered) {
+      
+      this.setState({headerTriggered: true});
+    } else if(window.scrollY <= 20 && this.state.headerTriggered) {
+      
+      this.setState({headerTriggered: false});
+    }
+  }
   
   render() {
 
@@ -91,7 +109,7 @@ class App extends Component {
       !this.state.isAuthenticating &&
       <div className="App container">
         {/* <Navbar bg="light" expand="sm"> */}
-        <Navbar bg="light"  variant="light">
+        <Navbar className={this.state.headerTriggered ? "nav-shadow" : ""} fixed="top">
           <Navbar.Brand className="navbar-brand" href="/">Bookcase</Navbar.Brand>
           {/* <Navbar.Toggle aria-controls="basic-navbar-nav" /> */}
           {/* <Navbar.Collapse id="basic-navbar-nav"> */}

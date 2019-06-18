@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Card from "react-bootstrap/Card"
 import Button from "react-bootstrap/Button"
 import ButtonGroup from "react-bootstrap/ButtonGroup"
-import { FaBook, FaBookmark, FaPlus } from 'react-icons/fa';
+import { FaRegListAlt, FaBookmark, FaPlus } from 'react-icons/fa';
 import ReactTooltip from 'react-tooltip'
 import LinesEllipsis from 'react-lines-ellipsis'
 import "./SearchResult.css";
@@ -61,11 +61,11 @@ export default class SearchResult extends Component {
         <div className="search-button-bar">
 
           <ButtonGroup size="sm">
-            <Button variant="search-result" data-tip data-for="toread" data-offset="{'bottom': 10}"><FaBookmark /></Button>
+            <Button variant="search-result" data-tip data-for="toread" data-offset="{'bottom': 10}"><FaRegListAlt /></Button>
             <ReactTooltip id='toread' className="tooltip-custom" effect='solid' >
               <span>To-Read</span>
             </ReactTooltip>
-            <Button variant="search-result" data-tip data-for="readalready" data-offset="{'bottom': 10}" ><FaBook /></Button>
+            <Button variant="search-result" data-tip data-for="readalready" data-offset="{'bottom': 10}" ><FaBookmark /></Button>
             <ReactTooltip id='readalready' className="tooltip-custom" effect='solid' >
               <span>Read Already</span>
             </ReactTooltip>
