@@ -9,9 +9,11 @@
     float: left;
     display: block;
     margin-right: 20px;
-    margin-bottom: 15px;
-    width: 128px;
-    height:200px;
+    margin-bottom: 10px;
+    /* width: 128px;
+    height:200px; */
+    width: 20%;
+    height: auto;
     border-radius: 2px;
     cursor: pointer;
 }

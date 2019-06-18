@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { FaBook, FaUser } from 'react-icons/fa';
-// import queryString from 'query-string'
 import "./SearchBar.css";
 
 export default class SearchBar extends Component {
