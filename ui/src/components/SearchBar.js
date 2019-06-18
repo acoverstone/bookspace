@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { FaBook, FaUser } from 'react-icons/fa';
+import ReactTooltip from 'react-tooltip'
 import "./SearchBar.css";
 
 export default class SearchBar extends Component {
@@ -41,14 +42,21 @@ export default class SearchBar extends Component {
           </div>
           <div className="search-choice-outer">
             <div className="search-choice-inner">
-              <FaUser className={this.props.searchType ==="author" ? "search-choice-active" : ""} title="Search By Title" onClick={this.props.searchAuthor} />
+              <FaUser className={this.props.searchType ==="author" ? "search-choice-active" : ""} data-tip data-for="byauthor" onClick={this.props.searchAuthor} />
+              
             </div>
           </div>
+          <ReactTooltip id='byauthor' className="tooltip-custom" effect='solid' >
+            <span>Search By Author</span>
+          </ReactTooltip>
           <div className="search-choice-outer">
             <div className="search-choice-inner">
-              <FaBook className={this.props.searchType ==="title" ? "search-choice-active" : ""} title="Search By Author"onClick={this.props.searchTitle} />
+              <FaBook className={this.props.searchType ==="title" ? "search-choice-active" : ""} data-tip data-for="bytitle" onClick={this.props.searchTitle} />
             </div>
           </div>
+          <ReactTooltip id='bytitle' className="tooltip-custom" effect='solid' >
+            <span>Search By Title</span>
+          </ReactTooltip>
         </div>
       </div>
         

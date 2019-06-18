@@ -1,5 +1,9 @@
 import React, { Component } from "react";
 import Card from "react-bootstrap/Card"
+import Button from "react-bootstrap/Button"
+import ButtonGroup from "react-bootstrap/ButtonGroup"
+import { FaBook, FaBookmark, FaPlus } from 'react-icons/fa';
+import ReactTooltip from 'react-tooltip'
 import LinesEllipsis from 'react-lines-ellipsis'
 import "./SearchResult.css";
 import ReactHoverObserver from 'react-hover-observer';
@@ -51,10 +55,35 @@ export default class SearchResult extends Component {
         </div>
       )
     }
+
+    const ButtonBar = () => {
+      return (
+        <div className="search-button-bar">
+
+          <ButtonGroup size="sm">
+            <Button variant="search-result" data-tip data-for="toread" data-offset="{'bottom': 10}"><FaBookmark /></Button>
+            <ReactTooltip id='toread' className="tooltip-custom" effect='solid' >
+              <span>To-Read</span>
+            </ReactTooltip>
+            <Button variant="search-result" data-tip data-for="readalready" data-offset="{'bottom': 10}" ><FaBook /></Button>
+            <ReactTooltip id='readalready' className="tooltip-custom" effect='solid' >
+              <span>Read Already</span>
+            </ReactTooltip>
+            <Button variant="search-result" data-tip data-for="reading" data-offset="{'bottom': 10}"><FaPlus /></Button>
+            <ReactTooltip id='reading' className="tooltip-custom" effect='solid' >
+              <span>Read Now</span>
+            </ReactTooltip>
+          </ButtonGroup>
+        </div>
+      );
+    }
   
     return (
       <Card className="search-result-outer">
         <Card.Body style={{paddingRight:".5rem", paddingLeft:".5rem"}}>
+
+          <ButtonBar />
+        
           <img className="search-result-cover" src={this.props.result.Image} alt={this.props.result.Title}  />
           <Card.Title  className="search-result-title">{this.props.result.Title}</Card.Title>
           <Card.Subtitle  className="search-result-author">{this.getAuthors()}</Card.Subtitle>
