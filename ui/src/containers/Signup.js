@@ -170,6 +170,8 @@ export default class Signup extends Component {
   render() {
     return (
       <div className="Signup">
+        <h1>Welcome!</h1>
+        <p>Get started by setting up an account below.</p>
         {this.renderForm()}
         {/* {this.state.newUser === null
           ? this.renderForm()

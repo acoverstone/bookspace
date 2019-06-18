@@ -70,6 +70,9 @@ export default class Login extends Component {
   render() {
     return (
       <div className="Login">
+        <h1>Login</h1>
+        <p>Please enter your your email and password below.</p>
+    
         <form onSubmit={this.handleSubmit}>
           <FormGroup controlId="email" >
             <FormLabel>Email</FormLabel>

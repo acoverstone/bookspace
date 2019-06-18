@@ -1,7 +1,19 @@
 /* @media all and (min-width: 480px) { }*/
 .Signup {
-  padding: 60px 0;
+  padding: 40px 0;
 }
+
+.Signup h1 {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 600;
+  text-align: center;
+}
+
+.Signup p {
+  color: #999;
+  text-align: center;
+}
+
 
 .Signup form {
   margin: 0 auto;
