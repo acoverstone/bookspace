@@ -108,29 +108,15 @@ class App extends Component {
     return (
       !this.state.isAuthenticating &&
       <div className="App container">
-        {/* <Navbar bg="light" expand="sm"> */}
         <Navbar className={this.state.headerTriggered ? "nav-shadow" : ""} fixed="top">
           <Navbar.Brand className="navbar-brand" href="/">Bookcase</Navbar.Brand>
-          {/* <Navbar.Toggle aria-controls="basic-navbar-nav" /> */}
-          {/* <Navbar.Collapse id="basic-navbar-nav"> */}
             <Nav className="ml-auto right-nav no-select">
               <Nav.Link href="/library" className="library-button">Library</Nav.Link>
               {(this.state.currentUser!=null) ? 
                 <Nav.Link href="#" onClick={this.handleLogout}>Logout</Nav.Link> :
                 <Nav.Link href="/login">Login</Nav.Link>
               }
-
-              {/* {(this.state.currentUser!=null)
-                  ? <NavItem  onClick={this.handleLogout}>Logout</NavItem>
-                  : <Fragment >
-                      <LinkContainer to="/login" activeClassName="">
-                        <NavItem>Login</NavItem>
-                      </LinkContainer>
-                    </Fragment>
-                } */}
             </Nav>
-          {/* </Navbar.Collapse> */}
-    
         </Navbar>
         <Routes childProps={childProps}/>
       </div>

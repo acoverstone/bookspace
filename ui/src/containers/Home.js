@@ -42,7 +42,7 @@ export default class Home extends Component {
           </Row>
           <Row>
             <Col xs={12}>
-              <Results searchResults={this.state.searchResults}/>
+              <Results searchResults={this.state.searchResults} currentUser={this.props.currentUser}/>
             </Col>
           </Row>
         </div>

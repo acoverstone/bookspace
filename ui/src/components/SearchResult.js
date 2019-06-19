@@ -24,11 +24,20 @@ export default class SearchResult extends Component {
   }
 
   setHoveringDescription = () => {
-    
     this.setState({isHoveringDescription: true})
   }
+
   unsetHoveringDescription = () => {
     this.setState({isHoveringDescription: false})
+  }
+
+  addToRead = () => {
+    if(this.props.currentUser !== null) {
+      console.log(this.props.result.BookID)
+    } else {
+      console.log("Not authenticated.")
+    }
+    
   }
 
   render() {
@@ -61,7 +70,7 @@ export default class SearchResult extends Component {
         <div className="search-button-bar">
 
           <ButtonGroup size="sm">
-            <Button variant="search-result" data-tip data-for="toread" data-offset="{'bottom': 10}"><FaRegListAlt /></Button>
+            <Button variant="search-result" data-tip data-for="toread" data-offset="{'bottom': 10}" onClick={this.addToRead}><FaRegListAlt /></Button>
             <ReactTooltip id='toread' className="tooltip-custom" effect='solid' >
               <span>To-Read</span>
             </ReactTooltip>
