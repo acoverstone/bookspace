@@ -69,7 +69,7 @@ func Signup(firstName, email, password string) (*User, error) {
 	}
 
 	library := Library{
-		ToReadList:  []LibraryBook{},
+		ToReadList:  []string{},
 		ReadingList: []LibraryBook{},
 	}
 
