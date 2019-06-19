@@ -78,12 +78,6 @@ export default class SearchArea extends Component {
         if(!res.ok) {
           throw Error(res.statusText);
         }
-  
-        const resJson = await res.json();
-        console.log(resJson)
-        this.props.setSearchResults(resJson);
-
-        this.setState({ searchIsLoading: false, errorText:"" });
       } catch (e) {
         // otherwise alert error
         console.log(e.message);

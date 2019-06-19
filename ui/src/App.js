@@ -72,6 +72,7 @@ class App extends Component {
       }
 
       this.deleteCurrentUser();
+      // TODO: popup for logout error
       alert("Logout successful.");
       this.props.history.push("/");
      

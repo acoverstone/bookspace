@@ -33,11 +33,41 @@ export default class SearchResult extends Component {
 
   addToRead = () => {
     if(this.props.currentUser !== null) {
-      console.log(this.props.result.BookID)
+      this.addToReadApi()
     } else {
+      // TODO: popup for not authenticated
       console.log("Not authenticated.")
     }
     
+  }
+
+  addToReadApi = async () => {
+    try {
+      const res = await fetch("http://localhost:8000/api/library/add-to-read", {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          user_id: this.props.currentUser["id"],
+          book_id: this.props.result.BookID,
+        })
+      });
+
+      if(!res.ok) {
+        throw Error(res.statusText);
+      }
+
+      this.props.currentUser["library"]["to_read_list"].push(this.props.result.BookID)
+      console.log(this.props.result.BookID + " pushed successfully.")
+      // TODO: Add popup for added to To-Read list
+        
+    } catch (e) {
+      // TODO: popup for  alert error
+      console.log(e.message);
+    }
   }
 
   render() {
@@ -70,7 +100,7 @@ export default class SearchResult extends Component {
         <div className="search-button-bar">
 
           <ButtonGroup size="sm">
-            <Button variant="search-result" data-tip data-for="toread" data-offset="{'bottom': 10}" onClick={this.addToRead}><FaRegListAlt /></Button>
+            <Button variant="search-result" data-tip data-for="toread" data-offset="{'bottom': 10}" onClick={this.addToRead} disabled={this.props.currentUser["library"]["to_read_list"].includes(this.props.result.BookID)}><FaRegListAlt /></Button>
             <ReactTooltip id='toread' className="tooltip-custom" effect='solid' >
               <span>To-Read</span>
             </ReactTooltip>

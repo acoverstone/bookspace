@@ -1,6 +1,9 @@
 package model
 
-import "time"
+import (
+	"fmt"
+	"time"
+)
 
 // Library represents all of the book info for a particular user
 type Library struct {
@@ -32,6 +35,13 @@ type Note struct {
 }
 
 // AddBookToReadList appends book to reading list
-func AddBookToReadList(userID uint64, bookID string) {
+func AddBookToReadList(userID uint64, bookID string) error {
 
+	key := getKeyFromUserID(userID)
+	_, err := db.MutateIn(key, 0, 0).ArrayAddUnique("library.to_read_list", bookID, false).Execute()
+
+	if err != nil {
+		return fmt.Errorf(err.Error())
+	}
+	return nil
 }
