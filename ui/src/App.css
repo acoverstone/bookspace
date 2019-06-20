@@ -75,11 +75,6 @@ select:-webkit-autofill:focus {
   border-top-style: solid !important;     
 }
 
-.tooltip-custom:before {
-  border-top-color: #f5f5f5 !important;
-  border-top-style: solid !important;
-}
-
 
 .tooltip-custom:after {
   border-top-color: #f5f5f5 !important;

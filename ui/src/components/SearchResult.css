@@ -70,4 +70,7 @@
     text-align: right;
 }
 
+.search-button-bar button:disabled {
+    cursor: not-allowed;
+}
 

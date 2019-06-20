@@ -37,6 +37,7 @@ export default class SearchResult extends Component {
     } else {
       // TODO: popup for not authenticated
       console.log("Not authenticated.")
+      this.props.showModal("Oops.", "Login or signup to add a book to your 'To-Read' List")
     }
     
   }
@@ -63,9 +64,11 @@ export default class SearchResult extends Component {
       this.props.currentUser["library"]["to_read_list"].push(this.props.result.BookID)
       console.log(this.props.result.BookID + " pushed successfully.")
       // TODO: Add popup for added to To-Read list
+      this.props.showModal("Done.", "'" + this.props.result.Title + "' has been added to your To-Read list.")
         
     } catch (e) {
       // TODO: popup for  alert error
+      this.props.showModal("Oops.", "Something went wrong - please try again.")
       console.log(e.message);
     }
   }
@@ -98,14 +101,13 @@ export default class SearchResult extends Component {
     const ButtonBar = () => {
       return (
         <div className="search-button-bar">
-
           <ButtonGroup size="sm">
-            <Button variant="search-result" data-tip data-for="toread" data-offset="{'bottom': 10}" onClick={this.addToRead} disabled={this.props.currentUser["library"]["to_read_list"].includes(this.props.result.BookID)}><FaRegListAlt /></Button>
+            <Button variant="search-result" data-tip data-for="toread" data-offset="{'bottom': 10}" onClick={this.addToRead} disabled={this.props.currentUser !== null ? this.props.currentUser["library"]["to_read_list"].includes(this.props.result.BookID) : false}><FaRegListAlt /></Button>
             <ReactTooltip id='toread' className="tooltip-custom" effect='solid' >
               <span>To-Read</span>
             </ReactTooltip>
             <Button variant="search-result" data-tip data-for="readalready" data-offset="{'bottom': 10}" ><FaBookmark /></Button>
-            <ReactTooltip id='readalready' className="tooltip-custom" effect='solid' >
+            <ReactTooltip id='readalready' className="tooltip-custom" effect='solid' globalEventOff='click' >
               <span>Read Already</span>
             </ReactTooltip>
             <Button variant="search-result" data-tip data-for="reading" data-offset="{'bottom': 10}"><FaPlus /></Button>
@@ -116,7 +118,7 @@ export default class SearchResult extends Component {
         </div>
       );
     }
-  
+
     return (
       <Card className="search-result-outer">
         <Card.Body style={{paddingRight:".5rem", paddingLeft:".5rem"}}>
@@ -130,6 +132,25 @@ export default class SearchResult extends Component {
           <ReactHoverObserver hoverDelayInMs={600} hoverOffDelayInMs={200}>
             <Description></Description>
           </ReactHoverObserver>
+          {/* <SmallCenteredModal
+            show={this.state.readAlreadyModalShow}
+            onHide={modalClose}
+            modalTitle="Done."
+            modalDescription={"'" + this.props.result.Title + "' has been added to your To-Read list."}
+            //  '{this.props.booktitle}'' has been added to your {this.props.modaltype} list.
+          />
+          <SmallCenteredModal
+            show={this.state.toReadModalShow}
+            onHide={modalClose}
+            booktitle={this.props.result.Title}
+            modaltype="To-Read"
+          />
+          <SmallCenteredModal
+            show={this.state.readingModalShow}
+            onHide={modalClose}
+            booktitle={this.props.result.Title}
+            modaltype="Reading"
+          /> */}
         </Card.Body>
       </Card>
     )
