@@ -15,7 +15,6 @@ export default class Results extends Component {
 
     return (
       <div className="results-outer">
-        {/* <p className="results-details">Search results for 'the goal': </p> */}
         <Container>
           <Row>
             { searchResults }

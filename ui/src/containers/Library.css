@@ -1,11 +1,11 @@
 .Library .lander {
-  padding: 100px 0 15px 0;
+  padding: 100px 0 0 0;
   text-align: center;
   transition: padding 1s;
 }
   
 .Library .lander.has-results {
-  padding: 10px 0 20px 0;
+  padding: 10px 0 0 0;
 }
 
 .Library .lander h1 {
@@ -20,8 +20,10 @@
 .not-logged-in-msg {
   font-size: 13px;
   color: #777;
-  margin-bottom: 0;
-  margin-top:-7px;
+  margin-top: 15px;
+  text-align: center;
+  /* margin-bottom: 0; */
+  /* margin-top:-7px; */
 }
 
 .not-logged-in-msg span a{

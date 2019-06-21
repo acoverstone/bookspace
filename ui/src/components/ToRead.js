@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./Read.css";
+import { FaSyncAlt } from "react-icons/fa";
 
 export default class ToRead extends Component {
 
@@ -8,10 +9,12 @@ export default class ToRead extends Component {
 
     return (
       <div >
-          {/* {(this.props.toReadList.length === 0)
-            ? <p>No books in To-Read List.</p>
-            : <p></p>
-          } */}
+        {this.props.isLoading ? 
+          <div className="loading"> <FaSyncAlt className="spinning"/> Loading...</div> :
+        (this.props.toReadList.length === 0) ? 
+          <div className="loaded">There are no books in your 'To-Read' list.</div>:
+        <div>{this.props.toReadList}</div>
+        }
       </div>
     )
   }

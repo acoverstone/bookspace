@@ -132,25 +132,7 @@ export default class SearchResult extends Component {
           <ReactHoverObserver hoverDelayInMs={600} hoverOffDelayInMs={200}>
             <Description></Description>
           </ReactHoverObserver>
-          {/* <SmallCenteredModal
-            show={this.state.readAlreadyModalShow}
-            onHide={modalClose}
-            modalTitle="Done."
-            modalDescription={"'" + this.props.result.Title + "' has been added to your To-Read list."}
-            //  '{this.props.booktitle}'' has been added to your {this.props.modaltype} list.
-          />
-          <SmallCenteredModal
-            show={this.state.toReadModalShow}
-            onHide={modalClose}
-            booktitle={this.props.result.Title}
-            modaltype="To-Read"
-          />
-          <SmallCenteredModal
-            show={this.state.readingModalShow}
-            onHide={modalClose}
-            booktitle={this.props.result.Title}
-            modaltype="Reading"
-          /> */}
+
         </Card.Body>
       </Card>
     )

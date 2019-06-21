@@ -1,0 +1,22 @@
+.loading {
+    margin-top: 40px;
+    color: #999;
+    text-align: center;
+}
+
+.loaded {
+    margin-top: 8%;
+    color: #999;
+    text-align: center;
+    transition: margin 1s ;
+}
+
+.spinning {
+    margin-right: 6px;
+    top: 2px;
+    animation: spin 1s infinite linear;
+  }
+  @keyframes spin {
+    from { transform: scale(1) rotate(0deg); }
+    to { transform: scale(1) rotate(360deg); }
+  }

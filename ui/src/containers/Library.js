@@ -17,8 +17,17 @@ export default class Library extends Component {
       searchType: "title",        // options are "title", "author"
       searchString: "",
 
-      selected:"reading-now"
+      selected:"to-read",     // optins are "reading-now", "to-read", "read-already"
+      isLoading:true
     }
+  }
+  
+  async componentDidMount() {
+    // TODO: Change this to when search for books finishes...
+    setTimeout(() => {
+      this.setState({ isLoading: false });
+    }, 1000)
+    
   }
   
   onEnter = e => {
@@ -51,31 +60,33 @@ export default class Library extends Component {
         <div className="Library">
           <Row>
             <Col>
-              <div className="lander">
+              <div className={!this.state.isLoading ? "lander has-results" : "lander"}>
               
                 {(this.props.currentUser==null)
                   ? <h1>Sample Library</h1>
                   : <h1>Your Library</h1>
                 }
                 <LibraryOptions selected={this.state.selected} selectOption={this.selectOption} />
-                {(this.props.currentUser==null)
-                  ?  <p className="not-logged-in-msg no-select" ><span><a href="/login">Login</a></span> or <span href="/signup"><a href="/signup">Signup</a></span> to start your own Library.</p>
-                  :  <p className="not-logged-in-msg no-select" ></p>
-                }
+              
               </div>
             </Col>
           </Row>
           <Row>
             <Col xs={{span:12}}  md={{span:8, offset:2}} lg={{span:6, offset:3}}>
               <SearchBar searchType={this.state.searchType} searchAuthor={this.searchAuthor} searchTitle={this.searchTitle} onInputChange={this.onSearchChange} onEnter={this.onEnter} autoFocus={false}/>
+              {(this.props.currentUser==null)
+                  ?  <div><p className="not-logged-in-msg no-select" ><span><a href="/login">Login</a></span> or <span href="/signup"><a href="/signup">Signup</a></span> to start your own Library.</p></div>
+                  :  <p className="not-logged-in-msg no-select" ></p>
+                }
             </Col>
+            
           </Row>
           <Row>
             <Col xs={{span:12}}  md={{span:10, offset:1}}>
               {(this.props.currentUser==null) ?
-                <div></div>  :
+                <ToRead isLoading={this.state.isLoading} toReadList={[]}/> :
               (this.state.selected === "to-read") ?
-                <ToRead toReadList={this.props.currentUser["library"]["to_read_list"]}/> :
+                <ToRead isLoading={this.state.isLoading} toReadList={this.props.currentUser["library"]["to_read_list"]}/> :
               (this.state.selected === "read-already") ?
                 <ReadAlready />
               :
