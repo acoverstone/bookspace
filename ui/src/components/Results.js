@@ -7,9 +7,9 @@ export default class Results extends Component {
 
   render() {
 
-    const searchResults = this.props.searchResults.map((item, key) =>
+    const results = this.props.results.map((item, key) =>
       <Col key={item.BookID}  xl={{span:6, offset:0}} lg={{span:10, offset:1}} xs={{span:12, offset:0}} className="search-result-col">
-        <SearchResult result={item} currentUser={this.props.currentUser} showModal={this.props.showModal}></SearchResult>
+        <SearchResult result={item} currentUser={this.props.currentUser} showModal={this.props.showModal} resultType={this.props.resultType}></SearchResult>
       </Col>
     );  
 
@@ -17,7 +17,7 @@ export default class Results extends Component {
       <div className="results-outer">
         <Container>
           <Row>
-            { searchResults }
+            { results }
           </Row>
         </Container>
       </div> 

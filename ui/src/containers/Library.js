@@ -18,18 +18,14 @@ export default class Library extends Component {
       searchString: "",
 
       selected:"to-read",     // optins are "reading-now", "to-read", "read-already"
-      isLoading:true
+      hasResults:false
     }
   }
   
-  async componentDidMount() {
-    // TODO: Change this to when search for books finishes...
-    setTimeout(() => {
-      this.setState({ isLoading: false });
-    }, 1000)
-    
+  doneLoading = () => {
+    this.setState({hasResults:true})
   }
-  
+
   onEnter = e => {
     if(e.keyCode === 13){
       console.log('value', e.target.value);
@@ -60,7 +56,7 @@ export default class Library extends Component {
         <div className="Library">
           <Row>
             <Col>
-              <div className={!this.state.isLoading ? "lander has-results" : "lander"}>
+              <div className={this.state.hasResults ? "lander has-results" : "lander"}>
               
                 {(this.props.currentUser==null)
                   ? <h1>Sample Library</h1>
@@ -82,11 +78,11 @@ export default class Library extends Component {
             
           </Row>
           <Row>
-            <Col xs={{span:12}}  md={{span:10, offset:1}}>
+            <Col xs={{span:12}}>
               {(this.props.currentUser==null) ?
-                <ToRead isLoading={this.state.isLoading} toReadList={[]}/> :
+                <ToRead doneLoading={this.doneLoading} currentUser={this.props.currentUser} /> :
               (this.state.selected === "to-read") ?
-                <ToRead isLoading={this.state.isLoading} toReadList={this.props.currentUser["library"]["to_read_list"]}/> :
+                <ToRead doneLoading={this.doneLoading} currentUser={this.props.currentUser} /> :
               (this.state.selected === "read-already") ?
                 <ReadAlready />
               :

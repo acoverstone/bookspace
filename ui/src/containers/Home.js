@@ -56,7 +56,7 @@ export default class Home extends Component {
           </Row>
           <Row>
             <Col xs={12}>
-              <Results searchResults={this.state.searchResults} currentUser={this.props.currentUser} showModal={this.showModal}/>
+              <Results results={this.state.searchResults} currentUser={this.props.currentUser} showModal={this.showModal} resultType="search" />
             </Col>
           </Row>
         </div>

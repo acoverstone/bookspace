@@ -81,7 +81,8 @@ export default class SearchResult extends Component {
           {
             this.props.result.Description === "" 
             ? "There is no description for this title - but hopefully you can judge this book by its cover." 
-            : this.props.expanded 
+            : false
+            // : this.props.resultType !== "search" 
               ? this.props.result.Description
               : !isHovering ?
                 <LinesEllipsis
@@ -91,7 +92,6 @@ export default class SearchResult extends Component {
                   trimRight
                   basedOn='words'
                 /> 
-
               : this.props.result.Description
           }
         </div>
@@ -99,24 +99,29 @@ export default class SearchResult extends Component {
     }
 
     const ButtonBar = () => {
-      return (
-        <div className="search-button-bar">
-          <ButtonGroup size="sm">
-            <Button variant="search-result" data-tip data-for="toread" data-offset="{'bottom': 10}" onClick={this.addToRead} disabled={this.props.currentUser !== null ? this.props.currentUser["library"]["to_read_list"].includes(this.props.result.BookID) : false}><FaRegListAlt /></Button>
-            <ReactTooltip id='toread' className="tooltip-custom" effect='solid' >
-              <span>To-Read</span>
-            </ReactTooltip>
-            <Button variant="search-result" data-tip data-for="readalready" data-offset="{'bottom': 10}" ><FaBookmark /></Button>
-            <ReactTooltip id='readalready' className="tooltip-custom" effect='solid' globalEventOff='click' >
-              <span>Read Already</span>
-            </ReactTooltip>
-            <Button variant="search-result" data-tip data-for="reading" data-offset="{'bottom': 10}"><FaPlus /></Button>
-            <ReactTooltip id='reading' className="tooltip-custom" effect='solid' >
-              <span>Read Now</span>
-            </ReactTooltip>
-          </ButtonGroup>
-        </div>
-      );
+      if(this.props.resultType === "search") {
+        return (
+          <div className="search-button-bar">
+            <ButtonGroup size="sm">
+              <Button variant="search-result" data-tip data-for="toread" data-offset="{'bottom': 10}" onClick={this.addToRead} disabled={this.props.currentUser !== null ? this.props.currentUser["library"]["to_read_list"].includes(this.props.result.BookID) : false}><FaRegListAlt /></Button>
+              <ReactTooltip id='toread' className="tooltip-custom" effect='solid' >
+                <span>To-Read</span>
+              </ReactTooltip>
+              <Button variant="search-result" data-tip data-for="readalready" data-offset="{'bottom': 10}" ><FaBookmark /></Button>
+              <ReactTooltip id='readalready' className="tooltip-custom" effect='solid' globalEventOff='click' >
+                <span>Read Already</span>
+              </ReactTooltip>
+              <Button variant="search-result" data-tip data-for="reading" data-offset="{'bottom': 10}"><FaPlus /></Button>
+              <ReactTooltip id='reading' className="tooltip-custom" effect='solid' >
+                <span>Read Now</span>
+              </ReactTooltip>
+            </ButtonGroup>
+          </div>
+        );
+      } else {
+        return (<div></div>);
+      }
+      
     }
 
     return (
