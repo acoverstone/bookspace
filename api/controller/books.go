@@ -7,6 +7,9 @@ import (
 	"projects/bookcase/api/model"
 	"projects/bookcase/api/util"
 	"regexp"
+	"strings"
+
+	strip "github.com/grokify/html-strip-tags-go"
 )
 
 type books struct{}
@@ -127,7 +130,7 @@ func booksJSONToBookList(booksJSONstring []byte) ([]model.Book, error) {
 
 	for _, item := range googleBookResponse.Items {
 		book, err := bookJSONToBook(item)
-		if err == nil && !isBookInBookList(book, bookList) && book.Image != "" && len(book.Authors) > 0 {
+		if err == nil && !isBookInBookList(book, bookList) && book.Image != "" && len(book.Authors) > 0 && !strings.Contains(book.BookID, "-") {
 			bookList = append(bookList, book)
 		}
 	}
@@ -135,9 +138,10 @@ func booksJSONToBookList(booksJSONstring []byte) ([]model.Book, error) {
 	return bookList, nil
 }
 
+// Returns true if the same ID or Title/Description combo is present
 func isBookInBookList(book model.Book, bookList []model.Book) bool {
 	for _, checkBook := range bookList {
-		if book.BookID == checkBook.BookID {
+		if book.BookID == checkBook.BookID || (book.Title == checkBook.Title && book.Description == book.Description) {
 			return true
 		}
 	}
@@ -169,7 +173,7 @@ func bookJSONToBook(item map[string]interface{}) (model.Book, error) {
 			book.PublishedDate = publishDate
 		}
 		if description, ok := volumeInfo["description"].(string); ok {
-			book.Description = description
+			book.Description = strip.StripTags(description)
 			book.Description = book.GetSummary()
 		}
 		if categories, ok := volumeInfo["categories"].([]interface{}); ok {
