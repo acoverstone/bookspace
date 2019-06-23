@@ -14,25 +14,51 @@ export default class ToRead extends Component {
     }
   }
 
-  async componentDidMount() {
-    // TODO: Change this to when search for books finishes...
+  async componentWillMount() {
+    // TODO: remove timeout?
     setTimeout(() => {
       this.getBooks()
-    }, 1000)
+    }, 200)
   }
 
-  getBooks = () => {
+  // Get's book info for each book in to-read list, returns empty array if anything goes wrong
+  // Updates state every 3/4 frames to reduce number of state changes (and signals doen loading) - set's cache at the end 
+  async getBooks() {
     if(this.props.currentUser) {
-      this.props.currentUser["library"]["to_read_list"].forEach(element => {
-        this.getBook(element)
-      });
-    } else {
-      this.setState({ isLoading: false });
-      this.props.doneLoading();
-    }
+      var bookIdList = this.props.currentUser["library"]["to_read_list"];
+      if(bookIdList === null) {
+        bookIdList = [];
+      }
+
+      var bookList = [];
+
+      for (let i = 0; i < bookIdList.length; i++) {
+        var book = this.props.getBookFromCache(bookIdList[i]);
+        if(book === null) {
+          book = await this.getBook(bookIdList[i])
+          if(book == null) {
+            continue;
+          }
+          console.log("Fetched from API");
+        }
+        console.log("Fetched from cache");
+        
+        bookList.push(book);
+
+        if(i % 3 === 0 || i === bookIdList - 1) {
+          this.setState({toReadList: bookList, isLoading: false});
+          this.props.doneLoading(); 
+        }
+      }
+
+      this.props.addBooksToCache(bookList);
+    } 
+    
+    this.setState({ isLoading: false });
+    this.props.doneLoading(); 
   }
 
-
+  // use in getBooks.... Be sure to handle null if error
   getBook = async bookID => {
     try {
       const res = await fetch("http://localhost:8000/api/books/" + bookID , {
@@ -49,14 +75,13 @@ export default class ToRead extends Component {
       }
 
       var resJson = await res.json();
-      console.log(resJson)
-      this.setState({toReadList: this.state.toReadList.concat(resJson), isLoading: false})
-      this.props.doneLoading();
+      return resJson;
         
     } catch (e) {
-      // TODO: popup for  alert error
-      // this.props.showModal("Oops.", "Something went wrong - please try again.")
+      // TODO: gracefully handle a bad response...
+
       console.log(e.message);
+      return null;
     }
   }
 
@@ -68,7 +93,7 @@ export default class ToRead extends Component {
           <div className="loading"> <FaSyncAlt className="spinning"/> Loading...</div> :
         (this.state.toReadList.length === 0) ? 
           <div className="loaded">There are no books in your 'To-Read' list.</div>
-          :
+          : 
           <Results results={this.state.toReadList} currentUser={this.props.currentUser} showModal={() => {}} resultType="to-read" />
         } 
       </div>

@@ -18,14 +18,64 @@ export default class Library extends Component {
       searchString: "",
 
       selected:"to-read",     // optins are "reading-now", "to-read", "read-already"
-      hasResults:false
+      hasResults:false,
+
+      bookCache: this.getBookCache()
     }
   }
+
+  // Get list of cached books
+  getBookCache = () => {
+    var bookCache = JSON.parse(localStorage.getItem("book_cache"));
+    if(bookCache != null) {
+      if(Array.isArray(bookCache)){
+        return bookCache;
+      } 
+    }
+
+    return [];
+  }
+
+  // Add books to cache if each doesn't already exist in cache...
+  addBooksToCache = books => {
+    var bookCache = this.getBookCache();
+
+    books.forEach(book => {
+      if(!this.checkBookInList(book.BookID, bookCache)) {
+        bookCache.push(book);
+      }
+    });
+
+    localStorage.setItem("book_cache", JSON.stringify(bookCache));
+    this.setState({bookCache: bookCache});
+  }
+
+  // Returns book if it exists in cache or null otherwise
+  getBookFromCache = bookID => {
+    for(var i = 0; i < this.state.bookCache.length; i++) {
+      if(this.state.bookCache[i].BookID === bookID) {
+        return this.state.bookCache[i]
+      }
+    }
+    return null;
+  }
+
+  checkBookInList = (bookID, books) => {
+    for(var i = 0; i < books.length; i++) {
+      if(books[i].BookID === bookID) {
+        return true
+      }
+    }
+    return false;
+  }
+
   
+  // Moves "Your Library " to the top of the page by setting hasResults to True
   doneLoading = () => {
     this.setState({hasResults:true})
   }
 
+  // Check for press of Enter Key
   onEnter = e => {
     if(e.keyCode === 13){
       console.log('value', e.target.value);
@@ -80,9 +130,9 @@ export default class Library extends Component {
           <Row>
             <Col xs={{span:12}}>
               {(this.props.currentUser==null) ?
-                <ToRead doneLoading={this.doneLoading} currentUser={this.props.currentUser} /> :
+                <div>Log in dummy.</div> :
               (this.state.selected === "to-read") ?
-                <ToRead doneLoading={this.doneLoading} currentUser={this.props.currentUser} /> :
+                <ToRead doneLoading={this.doneLoading} currentUser={this.props.currentUser} addBooksToCache={this.addBooksToCache} getBookFromCache={this.getBookFromCache} /> :
               (this.state.selected === "read-already") ?
                 <ReadAlready />
               :

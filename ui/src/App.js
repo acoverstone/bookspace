@@ -18,7 +18,7 @@ class App extends Component {
 
   }
 
-  async componentDidMount() {
+  async componentWillMount() {
     try {
       window.addEventListener('scroll', this.handleScroll);
       const res = await fetch('http://localhost:8000/api/login', {
