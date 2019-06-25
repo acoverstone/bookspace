@@ -5,6 +5,7 @@ import SearchBar from '../components/SearchBar'
 import Reading from '../components/Reading'
 import ToRead from '../components/ToRead'
 import ReadAlready from '../components/ReadAlready'
+import SmallCenteredModal from '../components/SmallCenteredModal'
 import "./Library.css";
 
 
@@ -19,6 +20,10 @@ export default class Library extends Component {
 
       selected:"to-read",     // optins are "reading-now", "to-read", "read-already"
       hasResults:false,
+
+      modalShow: false,
+      modalTitle: "",
+      modalDescription: "",
 
       bookCache: this.getBookCache()
     }
@@ -100,6 +105,16 @@ export default class Library extends Component {
     this.setState({selected: selectedOption})
   }
 
+  showModal = (title, description) => {
+    this.setState({
+      modalShow: true,
+      modalTitle: title,
+      modalDescription: description
+    })
+  }
+
+  closeModal = () => this.setState({ modalShow: false });
+
   render() {
     return (
       <Container>
@@ -132,7 +147,7 @@ export default class Library extends Component {
               {(this.props.currentUser==null) ?
                 <div>Log in dummy.</div> :
               (this.state.selected === "to-read") ?
-                <ToRead doneLoading={this.doneLoading} currentUser={this.props.currentUser} addBooksToCache={this.addBooksToCache} getBookFromCache={this.getBookFromCache} /> :
+                <ToRead showModal={this.showModal} doneLoading={this.doneLoading} currentUser={this.props.currentUser} addBooksToCache={this.addBooksToCache} getBookFromCache={this.getBookFromCache} /> :
               (this.state.selected === "read-already") ?
                 <ReadAlready />
               :
@@ -141,6 +156,12 @@ export default class Library extends Component {
             </Col>
           </Row>
         </div>
+        <SmallCenteredModal
+            show={this.state.modalShow}
+            onHide={this.closeModal}
+            modaltitle={this.state.modalTitle}
+            modaldescription={this.state.modalDescription}
+          />
       </Container>
     )
   }

@@ -34,7 +34,7 @@ type Note struct {
 	// Timestamp  time.Time `json:"timestamp"`
 }
 
-// AddBookToReadList appends book to reading list
+// AddBookToReadList appends book to 'To-Read' list
 func AddBookToReadList(userID uint64, bookID string) error {
 
 	key := getKeyFromUserID(userID)
@@ -44,4 +44,45 @@ func AddBookToReadList(userID uint64, bookID string) error {
 		return fmt.Errorf(err.Error())
 	}
 	return nil
+}
+
+// RemoveBookFromToReadList removes book from 'To-Read' list
+func RemoveBookFromToReadList(userID uint64, bookID string) error {
+
+	key := getKeyFromUserID(userID)
+	user := User{}
+	_, err := db.Get(key, &user)
+
+	if err != nil {
+		return fmt.Errorf(err.Error())
+	}
+
+	newToReadList, err := removeFromSlice(user.Library.ToReadList, bookID)
+	if err != nil {
+		return fmt.Errorf(err.Error())
+	}
+
+	_, err = db.MutateIn(key, 0, 0).Replace("library.to_read_list", newToReadList).Execute()
+	if err != nil {
+		return fmt.Errorf(err.Error())
+	}
+
+	return nil
+}
+
+// removeFromSlice removes a string from a list of strings - v useful :)
+func removeFromSlice(s []string, toRemove string) ([]string, error) {
+	i := -1
+	for index, item := range s {
+		if item == toRemove {
+			i = index
+		}
+	}
+
+	if i == -1 {
+		return nil, fmt.Errorf("%v not found in list", toRemove)
+	}
+
+	s[i] = s[len(s)-1]
+	return s[:len(s)-1], nil
 }

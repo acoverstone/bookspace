@@ -33,8 +33,10 @@ export default class Home extends Component {
     })
   }
 
+  closeModal = () => this.setState({ modalShow: false });
+
   render() {
-    let modalClose = () => this.setState({ modalShow: false });
+    
     return (
       <Container>
         <div className="Home">
@@ -56,13 +58,13 @@ export default class Home extends Component {
           </Row>
           <Row>
             <Col xs={12}>
-              <Results results={this.state.searchResults} currentUser={this.props.currentUser} showModal={this.showModal} resultType="search" />
+              <Results removeResult={()=>{}} results={this.state.searchResults} currentUser={this.props.currentUser} showModal={this.showModal} resultType="search" />
             </Col>
           </Row>
         </div>
         <SmallCenteredModal
             show={this.state.modalShow}
-            onHide={modalClose}
+            onHide={this.closeModal}
             modaltitle={this.state.modalTitle}
             modaldescription={this.state.modalDescription}
           />

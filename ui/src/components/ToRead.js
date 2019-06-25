@@ -39,9 +39,7 @@ export default class ToRead extends Component {
           if(book == null) {
             continue;
           }
-          console.log("Fetched from API");
         }
-        console.log("Fetched from cache");
         
         bookList.push(book);
 
@@ -85,6 +83,23 @@ export default class ToRead extends Component {
     }
   }
 
+  // remove book from to-read list by bookID
+  removeFromToRead = bookID => {
+    var toReadCopy = [...this.state.toReadList]
+    var index = -1;
+
+    for (let i = 0; i < toReadCopy.length; i++) {
+      if(toReadCopy[i]["BookID"] && toReadCopy[i]["BookID"] === bookID) {
+        index = i
+      } 
+    }
+
+    if(index !== -1) {
+      toReadCopy.splice(index, 1);
+      this.setState({toReadList:toReadCopy});
+    }
+  }
+
   render() {
 
     return (
@@ -94,7 +109,7 @@ export default class ToRead extends Component {
         (this.state.toReadList.length === 0) ? 
           <div className="loaded">There are no books in your 'To-Read' list.</div>
           : 
-          <Results results={this.state.toReadList} currentUser={this.props.currentUser} showModal={() => {}} resultType="to-read" />
+          <Results removeResult={this.removeFromToRead} results={this.state.toReadList} currentUser={this.props.currentUser} showModal={this.props.showModal} resultType="to-read" />
         } 
       </div>
     )
