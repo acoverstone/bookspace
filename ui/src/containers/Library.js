@@ -113,6 +113,39 @@ export default class Library extends Component {
     })
   }
 
+  // Tries to retreive book details from cache - if not present uses the API - if still not present returns null
+  getBookDetails = async bookID => {
+    // Try to retreive book from cache
+    var book = this.getBookFromCache(bookID);
+    if(book != null) {
+      return book;
+    }
+
+    // If not available, retreive from api
+    try {
+      const res = await fetch("http://localhost:8000/api/books/" + bookID , {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if(!res.ok) {
+        throw Error(res.statusText);
+      }
+
+      var resJson = await res.json();
+      return resJson;
+        
+    } catch (e) {
+      // TODO: gracefully handle a bad response...
+      console.log(e.message);
+      return null;
+    }
+  }
+
   closeModal = () => this.setState({ modalShow: false });
 
   render() {
@@ -147,9 +180,9 @@ export default class Library extends Component {
               {(this.props.currentUser==null) ?
                 <div>Log in dummy.</div> :
               (this.state.selected === "to-read") ?
-                <ToRead showModal={this.showModal} doneLoading={this.doneLoading} currentUser={this.props.currentUser} addBooksToCache={this.addBooksToCache} getBookFromCache={this.getBookFromCache} /> :
+                <ToRead showModal={this.showModal} doneLoading={this.doneLoading} currentUser={this.props.currentUser} addBooksToCache={this.addBooksToCache} getBookDetails={this.getBookDetails} /> :
               (this.state.selected === "read-already") ?
-                <ReadAlready />
+                <ReadAlready showModal={this.showModal} doneLoading={this.doneLoading} currentUser={this.props.currentUser} addBooksToCache={this.addBooksToCache} getBookDetails={this.getBookDetails} />
               :
               <Reading />
             }

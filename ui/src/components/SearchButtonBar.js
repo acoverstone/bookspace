@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Button from "react-bootstrap/Button"
 import ButtonGroup from "react-bootstrap/ButtonGroup"
-import { FaRegListAlt, FaBookmark, FaPlus } from 'react-icons/fa';
+import { FaRegListAlt, FaBookmark, FaPlus, FaCheck } from 'react-icons/fa';
 import ReactTooltip from 'react-tooltip'
 import "./ButtonBar.css";
 
@@ -44,7 +44,7 @@ export default class SearchButtonBar extends Component {
 
       if(this.props.result.BookID) {
         this.props.currentUser["library"]["to_read_list"].push(this.props.result.BookID)
-        this.props.showModal("Done.", "'" + this.props.result.Title + "' has been added to your To-Read list.")
+        this.props.showModal("Done.", "'" + this.props.result.Title + "' has been added to your To-Read list.");
       } else {
         // TODO: Add some logic to handle invalid book id...
         console.log("Invalid bookID - " + this.props.result.BookID);
@@ -61,7 +61,7 @@ export default class SearchButtonBar extends Component {
       this.addReadAlreadyApi()
     } else {
       console.log("Not authenticated.")
-      this.props.showModal("Oops.", "Login or signup to add a book to your 'Read Already' List")
+      this.props.showModal("Oops.", "Login or signup to add a book to your 'Read Already' List");
     }
   }
 
@@ -86,7 +86,8 @@ export default class SearchButtonBar extends Component {
       }
 
       if(this.props.result.BookID) {
-        this.props.showModal("Done.", "'" + this.props.result.Title + "' has been added to your Read Already list.")
+        this.props.currentUser["library"]["read_list"].push({id: this.props.result.BookID})
+        this.props.showModal("Done.", "'" + this.props.result.Title + "' has been added to your Read Already list.");
       } else {
         // TODO: Add some logic to handle invalid book id...
         console.log("Invalid bookID - " + this.props.result.BookID);
@@ -98,24 +99,56 @@ export default class SearchButtonBar extends Component {
     }
   }
 
-  render() {
-    // TODO: Instead of toggling disabled pret button - toggle green check mark if in To-Read/Read Already/Reading
+  // Returns true if book is in Read, To-Read or Reading List, false otherwise
+  existsInLibrary = () => {
+    if(this.props.currentUser != null ) {
 
+      var existsinReadList = false;
+      for (let i = 0; i < this.props.currentUser["library"]["read_list"].length; i++) {
+        if(this.props.currentUser["library"]["read_list"][i]["id"] === this.props.result.BookID) {
+          existsinReadList = true;
+        }
+      }
+
+      if(existsinReadList) {
+        return true;
+      }
+      else if(this.props.currentUser["library"]["to_read_list"].includes(this.props.result.BookID)) {
+        return true;
+      }
+    }
+
+    return false;  
+  }
+
+  render() {
     return (
-      <ButtonGroup size="sm">
-        <Button variant="result" data-tip data-for="toread" data-offset="{'bottom': 10}" onClick={this.addToRead} disabled={this.props.currentUser !== null ? this.props.currentUser["library"]["to_read_list"].includes(this.props.result.BookID) : false}><FaRegListAlt /></Button>
-        <ReactTooltip id='toread' className="tooltip-custom" effect='solid' >
-          <span>To-Read</span>
-        </ReactTooltip>
-        <Button variant="result" data-tip data-for="readalready" data-offset="{'bottom': 10}" onClick={this.addReadAlready} disabled={false}><FaBookmark /></Button>
-        <ReactTooltip id='readalready' className="tooltip-custom" effect='solid' globalEventOff='click' >
-          <span>Read Already</span>
-        </ReactTooltip>
-        <Button variant="result" data-tip data-for="reading" data-offset="{'bottom': 10}"><FaPlus /></Button>
-        <ReactTooltip id='reading' className="tooltip-custom" effect='solid' >
-          <span>Read Now</span>
-        </ReactTooltip>
-      </ButtonGroup>
+      <div>
+        {(!this.existsInLibrary()) 
+          ?
+            <ButtonGroup size="sm">
+              <Button variant="result" data-tip data-for="toread" data-offset="{'bottom': 10}" onClick={this.addToRead} ><FaRegListAlt /></Button>
+              <ReactTooltip id='toread' className="tooltip-custom" effect='solid' >
+                <span>To-Read</span>
+              </ReactTooltip>
+              <Button variant="result" data-tip data-for="readalready" data-offset="{'bottom': 10}" onClick={this.addReadAlready} ><FaBookmark /></Button>
+              <ReactTooltip id='readalready' className="tooltip-custom" effect='solid' globalEventOff='click' >
+                <span>Read Already</span>
+              </ReactTooltip>
+              <Button variant="result" data-tip data-for="reading" data-offset="{'bottom': 10}"><FaPlus /></Button>
+              <ReactTooltip id='reading' className="tooltip-custom" effect='solid' >
+                <span>Read Now</span>
+              </ReactTooltip>
+            </ButtonGroup> 
+          :
+            <ButtonGroup size="sm">
+              <Button variant="exists" data-tip data-for="exists" data-offset="{'bottom': 10}" ><FaCheck /></Button>
+              <ReactTooltip id='exists' className="tooltip-custom" effect='solid' >
+                <span>Added To Your Library</span>
+              </ReactTooltip>
+            </ButtonGroup> 
+        }
+      </div>
     );
   }
 }

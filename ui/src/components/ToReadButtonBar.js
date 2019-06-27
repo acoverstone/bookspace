@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Button from "react-bootstrap/Button"
 import ButtonGroup from "react-bootstrap/ButtonGroup"
-import { FaBookmark, FaPlus, FaTrash } from 'react-icons/fa';
+import { FaBookmark, FaPlus, FaTrashAlt } from 'react-icons/fa';
 import ReactTooltip from 'react-tooltip'
 import "./ButtonBar.css";
 
@@ -56,7 +56,7 @@ export default class ToReadButtonBar extends Component {
   render() {
     return (
       <ButtonGroup size="sm">
-        <Button variant="result" data-tip data-for="toread" data-offset="{'bottom': 10}" onClick={this.removeFromRead}><FaTrash /></Button>
+        <Button variant="result" data-tip data-for="toread" data-offset="{'bottom': 10}" onClick={this.removeFromRead}><FaTrashAlt /></Button>
         <ReactTooltip id='toread' className="tooltip-custom" effect='solid' >
           <span>Remove From To-Read List</span>
         </ReactTooltip>

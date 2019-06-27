@@ -1,0 +1,26 @@
+.btn-invisible {
+    visibility: hidden;
+    font-size: 110% !important;
+    outline: 0 !important;
+    box-shadow: 0 !important;
+}
+
+.btn-exists {
+    background-color: white !important;
+    color: #1aa159 !important;
+    font-size: 110% !important;
+    outline: 0 !important;
+    box-shadow: 0 !important;
+}
+
+.btn-exists:focus {
+    outline: none !important;
+    box-shadow: none !important;
+    color: #1aa159 !important;
+} 
+
+.btn-exists:hover {
+    outline: none !important;
+    box-shadow: none !important;
+    color: #1aa159 !important;
+} 

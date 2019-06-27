@@ -32,55 +32,28 @@ export default class ToRead extends Component {
 
       var bookList = [];
 
+      // Get details from Cache or API and add to list - skip if not available
       for (let i = 0; i < bookIdList.length; i++) {
-        var book = this.props.getBookFromCache(bookIdList[i]);
+        var book = await this.props.getBookDetails(bookIdList[i]);
         if(book === null) {
-          book = await this.getBook(bookIdList[i])
-          if(book == null) {
             continue;
-          }
         }
         
         bookList.push(book);
 
+        // Set state after every three books or when all books have been loaded
         if(i % 3 === 0 || i === bookIdList - 1) {
           this.setState({toReadList: bookList, isLoading: false});
           this.props.doneLoading(); 
         }
       }
 
+      // Add books to cache
       this.props.addBooksToCache(bookList);
     } 
     
     this.setState({ isLoading: false });
     this.props.doneLoading(); 
-  }
-
-  // use in getBooks.... Be sure to handle null if error
-  getBook = async bookID => {
-    try {
-      const res = await fetch("http://localhost:8000/api/books/" + bookID , {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if(!res.ok) {
-        throw Error(res.statusText);
-      }
-
-      var resJson = await res.json();
-      return resJson;
-        
-    } catch (e) {
-      // TODO: gracefully handle a bad response...
-
-      console.log(e.message);
-      return null;
-    }
   }
 
   // remove book from to-read list by bookID
