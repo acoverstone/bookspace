@@ -47,7 +47,8 @@ func Login(email, password string) (*User, error) {
 	if err != nil {
 		return nil, fmt.Errorf("email does not exist in db")
 	}
-	_, err = db.Get(getKeyFromUserID(emailRef.UserID), &user)
+	userKey := getKeyFromUserID(emailRef.UserID)
+	_, err = db.Get(userKey, &user)
 	if err != nil {
 		return nil, fmt.Errorf("cannot parse user")
 	}
@@ -55,6 +56,13 @@ func Login(email, password string) (*User, error) {
 	// Check if given email/password matches for email/password in DB
 	if hashPass(email, password) != user.Password {
 		return nil, fmt.Errorf("incorrect password")
+	}
+
+	// Update last login time for user - doesn't need to return an error if there is none
+	user.LastLogin = time.Now()
+	_, err = db.MutateIn(userKey, 0, 0).Replace("last_login", time.Now()).Execute()
+	if err != nil {
+		fmt.Println("Error updating last login time")
 	}
 
 	return &user, nil

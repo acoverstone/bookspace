@@ -27,11 +27,11 @@ type LibraryBook struct {
 
 // Note represents something you can write about a book - SecitonNote, Concept, Quote
 type Note struct {
-	Title      string   `json:"title"`
-	Notes      []string `json:"notes"`
-	PageNumber int32    `json:"section_name"`
-	Highlight  bool     `json:"highlight"`
-	// Timestamp  time.Time `json:"timestamp"`
+	Title      string    `json:"title"`
+	Notes      []string  `json:"notes"`
+	PageNumber int32     `json:"section_name"`
+	Highlight  bool      `json:"highlight"`
+	Timestamp  time.Time `json:"timestamp"`
 }
 
 // AddBookToReadList appends book to 'To-Read' list
@@ -67,6 +67,40 @@ func RemoveBookFromToReadList(userID uint64, bookID string) error {
 		return fmt.Errorf(err.Error())
 	}
 
+	return nil
+}
+
+// AddBookReadAlreadyList appends book to 'Read Already' list
+func AddBookReadAlreadyList(userID uint64, bookID string) error {
+
+	key := getKeyFromUserID(userID)
+
+	// Create new LibraryBook object to insert to DB
+	book := LibraryBook{
+		BookID:        bookID,
+		ReadingNow:    false,
+		Favorite:      false,
+		FinalThoughts: "",
+		BookSummary:   "",
+		SectionNotes:  []Note{},
+		Concepts:      []Note{},
+		Quotes:        []Note{},
+		Category:      "",
+		LastUpdated:   time.Now(),
+	}
+
+	// bookJSON, err := json.Marshal(book)
+	// if err != nil {
+	// 	return fmt.Errorf(err.Error())
+	// }
+	// fmt.Println(string(bookJSON))
+
+	// TODO: Fix this = maybe insert struct?
+	_, err := db.MutateIn(key, 0, 0).ArrayAppend("library.read_list", book, false).Execute()
+
+	if err != nil {
+		return fmt.Errorf(err.Error())
+	}
 	return nil
 }
 

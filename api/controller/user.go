@@ -25,7 +25,6 @@ func (u user) handleLogin(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
 		// Return OK if user not found or user successfully found - Unauthorized if no ID is invalid
 		if userID, ok := sess.Get(sessionKey).(uint64); !ok {
-			fmt.Println("No current user.")
 			w.WriteHeader(http.StatusOK)
 			enc.Encode(model.User{})
 			return
