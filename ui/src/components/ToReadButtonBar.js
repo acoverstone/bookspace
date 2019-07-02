@@ -41,16 +41,73 @@ export default class ToReadButtonBar extends Component {
       if(this.props.result.BookID) {
         this.props.removeResult(this.props.result.BookID);
         this.props.showModal("Done.", "'" + this.props.result.Title + "' has been removed from your To-Read list.")
+        return true;
       } else {
-        // TODO: Add some logic to handle invalid book id...
+        this.props.showModal("Oops.", "There was an error removing '" + this.props.result.Title + "' from your To_Read List. Please refresh and try again.");
         console.log("Invalid bookID - " + this.props.result.BookID);
+        return false;
       }
         
     } catch (e) {
-      this.props.showModal("Oops.", "Something went wrong - please try again.")
+      this.props.showModal("Oops.", "Something went wrong - please refresh and try again.")
       console.log(e.message);
+      return false;
     }
   }
+  
+
+  addReadAlready = () => {
+    if(this.props.currentUser !== null) {
+      this.addReadAlreadyApi()
+    } else {
+      console.log("Not authenticated.")
+      this.props.showModal("Oops.", "Login or signup to add a book to your 'Read Already' List");
+    }
+  }
+
+    // Add book to "Read Already" list and remove from "To-Read" list
+    addReadAlreadyApi = async () => {
+      try {
+        const res = await fetch("http://localhost:8000/api/library/add-read-already", {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            user_id: this.props.currentUser["id"],
+            book_id: this.props.result.BookID,
+          })
+        });
+  
+        if(!res.ok) {
+          throw Error(res.statusText);
+        }
+      
+        var resJson = await res.json();
+        if(this.props.result.BookID && 'id' in resJson && 'library' in this.props.currentUser) {
+          // Remove from to-read list for current user
+          var removedFromToRead = await this.removeFromToReadApi();
+
+          // Add to read already list for current User
+          this.props.currentUser["library"]["read_list"].push(resJson);
+          if(removedFromToRead)
+            this.props.showModal("Done.", "'" + this.props.result.Title + "' has been added to your Read Already list.");
+          else {
+            this.props.showModal("Done.", "'" + this.props.result.Title + "' has been added to your Read Already list (something went wrong removing from To-Read list).");
+          }
+        } else {
+          this.props.showModal("Oops.", "There was an error adding '" + this.props.result.Title + "' to your Read Already List. Please refresh and try again.");
+          console.log("Invalid bookID - " + this.props.result.BookID);
+        }
+        
+      } catch (e) {
+        this.props.showModal("Oops.", "Something went wrong - please try again.")
+        console.log(e.message);
+      }
+    }
+  
 
 
   render() {
@@ -60,7 +117,7 @@ export default class ToReadButtonBar extends Component {
         <ReactTooltip id='toread' className="tooltip-custom" effect='solid' >
           <span>Remove From To-Read List</span>
         </ReactTooltip>
-        <Button variant="result" data-tip data-for="readalready" data-offset="{'bottom': 10}" ><FaBookmark /></Button>
+        <Button variant="result" data-tip data-for="readalready" data-offset="{'bottom': 10}" onClick={this.addReadAlready} ><FaBookmark /></Button>
         <ReactTooltip id='readalready' className="tooltip-custom" effect='solid' globalEventOff='click' >
           <span>Read Already</span>
         </ReactTooltip>

@@ -58,6 +58,7 @@ export default class ReadAlready extends Component {
     this.props.doneLoading(); 
   }
 
+  // TODO: FINISH BELOW FUNCTION - need to also handle adding to read already from to-read 
 
    // remove book from to-read list by bookID
    removeFromReadAlready = bookID => {

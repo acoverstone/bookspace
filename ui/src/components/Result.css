@@ -23,13 +23,13 @@
     font-weight: 600;
     font-size: 18px;
     line-height: 24px;
-    cursor: pointer;
+    /* cursor: pointer; */
 }
   
 .result-author {
     color: #999;
     font-size: 16px;
-    cursor: pointer;
+    /* cursor: pointer; */
 }
 
 .result-body {

@@ -84,12 +84,14 @@ export default class SearchButtonBar extends Component {
       if(!res.ok) {
         throw Error(res.statusText);
       }
-
-      if(this.props.result.BookID) {
-        this.props.currentUser["library"]["read_list"].push({id: this.props.result.BookID})
+    
+      var resJson = await res.json();
+      if(this.props.result.BookID && 'id' in resJson && 'library' in this.props.currentUser) {
+        
+        this.props.currentUser["library"]["read_list"].push(resJson);
         this.props.showModal("Done.", "'" + this.props.result.Title + "' has been added to your Read Already list.");
       } else {
-        // TODO: Add some logic to handle invalid book id...
+        this.props.showModal("Oops.", "There was an error adding '" + this.props.result.Title + "' to your Read Already List. Please refresh and try again.");
         console.log("Invalid bookID - " + this.props.result.BookID);
       }
       
@@ -111,20 +113,21 @@ export default class SearchButtonBar extends Component {
       }
 
       if(existsinReadList) {
-        return true;
+        return "Read Already";
       }
       else if(this.props.currentUser["library"]["to_read_list"].includes(this.props.result.BookID)) {
-        return true;
+        return "To-Read";
       }
     }
 
-    return false;  
+    return null;  
   }
 
   render() {
+    const existsIn = this.existsInLibrary();
     return (
       <div>
-        {(!this.existsInLibrary()) 
+        {(existsIn == null) 
           ?
             <ButtonGroup size="sm">
               <Button variant="result" data-tip data-for="toread" data-offset="{'bottom': 10}" onClick={this.addToRead} ><FaRegListAlt /></Button>
@@ -142,9 +145,9 @@ export default class SearchButtonBar extends Component {
             </ButtonGroup> 
           :
             <ButtonGroup size="sm">
-              <Button variant="exists" data-tip data-for="exists" data-offset="{'bottom': 10}" ><FaCheck /></Button>
-              <ReactTooltip id='exists' className="tooltip-custom" effect='solid' >
-                <span>Added To Your Library</span>
+              <Button variant="exists" data-tip data-for={"exists" + this.props.result.BookID} data-offset="{'bottom': 10}" ><FaCheck /></Button>
+              <ReactTooltip id={"exists" + this.props.result.BookID} className="tooltip-custom" effect='solid' >
+                <span>Added To Your {existsIn} List</span>
               </ReactTooltip>
             </ButtonGroup> 
         }
