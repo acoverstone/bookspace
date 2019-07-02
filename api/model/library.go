@@ -71,7 +71,7 @@ func RemoveBookFromToReadList(userID uint64, bookID string) error {
 }
 
 // AddBookReadAlreadyList appends book to 'Read Already' list
-func AddBookReadAlreadyList(userID uint64, bookID string) error {
+func AddBookReadAlreadyList(userID uint64, bookID string) (*LibraryBook, error) {
 
 	key := getKeyFromUserID(userID)
 
@@ -95,13 +95,12 @@ func AddBookReadAlreadyList(userID uint64, bookID string) error {
 	// }
 	// fmt.Println(string(bookJSON))
 
-	// TODO: Fix this = maybe insert struct?
 	_, err := db.MutateIn(key, 0, 0).ArrayAppend("library.read_list", book, false).Execute()
 
 	if err != nil {
-		return fmt.Errorf(err.Error())
+		return nil, fmt.Errorf(err.Error())
 	}
-	return nil
+	return &book, nil
 }
 
 // removeFromSlice removes a string from a list of strings - v useful :)

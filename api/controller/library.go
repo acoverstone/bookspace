@@ -82,6 +82,7 @@ func (l library) handleAddReadAlready(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodPost {
 		// For a POST request - check UserID and BookID, return success or failure header
 		dec := json.NewDecoder(r.Body)
+		enc := json.NewEncoder(w)
 		var data struct {
 			UserID uint64 `json:"user_id"`
 			BookID string `json:"book_id"`
@@ -92,7 +93,7 @@ func (l library) handleAddReadAlready(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		err = model.AddBookReadAlreadyList(data.UserID, data.BookID)
+		libraryBook, err := model.AddBookReadAlreadyList(data.UserID, data.BookID)
 		if err != nil {
 			fmt.Printf("Error writing to-read to DB: %v\n", err)
 			w.WriteHeader(http.StatusInternalServerError)
@@ -100,6 +101,7 @@ func (l library) handleAddReadAlready(w http.ResponseWriter, r *http.Request) {
 		}
 
 		w.WriteHeader(http.StatusOK)
+		enc.Encode(libraryBook)
 		return
 
 	} else {
