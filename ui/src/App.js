@@ -85,7 +85,7 @@ class App extends Component {
     
   }
 
-  handleScroll= event => {
+  handleScroll = event => {
  
     if(window.scrollY > 20 && !this.state.headerTriggered) {
       
@@ -111,7 +111,11 @@ class App extends Component {
         <Navbar className={this.state.headerTriggered ? "nav-shadow" : ""} fixed="top">
           <Navbar.Brand className="navbar-brand" href="/">Bookcase</Navbar.Brand>
             <Nav className="ml-auto right-nav no-select">
-              <Nav.Link href="/library" className="library-button">Library</Nav.Link>
+              {(this.props.location.pathname === "/")  
+                ? <Nav.Link href="/library" className="library-button">Library</Nav.Link> 
+                : <Nav.Link href="/" className="library-button">Search</Nav.Link>
+              }
+              
               {(this.state.currentUser!=null) ? 
                 <Nav.Link href="#" onClick={this.handleLogout}>Logout</Nav.Link> :
                 <Nav.Link href="/login">Login</Nav.Link>

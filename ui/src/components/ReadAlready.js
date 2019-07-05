@@ -69,7 +69,7 @@ export default class ReadAlready extends Component {
       var index = -1;
 
       for (let i = 0; i < readAlreadyCopy.length; i++) {
-        if(readAlreadyCopy[i] === bookID) {
+        if(readAlreadyCopy[i]["id"] === bookID) {
           index = i
         } 
       }
