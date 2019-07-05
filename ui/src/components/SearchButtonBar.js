@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Button from "react-bootstrap/Button"
 import ButtonGroup from "react-bootstrap/ButtonGroup"
-import { FaRegListAlt, FaBookmark, FaPlus, FaCheck } from 'react-icons/fa';
+import { FaRegListAlt, FaBookmark, FaBookReader, FaCheck } from 'react-icons/fa';
 import ReactTooltip from 'react-tooltip'
 import "./ButtonBar.css";
 
@@ -138,7 +138,7 @@ export default class SearchButtonBar extends Component {
               <ReactTooltip id='readalready' className="tooltip-custom" effect='solid' globalEventOff='click' >
                 <span>Read Already</span>
               </ReactTooltip>
-              <Button variant="result" data-tip data-for="reading" data-offset="{'bottom': 10}"><FaPlus /></Button>
+              <Button variant="result" data-tip data-for="reading" data-offset="{'bottom': 10}"><FaBookReader /></Button>
               <ReactTooltip id='reading' className="tooltip-custom" effect='solid' >
                 <span>Read Now</span>
               </ReactTooltip>

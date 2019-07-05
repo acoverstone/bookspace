@@ -103,7 +103,6 @@ class App extends Component {
       isUserAuthenticated: this.isUserAuthenticated,
       setCurrentUser: this.setCurrentUser,
       deleteCurrentUser: this.deleteCurrentUser,
-
     };
 
     return (
@@ -119,7 +118,7 @@ class App extends Component {
               }
             </Nav>
         </Navbar>
-        <Routes childProps={childProps}/>
+        <Routes childProps={childProps} />
       </div>
     );
   }

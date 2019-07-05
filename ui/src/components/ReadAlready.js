@@ -16,9 +16,10 @@ export default class ReadAlready extends Component {
 
   async componentWillMount() {
     // TODO: remove timeout?
-    setTimeout(() => {
-      this.getBooks()
-    }, 200)
+    setTimeout(async () => {
+      await this.getBooks();
+      console.log(this.state.readList);
+    }, 50)
   }
 
   // Get's book info for each book in read alreadylist, returns empty array if anything goes wrong
@@ -58,25 +59,22 @@ export default class ReadAlready extends Component {
     this.props.doneLoading(); 
   }
 
-  // TODO: FINISH BELOW FUNCTION - need to also handle adding to read already from to-read 
 
-   // remove book from to-read list by bookID
+   // remove book from Read Alreadylist by bookID
    removeFromReadAlready = bookID => {
-    //  TODO: FINISH THIS FUNCTION
-    console.log("removin'")
-    // var toReadCopy = [...this.state.toReadList]
-    // var index = -1;
+    var readAlreadyCopy = [...this.state.readList]
+    var index = -1;
 
-    // for (let i = 0; i < toReadCopy.length; i++) {
-    //   if(toReadCopy[i]["BookID"] && toReadCopy[i]["BookID"] === bookID) {
-    //     index = i
-    //   } 
-    // }
+    for (let i = 0; i < readAlreadyCopy.length; i++) {
+      if(readAlreadyCopy[i]["BookID"] && readAlreadyCopy[i]["id"] === bookID) {
+        index = i
+      } 
+    }
 
-    // if(index !== -1) {
-    //   toReadCopy.splice(index, 1);
-    //   this.setState({toReadList:toReadCopy});
-    // }
+    if(index !== -1) {
+      readAlreadyCopy.splice(index, 1);
+      this.setState({readList:readAlreadyCopy});
+    }
   }
 
 
@@ -89,7 +87,7 @@ export default class ReadAlready extends Component {
         {this.state.isLoading ? 
           <div className="loading"> <FaSyncAlt className="spinning"/> Loading...</div> :
         (this.state.readList.length === 0) ? 
-          <div className="loaded">There are no books in your 'To-Read' list.</div>
+          <div className="loaded">There are no books in your 'Read Already' list.</div>
           : 
           <Results removeResult={this.removeFromReadAlready} results={this.state.readList} currentUser={this.props.currentUser} showModal={this.props.showModal} resultType="read-already" />
         }

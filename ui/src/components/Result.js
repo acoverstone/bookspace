@@ -5,6 +5,8 @@ import "./Result.css";
 import ReactHoverObserver from 'react-hover-observer';
 import SearchButtonBar from "./SearchButtonBar";
 import ToReadButtonBar from "./ToReadButtonBar";
+import ReadAlreadyButtonBar from "./ReadAlreadyButtonBar";
+
 
 // Serve this inside a col
 export default class Result extends Component {
@@ -65,6 +67,9 @@ export default class Result extends Component {
       } 
       else if(this.props.resultType === "to-read") {
         return (<ToReadButtonBar removeResult={this.props.removeResult} showModal={this.props.showModal} currentUser={this.props.currentUser} result={this.props.result}/>);
+      }
+      else if(this.props.resultType === "read-already") {
+        return (<ReadAlreadyButtonBar removeResult={this.props.removeResult} showModal={this.props.showModal} currentUser={this.props.currentUser} result={this.props.result}/>);
       } else {
         return (<div></div>);
       }

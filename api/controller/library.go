@@ -13,6 +13,7 @@ func (l library) registerRoutes() {
 	http.HandleFunc("/api/library/add-to-read", l.handleAddToRead)
 	http.HandleFunc("/api/library/remove-to-read", l.handleRemoveToRead)
 	http.HandleFunc("/api/library/add-read-already", l.handleAddReadAlready)
+	http.HandleFunc("/api/library/remove-read-already", l.handleRemoveReadAlready)
 }
 
 // Add book to To-Read list
@@ -102,6 +103,36 @@ func (l library) handleAddReadAlready(w http.ResponseWriter, r *http.Request) {
 
 		w.WriteHeader(http.StatusOK)
 		enc.Encode(libraryBook)
+		return
+
+	} else {
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		return
+	}
+}
+
+// Remove book from Read Already list
+func (l library) handleRemoveReadAlready(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodPost {
+		dec := json.NewDecoder(r.Body)
+		var data struct {
+			UserID uint64 `json:"user_id"`
+			BookID string `json:"book_id"`
+		}
+		err := dec.Decode(&data)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+
+		err = model.RemoveBookFromReadAlreadyList(data.UserID, data.BookID)
+		if err != nil {
+			fmt.Printf("Error deleting from to-read to DB: %v\n", err)
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+
+		w.WriteHeader(http.StatusOK)
 		return
 
 	} else {

@@ -1,16 +1,15 @@
 import React, { Component } from "react";
 import Button from "react-bootstrap/Button"
 import ButtonGroup from "react-bootstrap/ButtonGroup"
-import { FaBookmark, FaPlus, FaTrashAlt } from 'react-icons/fa';
+import { FaBookmark, FaTrashAlt, FaBookReader } from 'react-icons/fa';
 import ReactTooltip from 'react-tooltip'
 import "./ButtonBar.css";
 
 
 export default class ToReadButtonBar extends Component {
     
-  removeFromRead = () => {
+  removeFromToRead = () => {
     if(this.props.currentUser !== null) {
-        // TODO NEXT: Remove from To-Read list in above state (ToRead.js) - finish below function
       this.removeFromToReadApi()
     } else {
       console.log("Not authenticated.")
@@ -43,7 +42,7 @@ export default class ToReadButtonBar extends Component {
         this.props.showModal("Done.", "'" + this.props.result.Title + "' has been removed from your To-Read list.")
         return true;
       } else {
-        this.props.showModal("Oops.", "There was an error removing '" + this.props.result.Title + "' from your To_Read List. Please refresh and try again.");
+        this.props.showModal("Oops.", "There was an error removing '" + this.props.result.Title + "' from your To-Read List. Please refresh and try again.");
         console.log("Invalid bookID - " + this.props.result.BookID);
         return false;
       }
@@ -113,7 +112,7 @@ export default class ToReadButtonBar extends Component {
   render() {
     return (
       <ButtonGroup size="sm">
-        <Button variant="result" data-tip data-for="toread" data-offset="{'bottom': 10}" onClick={this.removeFromRead}><FaTrashAlt /></Button>
+        <Button variant="result" data-tip data-for="toread" data-offset="{'bottom': 10}" onClick={this.removeFromToRead}><FaTrashAlt /></Button>
         <ReactTooltip id='toread' className="tooltip-custom" effect='solid' >
           <span>Remove From To-Read List</span>
         </ReactTooltip>
@@ -121,7 +120,7 @@ export default class ToReadButtonBar extends Component {
         <ReactTooltip id='readalready' className="tooltip-custom" effect='solid' globalEventOff='click' >
           <span>Read Already</span>
         </ReactTooltip>
-        <Button variant="result" data-tip data-for="reading" data-offset="{'bottom': 10}"><FaPlus /></Button>
+        <Button variant="result" data-tip data-for="reading" data-offset="{'bottom': 10}"><FaBookReader /></Button>
         <ReactTooltip id='reading' className="tooltip-custom" effect='solid' >
           <span>Read Now</span>
         </ReactTooltip>
