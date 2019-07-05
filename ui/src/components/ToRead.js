@@ -58,18 +58,44 @@ export default class ToRead extends Component {
 
   // remove book from to-read list by bookID
   removeFromToRead = bookID => {
-    var toReadCopy = [...this.state.toReadList]
-    var index = -1;
+    if(this.props.currentUser) {
 
-    for (let i = 0; i < toReadCopy.length; i++) {
-      if(toReadCopy[i]["BookID"] && toReadCopy[i]["BookID"] === bookID) {
-        index = i
+      // Remove from current user
+      var toReadCopy = [...this.props.currentUser["library"]["to_read_list"]]
+      var index = -1;
+
+      for (let i = 0; i < toReadCopy.length; i++) {
+        if(toReadCopy[i] === bookID) {
+          index = i
+        } 
+      }
+
+      if(index !== -1) {
+        toReadCopy.splice(index, 1);
+
+        this.props.setCurrentUser({
+          ...this.props.currentUser,
+          library: {
+            ...this.props.currentUser.library,
+            to_read_list: toReadCopy
+          }
+        });
+      }
+    }
+
+    // Remove from current state
+    var toReadCopyOuter = [...this.state.toReadList]
+    var indexOuter = -1;
+
+    for (let i = 0; i < toReadCopyOuter.length; i++) {
+      if(toReadCopyOuter[i]["BookID"] && toReadCopyOuter[i]["BookID"] === bookID) {
+        indexOuter = i
       } 
     }
 
-    if(index !== -1) {
-      toReadCopy.splice(index, 1);
-      this.setState({toReadList:toReadCopy});
+    if(indexOuter !== -1) {
+      toReadCopyOuter.splice(indexOuter, 1);
+      this.setState({toReadList:toReadCopyOuter});
     }
   }
 

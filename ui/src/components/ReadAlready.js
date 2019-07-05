@@ -62,18 +62,44 @@ export default class ReadAlready extends Component {
 
    // remove book from Read Alreadylist by bookID
    removeFromReadAlready = bookID => {
-    var readAlreadyCopy = [...this.state.readList]
-    var index = -1;
 
-    for (let i = 0; i < readAlreadyCopy.length; i++) {
-      if(readAlreadyCopy[i]["BookID"] && readAlreadyCopy[i]["id"] === bookID) {
-        index = i
+    if(this.props.currentUser) {
+      // Remove from current user
+      var readAlreadyCopy = [...this.props.currentUser["library"]["read_list"]]
+      var index = -1;
+
+      for (let i = 0; i < readAlreadyCopy.length; i++) {
+        if(readAlreadyCopy[i] === bookID) {
+          index = i
+        } 
+      }
+
+      if(index !== -1) {
+        readAlreadyCopy.splice(index, 1);
+
+        this.props.setCurrentUser({
+          ...this.props.currentUser,
+          library: {
+            ...this.props.currentUser.library,
+            read_list: readAlreadyCopy
+          }
+        });
+      }
+    }
+
+    // Remove from current state
+    var readAlreadyCopyOuter = [...this.state.readList]
+    var indexOuter = -1;
+
+    for (let i = 0; i < readAlreadyCopyOuter.length; i++) {
+      if(readAlreadyCopyOuter[i]["BookID"] && readAlreadyCopyOuter[i]["BookID"] === bookID) {
+        indexOuter = i
       } 
     }
 
-    if(index !== -1) {
-      readAlreadyCopy.splice(index, 1);
-      this.setState({readList:readAlreadyCopy});
+    if(indexOuter !== -1) {
+      readAlreadyCopyOuter.splice(indexOuter, 1);
+      this.setState({readList:readAlreadyCopyOuter});
     }
   }
 

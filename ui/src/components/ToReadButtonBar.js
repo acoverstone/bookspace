@@ -15,7 +15,6 @@ export default class ToReadButtonBar extends Component {
       console.log("Not authenticated.")
       this.props.showModal("Oops.", "Login or signup to remove a book from your 'To-Read' List")
     }
-    
   }
 
   removeFromToReadApi = async () => {
