@@ -13,7 +13,7 @@ export default class ReadAlreadyButtonBar extends Component {
       this.removeReadAlreadyApi()
     } else {
       console.log("Not authenticated.")
-      this.props.showModal("Oops.", "Login or signup to remove a book from your 'Read Already' List")
+      this.props.showAlertModal("Oops.", "Login or signup to remove a book from your 'Read Already' List")
     }
   }
 
@@ -38,16 +38,16 @@ export default class ReadAlreadyButtonBar extends Component {
 
       if(this.props.result.BookID) {
         this.props.removeResult(this.props.result.BookID);
-        this.props.showModal("Done.", "'" + this.props.result.Title + "' has been removed from your Read Already list.")
+        this.props.showAlertModal("Done.", "'" + this.props.result.Title + "' has been removed from your Read Already list.")
         return true;
       } else {
-        this.props.showModal("Oops.", "There was an error removing '" + this.props.result.Title + "' from your Read Already List. Please refresh and try again.");
+        this.props.showAlertModal("Oops.", "There was an error removing '" + this.props.result.Title + "' from your Read Already List. Please refresh and try again.");
         console.log("Invalid bookID - " + this.props.result.BookID);
         return false;
       }
         
     } catch (e) {
-      this.props.showModal("Oops.", "Something went wrong - please refresh and try again.")
+      this.props.showAlertModal("Oops.", "Something went wrong - please refresh and try again.")
       console.log(e.message);
       return false;
     }

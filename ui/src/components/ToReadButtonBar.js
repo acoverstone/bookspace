@@ -13,7 +13,7 @@ export default class ToReadButtonBar extends Component {
       this.removeFromToReadApi()
     } else {
       console.log("Not authenticated.")
-      this.props.showModal("Oops.", "Login or signup to remove a book from your 'To-Read' List")
+      this.props.showAlertModal("Oops.", "Login or signup to remove a book from your 'To-Read' List")
     }
   }
 
@@ -38,16 +38,16 @@ export default class ToReadButtonBar extends Component {
 
       if(this.props.result.BookID) {
         this.props.removeResult(this.props.result.BookID);
-        this.props.showModal("Done.", "'" + this.props.result.Title + "' has been removed from your To-Read list.")
+        this.props.showAlertModal("Done.", "'" + this.props.result.Title + "' has been removed from your To-Read list.")
         return true;
       } else {
-        this.props.showModal("Oops.", "There was an error removing '" + this.props.result.Title + "' from your To-Read List. Please refresh and try again.");
+        this.props.showAlertModal("Oops.", "There was an error removing '" + this.props.result.Title + "' from your To-Read List. Please refresh and try again.");
         console.log("Invalid bookID - " + this.props.result.BookID);
         return false;
       }
         
     } catch (e) {
-      this.props.showModal("Oops.", "Something went wrong - please refresh and try again.")
+      this.props.showAlertModal("Oops.", "Something went wrong - please refresh and try again.")
       console.log(e.message);
       return false;
     }
@@ -59,7 +59,7 @@ export default class ToReadButtonBar extends Component {
       this.addReadAlreadyApi()
     } else {
       console.log("Not authenticated.")
-      this.props.showModal("Oops.", "Login or signup to add a book to your 'Read Already' List");
+      this.props.showAlertModal("Oops.", "Login or signup to add a book to your 'Read Already' List");
     }
   }
 
@@ -91,17 +91,17 @@ export default class ToReadButtonBar extends Component {
           // Add to read already list for current User
           this.props.currentUser["library"]["read_list"].push(resJson);
           if(removedFromToRead)
-            this.props.showModal("Done.", "'" + this.props.result.Title + "' has been added to your Read Already list.");
+            this.props.showAlertModal("Done.", "'" + this.props.result.Title + "' has been added to your Read Already list.");
           else {
-            this.props.showModal("Done.", "'" + this.props.result.Title + "' has been added to your Read Already list (something went wrong removing from To-Read list).");
+            this.props.showAlertModal("Done.", "'" + this.props.result.Title + "' has been added to your Read Already list (something went wrong removing from To-Read list).");
           }
         } else {
-          this.props.showModal("Oops.", "There was an error adding '" + this.props.result.Title + "' to your Read Already List. Please refresh and try again.");
+          this.props.showAlertModal("Oops.", "There was an error adding '" + this.props.result.Title + "' to your Read Already List. Please refresh and try again.");
           console.log("Invalid bookID - " + this.props.result.BookID);
         }
         
       } catch (e) {
-        this.props.showModal("Oops.", "Something went wrong - please try again.")
+        this.props.showAlertModal("Oops.", "Something went wrong - please try again.")
         console.log(e.message);
       }
     }

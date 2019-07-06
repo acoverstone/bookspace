@@ -108,7 +108,7 @@ export default class ToRead extends Component {
         (this.state.toReadList.length === 0) ? 
           <div className="loaded">There are no books in your 'To-Read' list.</div>
           : 
-          <Results removeResult={this.removeFromToRead} results={this.state.toReadList} currentUser={this.props.currentUser} showModal={this.props.showModal} resultType="to-read" />
+          <Results removeResult={this.removeFromToRead} results={this.state.toReadList} currentUser={this.props.currentUser} showAlertModal={this.props.showAlertModal} resultType="to-read" />
         } 
       </div>
     )

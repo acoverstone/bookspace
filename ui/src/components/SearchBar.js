@@ -43,7 +43,6 @@ export default class SearchBar extends Component {
           <div className="search-choice-outer">
             <div className="search-choice-inner">
               <FaUser className={this.props.searchType ==="author" ? "search-choice-active" : ""} data-tip data-for="byauthor" onClick={this.props.searchAuthor} />
-              
             </div>
           </div>
           <ReactTooltip id='byauthor' className="tooltip-custom" effect='solid' >

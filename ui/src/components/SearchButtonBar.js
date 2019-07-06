@@ -18,7 +18,7 @@ export default class SearchButtonBar extends Component {
       this.addToReadApi()
     } else {
       console.log("Not authenticated.")
-      this.props.showModal("Oops.", "Login or signup to add a book to your 'To-Read' List")
+      this.props.showAlertModal("Oops.", "Login or signup to add a book to your 'To-Read' List")
     }
   }
 
@@ -44,14 +44,14 @@ export default class SearchButtonBar extends Component {
 
       if(this.props.result.BookID) {
         this.props.currentUser["library"]["to_read_list"].push(this.props.result.BookID)
-        this.props.showModal("Done.", "'" + this.props.result.Title + "' has been added to your To-Read list.");
+        this.props.showAlertModal("Done.", "'" + this.props.result.Title + "' has been added to your To-Read list.");
       } else {
         // TODO: Add some logic to handle invalid book id...
         console.log("Invalid bookID - " + this.props.result.BookID);
       }
       
     } catch (e) {
-      this.props.showModal("Oops.", "Something went wrong - please try again.")
+      this.props.showAlertModal("Oops.", "Something went wrong - please try again.")
       console.log(e.message);
     }
   }
@@ -61,7 +61,7 @@ export default class SearchButtonBar extends Component {
       this.addReadAlreadyApi()
     } else {
       console.log("Not authenticated.")
-      this.props.showModal("Oops.", "Login or signup to add a book to your 'Read Already' List");
+      this.props.showAlertModal("Oops.", "Login or signup to add a book to your 'Read Already' List");
     }
   }
 
@@ -89,14 +89,14 @@ export default class SearchButtonBar extends Component {
       if(this.props.result.BookID && 'id' in resJson && 'library' in this.props.currentUser) {
         
         this.props.currentUser["library"]["read_list"].push(resJson);
-        this.props.showModal("Done.", "'" + this.props.result.Title + "' has been added to your Read Already list.");
+        this.props.showAlertModal("Done.", "'" + this.props.result.Title + "' has been added to your Read Already list.");
       } else {
-        this.props.showModal("Oops.", "There was an error adding '" + this.props.result.Title + "' to your Read Already List. Please refresh and try again.");
+        this.props.showAlertModal("Oops.", "There was an error adding '" + this.props.result.Title + "' to your Read Already List. Please refresh and try again.");
         console.log("Invalid bookID - " + this.props.result.BookID);
       }
       
     } catch (e) {
-      this.props.showModal("Oops.", "Something went wrong - please try again.")
+      this.props.showAlertModal("Oops.", "Something went wrong - please try again.")
       console.log(e.message);
     }
   }

@@ -105,7 +105,7 @@ export default class Library extends Component {
     this.setState({selected: selectedOption})
   }
 
-  showModal = (title, description) => {
+  showAlertModal = (title, description) => {
     this.setState({
       modalShow: true,
       modalTitle: title,
@@ -180,9 +180,9 @@ export default class Library extends Component {
               {(this.props.currentUser==null) ?
                 <div>Log in dummy.</div> :
               (this.state.selected === "to-read") ?
-                <ToRead showModal={this.showModal} doneLoading={this.doneLoading} currentUser={this.props.currentUser} setCurrentUser={this.props.setCurrentUser} addBooksToCache={this.addBooksToCache} getBookDetails={this.getBookDetails} /> :
+                <ToRead showAlertModal={this.showAlertModal} doneLoading={this.doneLoading} currentUser={this.props.currentUser} setCurrentUser={this.props.setCurrentUser} addBooksToCache={this.addBooksToCache} getBookDetails={this.getBookDetails} /> :
               (this.state.selected === "read-already") ?
-                <ReadAlready showModal={this.showModal} doneLoading={this.doneLoading} currentUser={this.props.currentUser} setCurrentUser={this.props.setCurrentUser} addBooksToCache={this.addBooksToCache} getBookDetails={this.getBookDetails} />
+                <ReadAlready showAlertModal={this.showAlertModal} doneLoading={this.doneLoading} currentUser={this.props.currentUser} setCurrentUser={this.props.setCurrentUser} addBooksToCache={this.addBooksToCache} getBookDetails={this.getBookDetails} />
               :
               <Reading />
             }

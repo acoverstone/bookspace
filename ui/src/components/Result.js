@@ -63,13 +63,13 @@ export default class Result extends Component {
 
     const ButtonBar = () => {
       if(this.props.resultType === "search") {
-        return (<SearchButtonBar showModal={this.props.showModal} currentUser={this.props.currentUser} result={this.props.result}/>);
+        return (<SearchButtonBar showAlertModal={this.props.showAlertModal} currentUser={this.props.currentUser} result={this.props.result}/>);
       } 
       else if(this.props.resultType === "to-read") {
-        return (<ToReadButtonBar removeResult={this.props.removeResult} showModal={this.props.showModal} currentUser={this.props.currentUser} result={this.props.result}/>);
+        return (<ToReadButtonBar removeResult={this.props.removeResult} showAlertModal={this.props.showAlertModal} currentUser={this.props.currentUser} result={this.props.result}/>);
       }
       else if(this.props.resultType === "read-already") {
-        return (<ReadAlreadyButtonBar removeResult={this.props.removeResult} showModal={this.props.showModal} currentUser={this.props.currentUser} result={this.props.result}/>);
+        return (<ReadAlreadyButtonBar removeResult={this.props.removeResult} showAlertModal={this.props.showAlertModal} currentUser={this.props.currentUser} result={this.props.result}/>);
       } else {
         return (<div></div>);
       }

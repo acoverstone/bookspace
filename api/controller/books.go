@@ -15,6 +15,7 @@ import (
 type books struct{}
 
 func (b books) registerRoutes() {
+	http.HandleFunc("/api/authors", b.handleSearchBooksByAuthor)
 	http.HandleFunc("/api/books", b.handleSearchBooks)
 	http.HandleFunc("/api/books/", b.handleGetBook)
 }
@@ -37,6 +38,50 @@ func (b books) handleSearchBooks(w http.ResponseWriter, r *http.Request) {
 		// Performs Google Books search
 		fmt.Println("Searching for books with query:", query)
 		booksJSONstring, err := util.SearchBooks(query)
+		if err != nil {
+			fmt.Printf("Error connecting to API or parsing response: %v\n", err)
+			w.WriteHeader(http.StatusInternalServerError)
+			enc.Encode([]string{})
+			return
+		}
+
+		// Builds response object from Google Books response - empty array if there is an err
+		res, err := booksJSONToBookList(booksJSONstring)
+		if err != nil {
+			fmt.Printf("Error parsing Google Books response: %v\n", err)
+			w.WriteHeader(http.StatusInternalServerError)
+			enc.Encode([]string{})
+			return
+		}
+
+		// Finally returns successfully if all checks pass
+		w.WriteHeader(http.StatusOK)
+		enc.Encode(res)
+		return
+	}
+	// Return 404 if not GET
+	w.WriteHeader(http.StatusMethodNotAllowed)
+	return
+}
+
+// GET: Search books by author with a query parameter /api/books?q=[querystring]
+func (b books) handleSearchBooksByAuthor(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodGet {
+		// Grabs querystring from: /api/authors?q=[querystring], returns 400 if not exists
+		keys, ok := r.URL.Query()["q"]
+		enc := json.NewEncoder(w)
+		fmt.Println(keys)
+		if !ok || len(keys) < 1 {
+			fmt.Printf("Error parsing querystring\n")
+			w.WriteHeader(http.StatusBadRequest)
+			enc.Encode([]string{})
+			return
+		}
+		query := keys[0]
+
+		// Performs Google Books search
+		fmt.Println("Searching for books by author with query:", query)
+		booksJSONstring, err := util.SearchBooksByAuthor(query)
 		if err != nil {
 			fmt.Printf("Error connecting to API or parsing response: %v\n", err)
 			w.WriteHeader(http.StatusInternalServerError)

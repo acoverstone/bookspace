@@ -25,7 +25,7 @@ export default class Home extends Component {
     this.setState({searchResults: results});
   }
 
-  showModal = (title, description) => {
+  showAlertModal = (title, description) => {
     this.setState({
       modalShow: true,
       modalTitle: title,
@@ -58,7 +58,7 @@ export default class Home extends Component {
           </Row>
           <Row>
             <Col xs={12}>
-              <Results removeResult={()=>{}} results={this.state.searchResults} currentUser={this.props.currentUser} showModal={this.showModal} resultType="search" />
+              <Results removeResult={()=>{}} results={this.state.searchResults} currentUser={this.props.currentUser} showAlertModal={this.showAlertModal} resultType="search" />
             </Col>
           </Row>
         </div>

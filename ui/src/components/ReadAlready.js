@@ -18,7 +18,8 @@ export default class ReadAlready extends Component {
     // TODO: remove timeout?
     setTimeout(async () => {
       await this.getBooks();
-      console.log(this.state.readList);
+      // Is this needed?
+      this.sortBooks();
     }, 50)
   }
 
@@ -26,7 +27,7 @@ export default class ReadAlready extends Component {
   // Updates state every 3 frames to reduce number of state changes (and signals doen loading) - set's cache at the end 
   async getBooks() {
     if(this.props.currentUser) {
-      var initialReadList = this.props.currentUser["library"]["read_list"];
+      var initialReadList = this.props.currentUser["library"]["read_list"].reverse();
       if(initialReadList === null) {
         initialReadList = [];
       }
@@ -57,6 +58,24 @@ export default class ReadAlready extends Component {
     
     this.setState({ isLoading: false });
     this.props.doneLoading(); 
+  }
+
+  sortBooks() {
+    var readAlreadyCopy = [...this.state.readList]
+    readAlreadyCopy.sort(this.compareValues("last_updated"))
+    this.setState({readList: readAlreadyCopy, isLoading: false});
+    console.log(this.state.readList);
+  }
+
+  compareValues(key, order='desc') {
+      return function(a, b) {
+        if(!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) return 0;
+        let comparison = a[key].localeCompare(b[key]);
+    
+        return (
+          (order === 'desc') ? (comparison * -1) : comparison
+        );
+      };
   }
 
 
@@ -115,7 +134,7 @@ export default class ReadAlready extends Component {
         (this.state.readList.length === 0) ? 
           <div className="loaded">There are no books in your 'Read Already' list.</div>
           : 
-          <Results removeResult={this.removeFromReadAlready} results={this.state.readList} currentUser={this.props.currentUser} showModal={this.props.showModal} resultType="read-already" />
+          <Results removeResult={this.removeFromReadAlready} results={this.state.readList} currentUser={this.props.currentUser} showAlertModal={this.props.showAlertModal} resultType="read-already" />
         }
       </div>
     )

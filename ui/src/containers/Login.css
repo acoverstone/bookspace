@@ -30,7 +30,7 @@
 
 .error-text-login {
     text-align: center;
-    color: rgba(214, 19, 19, 0.788);
+    color: rgba(214, 19, 19, 0.788) !important;
     font-size: 80%;
     margin-top: 20px;
     padding-left: 5px;
