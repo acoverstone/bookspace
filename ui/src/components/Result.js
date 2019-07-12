@@ -69,7 +69,7 @@ export default class Result extends Component {
         return (<ToReadButtonBar removeResult={this.props.removeResult} showAlertModal={this.props.showAlertModal} currentUser={this.props.currentUser} result={this.props.result}/>);
       }
       else if(this.props.resultType === "read-already") {
-        return (<ReadAlreadyButtonBar removeResult={this.props.removeResult} showAlertModal={this.props.showAlertModal} currentUser={this.props.currentUser} result={this.props.result}/>);
+        return (<ReadAlreadyButtonBar removeResult={this.props.removeResult} showAlertModal={this.props.showAlertModal} showLargeModal={this.props.showLargeModal} currentUser={this.props.currentUser} result={this.props.result}/>);
       } else {
         return (<div></div>);
       }

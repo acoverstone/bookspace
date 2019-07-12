@@ -45,7 +45,7 @@ export default class SearchBar extends Component {
               <FaUser className={this.props.searchType ==="author" ? "search-choice-active" : ""} data-tip data-for="byauthor" onClick={this.props.searchAuthor} />
             </div>
           </div>
-          <ReactTooltip id='byauthor' className="tooltip-custom" effect='solid' >
+          <ReactTooltip id='byauthor' className="tooltip-custom" effect='solid' globalEventOff='click' >
             <span>Search By Author</span>
           </ReactTooltip>
           <div className="search-choice-outer">
@@ -53,7 +53,7 @@ export default class SearchBar extends Component {
               <FaBook className={this.props.searchType ==="title" ? "search-choice-active" : ""} data-tip data-for="bytitle" onClick={this.props.searchTitle} />
             </div>
           </div>
-          <ReactTooltip id='bytitle' className="tooltip-custom" effect='solid' >
+          <ReactTooltip id='bytitle' className="tooltip-custom" effect='solid' globalEventOff='click' >
             <span>Search By Title</span>
           </ReactTooltip>
         </div>

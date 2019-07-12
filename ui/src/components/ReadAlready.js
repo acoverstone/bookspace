@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import "./Read.css";
 import { FaSyncAlt } from "react-icons/fa";
 import Results from "../components/Results.js"
+import LargeCenteredModal from '../components/LargeCenteredModal'
+
 
 export default class ReadAlready extends Component {
 
@@ -10,7 +12,10 @@ export default class ReadAlready extends Component {
 
     this.state = {
       isLoading:true,
-      readList:[]
+      readList:[],
+
+      largeModalShow: false,
+      largeModalResult: null
     }
   }
 
@@ -64,7 +69,6 @@ export default class ReadAlready extends Component {
     var readAlreadyCopy = [...this.state.readList]
     readAlreadyCopy.sort(this.compareValues("last_updated"))
     this.setState({readList: readAlreadyCopy, isLoading: false});
-    console.log(this.state.readList);
   }
 
   compareValues(key, order='desc') {
@@ -122,8 +126,15 @@ export default class ReadAlready extends Component {
     }
   }
 
+  closeLargeModal = () => this.setState({ largeModalShow: false });
 
-
+  showLargeModal = result => {
+    console.log(result);
+    this.setState({
+      largeModalShow: true,
+      largeModalResult: result
+    })
+  }
 
   render() {
 
@@ -134,8 +145,13 @@ export default class ReadAlready extends Component {
         (this.state.readList.length === 0) ? 
           <div className="loaded">There are no books in your 'Read Already' list.</div>
           : 
-          <Results removeResult={this.removeFromReadAlready} results={this.state.readList} currentUser={this.props.currentUser} showAlertModal={this.props.showAlertModal} resultType="read-already" />
+          <Results removeResult={this.removeFromReadAlready} results={this.state.readList} currentUser={this.props.currentUser} showAlertModal={this.props.showAlertModal} showLargeModal={this.showLargeModal} resultType="read-already" />
         }
+        <LargeCenteredModal
+          show={this.state.largeModalShow}
+          onHide={this.closeLargeModal}
+          result={this.state.largeModalResult}
+        />
       </div>
     )
   }

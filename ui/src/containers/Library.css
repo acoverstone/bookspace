@@ -26,7 +26,7 @@
   /* margin-top:-7px; */
 }
 
-.not-logged-in-msg span a{
+.not-logged-in-msg span a {
   cursor: pointer;
   font-weight: bold;
   color:#777;

@@ -18,10 +18,12 @@ export default class Library extends Component {
       searchType: "title",        // options are "title", "author"
       searchString: "",
 
-      selected:"to-read",     // optins are "reading-now", "to-read", "read-already"
+      // TODO: CHANGE BACK
+      // selected:"to-read",     // optins are "reading-now", "to-read", "read-already"
+      selected:"read-already",
       hasResults:false,
 
-      modalShow: false,
+      smallModalShow: false,
       modalTitle: "",
       modalDescription: "",
 
@@ -107,10 +109,10 @@ export default class Library extends Component {
 
   showAlertModal = (title, description) => {
     this.setState({
-      modalShow: true,
+      smallModalShow: true,
       modalTitle: title,
       modalDescription: description
-    })
+    });
   }
 
   // Tries to retreive book details from cache - if not present uses the API - if still not present returns null
@@ -146,7 +148,7 @@ export default class Library extends Component {
     }
   }
 
-  closeModal = () => this.setState({ modalShow: false });
+  closeSmallModal = () => this.setState({ smallModalShow: false });
 
   render() {
     return (
@@ -169,7 +171,7 @@ export default class Library extends Component {
             <Col xs={{span:12}}  md={{span:8, offset:2}} lg={{span:6, offset:3}}>
               <SearchBar searchType={this.state.searchType} searchAuthor={this.searchAuthor} searchTitle={this.searchTitle} onInputChange={this.onSearchChange} onEnter={this.onEnter} autoFocus={false}/>
               {(this.props.currentUser==null)
-                  ?  <div><p className="not-logged-in-msg no-select" ><span><a href="/login">Login</a></span> or <span href="/signup"><a href="/signup">Signup</a></span> to start your own Library.</p></div>
+                  ?  <div><p className="not-logged-in-msg no-select" ><span><a href="/login">Login</a></span> or <span><a href="/signup">Signup</a></span> to start your own Library.</p></div>
                   :  <p className="not-logged-in-msg no-select" ></p>
                 }
             </Col>
@@ -190,8 +192,8 @@ export default class Library extends Component {
           </Row>
         </div>
         <SmallCenteredModal
-            show={this.state.modalShow}
-            onHide={this.closeModal}
+            show={this.state.smallModalShow}
+            onHide={this.closeSmallModal}
             modaltitle={this.state.modalTitle}
             modaldescription={this.state.modalDescription}
           />

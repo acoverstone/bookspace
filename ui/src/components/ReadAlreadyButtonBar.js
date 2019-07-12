@@ -13,7 +13,7 @@ export default class ReadAlreadyButtonBar extends Component {
       this.removeReadAlreadyApi()
     } else {
       console.log("Not authenticated.")
-      this.props.showAlertModal("Oops.", "Login or signup to remove a book from your 'Read Already' List")
+      this.props.showAlertModal("Oops.", "Login or Signup to remove a book from your 'Read Already' List.")
     }
   }
 
@@ -53,6 +53,10 @@ export default class ReadAlreadyButtonBar extends Component {
     }
   }
 
+  showEditModal = () => {
+    this.props.showLargeModal(this.props.result);
+  }
+
 
   render() {
     return (
@@ -65,7 +69,7 @@ export default class ReadAlreadyButtonBar extends Component {
         <ReactTooltip id='readalready' className="tooltip-custom" effect='solid' globalEventOff='click' >
           <span>Read Now</span>
         </ReactTooltip>
-        <Button variant="result" data-tip data-for="reading" data-offset="{'bottom': 10}"><FaPencilAlt /></Button>
+        <Button variant="result" data-tip data-for="reading" data-offset="{'bottom': 10}" onClick={this.showEditModal}><FaPencilAlt /></Button>
         <ReactTooltip id='reading' className="tooltip-custom" effect='solid' >
           <span>Take / Edit Notes</span>
         </ReactTooltip>

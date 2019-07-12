@@ -18,7 +18,7 @@ export default class SearchButtonBar extends Component {
       this.addToReadApi()
     } else {
       console.log("Not authenticated.")
-      this.props.showAlertModal("Oops.", "Login or signup to add a book to your 'To-Read' List")
+      this.props.showAlertModal("Oops.", "Login or Signup to add a book to your 'To-Read' List.")
     }
   }
 
@@ -61,7 +61,7 @@ export default class SearchButtonBar extends Component {
       this.addReadAlreadyApi()
     } else {
       console.log("Not authenticated.")
-      this.props.showAlertModal("Oops.", "Login or signup to add a book to your 'Read Already' List");
+      this.props.showAlertModal("Oops.", "Login or Signup to add a book to your 'Read Already' List.");
     }
   }
 
@@ -131,7 +131,7 @@ export default class SearchButtonBar extends Component {
           ?
             <ButtonGroup size="sm">
               <Button variant="result" data-tip data-for="toread" data-offset="{'bottom': 10}" onClick={this.addToRead} ><FaRegListAlt /></Button>
-              <ReactTooltip id='toread' className="tooltip-custom" effect='solid' >
+              <ReactTooltip id='toread' className="tooltip-custom" effect='solid' globalEventOff='click' >
                 <span>To-Read</span>
               </ReactTooltip>
               <Button variant="result" data-tip data-for="readalready" data-offset="{'bottom': 10}" onClick={this.addReadAlready} ><FaBookmark /></Button>
@@ -139,14 +139,14 @@ export default class SearchButtonBar extends Component {
                 <span>Read Already</span>
               </ReactTooltip>
               <Button variant="result" data-tip data-for="reading" data-offset="{'bottom': 10}"><FaBookReader /></Button>
-              <ReactTooltip id='reading' className="tooltip-custom" effect='solid' >
+              <ReactTooltip id='reading' className="tooltip-custom" effect='solid' globalEventOff='click' >
                 <span>Read Now</span>
               </ReactTooltip>
             </ButtonGroup> 
           :
             <ButtonGroup size="sm">
               <Button variant="exists" data-tip data-for={"exists" + this.props.result.BookID} data-offset="{'bottom': 10}" ><FaCheck /></Button>
-              <ReactTooltip id={"exists" + this.props.result.BookID} className="tooltip-custom" effect='solid' >
+              <ReactTooltip id={"exists" + this.props.result.BookID} className="tooltip-custom" effect='solid'  >
                 <span>Added To Your {existsIn} List</span>
               </ReactTooltip>
             </ButtonGroup> 

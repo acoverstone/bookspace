@@ -13,7 +13,7 @@ export default class ToReadButtonBar extends Component {
       this.removeFromToReadApi()
     } else {
       console.log("Not authenticated.")
-      this.props.showAlertModal("Oops.", "Login or signup to remove a book from your 'To-Read' List")
+      this.props.showAlertModal("Oops.", "Login or Signup to remove a book from your 'To-Read' List.")
     }
   }
 
@@ -59,7 +59,7 @@ export default class ToReadButtonBar extends Component {
       this.addReadAlreadyApi()
     } else {
       console.log("Not authenticated.")
-      this.props.showAlertModal("Oops.", "Login or signup to add a book to your 'Read Already' List");
+      this.props.showAlertModal("Oops.", "Login or Signup to add a book to your 'Read Already' List.");
     }
   }
 

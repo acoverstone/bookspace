@@ -1,21 +1,33 @@
-.alert-modal-body {
+.notes-modal-body {
     border: none !important;
     outline: 0 !important;
-    text-align: center;
+    
 }
 
-.alert-modal-body h3 {
-    margin-top: 10px;
+.notes-modal-body h4 {
+    margin-top: 5px;
     font-family: "Open Sans", sans-serif;
+    text-align: center;
+    line-height: 1;
+}
+
+#notes-modal-title {
     font-weight: 600;
 }
 
+#notes-modal-subtitle {
+    font-weight: 500;
+    font-size: 60%;
+    color: #999;
+    line-height: 1 !important;
+}
 
-.alert-modal-body p {
+.notes-modal-body p {
     color: #999;
 }
 
-.alert-modal-button {
+
+.notes-modal-button {
     background-color: #f5f5f5;
     border: 1px solid #f5f5f5;
     border-radius: 4px;
@@ -29,25 +41,19 @@
     padding: 8 16px;
     text-align: center;
     outline: none !important;
+
 }
 
-.alert-modal-button:hover {
+.notes-modal-button:hover {
     background-color: #e7e7e7 !important;
     border: 1px solid #f5f5f5!important;
     color: #5F6368 !important;
 }
 
-.alert-modal-button:focus {
+.notes-modal-button:focus {
     outline: none !important;
     box-shadow: none !important;
     background-color: #f5f5f5!important;
     border: 1px solid #f5f5f5!important;
     color: #5F6368 !important;
 }
-
-.not-logged-in-msg-modal span a {
-    cursor: pointer;
-    font-weight: bold;
-    color:#777;
-    text-decoration: none;
-  }
