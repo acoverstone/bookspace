@@ -11,21 +11,48 @@
     line-height: 1;
 }
 
+/* For Example */
 #notes-modal-title {
     font-weight: 600;
 }
 
 #notes-modal-subtitle {
     font-weight: 500;
-    font-size: 60%;
+    font-size: 70%;
     color: #999;
-    line-height: 1 !important;
+    line-height: 1.1 !important;
 }
 
-.notes-modal-body p {
-    color: #999;
+.notes-modal-description {
+    margin: 20px 10px;
 }
 
+.notes-modal-description-section-header {
+    font-family: "Open Sans", sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+}  
+
+.notes-modal-description-section-subheader {
+    font-family: "Open Sans", sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    color:#333;
+}   
+
+.notes-modal-description-section {
+    font-family: "Open Sans", sans-serif;
+    font-weight: 400;
+    font-size: 13px;
+    color: #666;
+}   
+
+/* End of example */
+
+.notes-model-test {
+    text-align: center;
+    margin: 15px 15%;
+}
 
 .notes-modal-button {
     background-color: #f5f5f5;
