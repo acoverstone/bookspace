@@ -13,25 +13,33 @@ type Library struct {
 
 // LibraryBook represents a book in a User's Library
 type LibraryBook struct {
-	BookID        string    `json:"id"`
-	ReadingNow    bool      `json:"reading_now"`    // is the user reading now? default false
-	Favorite      bool      `json:"favorite"`       // is this book a user's favorite? default to false
-	FinalThoughts string    `json:"final_thoughts"` // optional a user's closing thoughts about the book , maybe a rating?
-	BookSummary   string    `json:"book_summary"`   // optional	- final summary of the book
-	SectionNotes  []Note    `json:"section_notes"`  // optional - note about a particular section ex) Introduction - intro notes...
-	Concepts      []Note    `json:"concepts"`       // optional - list of concepts ex) * Big Bang Theory - description of a big bang - pg. 32
-	Quotes        []Note    `json:"quotes"`         // optional - list of quotes
-	Category      string    `json:"category"`       // optional - some sort fo category given by user, default to ""
-	LastUpdated   time.Time `json:"last_updated"`   // last time something was changed or moved
+	BookID     string `json:"id"`
+	ReadingNow bool   `json:"reading_now"` // is the user reading now? default false
+	Favorite   bool   `json:"favorite"`    // is this book a user's favorite? default to false
+
+	ClosingThoughts BookReview `json:"closing_thoughts"` // optional a user's closing thoughts about the book , maybe a rating?
+	BookSummary     string     `json:"book_summary"`     // optional	- final summary of the book
+	LessonsLearned  []Note     `json:"lessons_learned"`  // optional - list of concepts ex) * Big Bang Theory - description of a big bang - pg. 32
+	SectionNotes    []Note     `json:"section_notes"`    // optional - note about a particular section ex) Introduction - intro notes...
+	// Quotes        []Note          `json:"quotes"`         // optional - list of quotes
+
+	// Category    string    `json:"category"`     // optional - some sort of category given by user, default to ""
+	LastUpdated time.Time `json:"last_updated"` // last time something was changed or moved
 }
 
-// Note represents something you can write about a book - SecitonNote, Concept, Quote
+// BookReview holds final thoughts and a rating for a LibraryBook
+type BookReview struct {
+	Review string `json:"review"`
+	Rating int8   `json:"rating"`
+}
+
+// Note represents something you can write about a book - SectionNote, Concept, Quote
 type Note struct {
-	Title      string    `json:"title"`
-	Notes      []string  `json:"notes"`
-	PageNumber int32     `json:"section_name"`
-	Highlight  bool      `json:"highlight"`
-	Timestamp  time.Time `json:"timestamp"`
+	Title     string    `json:"title"`
+	Notes     string    `json:"notes"`
+	Section   string    `json:"section"`
+	Highlight bool      `json:"highlight"`
+	Timestamp time.Time `json:"timestamp"`
 }
 
 // AddBookToReadList appends book to 'To-Read' list
@@ -77,16 +85,18 @@ func AddBookReadAlreadyList(userID uint64, bookID string) (*LibraryBook, error) 
 
 	// Create new LibraryBook object to insert to DB
 	book := LibraryBook{
-		BookID:        bookID,
-		ReadingNow:    false,
-		Favorite:      false,
-		FinalThoughts: "",
-		BookSummary:   "",
-		SectionNotes:  []Note{},
-		Concepts:      []Note{},
-		Quotes:        []Note{},
-		Category:      "",
-		LastUpdated:   time.Now(),
+		BookID:     bookID,
+		ReadingNow: false,
+		Favorite:   false,
+
+		ClosingThoughts: BookReview{},
+		BookSummary:     "",
+		SectionNotes:    []Note{},
+		LessonsLearned:  []Note{},
+
+		// Quotes:        []Note{},
+		// Category:      "",
+		LastUpdated: time.Now(),
 	}
 
 	_, err := db.MutateIn(key, 0, 0).ArrayAppend("library.read_list", book, false).Execute()
