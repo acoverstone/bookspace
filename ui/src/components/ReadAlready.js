@@ -48,7 +48,7 @@ export default class ReadAlready extends Component {
         }
         
         bookDetailList.push(bookDetails);
-        bookList.push({...initialReadList[i], ...bookDetails})
+        bookList.push({...initialReadList[i], BookID:bookDetails.BookID, Authors:bookDetails.Authors, Description:bookDetails.Description, Image:bookDetails.Image, Title:bookDetails.Title, Subtitle:bookDetails.Subtitle})// ...bookDetails})
 
         // Set state after every three books or when all books have been loaded
         if(i % 3 === 0 || i === initialReadList - 1) {

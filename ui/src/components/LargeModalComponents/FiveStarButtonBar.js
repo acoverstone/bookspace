@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Button from "react-bootstrap/Button"
 import ButtonGroup from "react-bootstrap/ButtonGroup"
 import {  FaStar } from 'react-icons/fa';
-import "./ButtonBar.css";
+import "../ButtonBar.css";
 
 // TODO: Refactor this lol
 export default class NoteButtonBar extends Component {

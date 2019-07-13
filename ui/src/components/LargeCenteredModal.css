@@ -51,7 +51,9 @@
 
 .notes-model-test {
     text-align: center;
-    margin: 15px 15%;
+    font-size: 15px;
+    margin: 15px 12%;
+    color: #666;
 }
 
 .notes-modal-button {
