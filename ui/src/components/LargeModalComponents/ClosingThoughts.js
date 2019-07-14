@@ -83,7 +83,6 @@ export default class ClosingThoughts extends Component {
       this.props.result.closing_thoughts.review=""
       this.props.result.closing_thoughts.rating=0
       this.setState({inputValue:"", editing:false, numberStars:0, errorText:""});
-      this.props.refreshDescription();
     }
     else {
       this.setState({errorText:"There was an error deleting your closing thoughts, please try again."});
