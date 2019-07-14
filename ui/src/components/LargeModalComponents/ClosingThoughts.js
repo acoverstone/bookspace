@@ -16,6 +16,7 @@ export default class ClosingThoughts extends Component {
       inputValue:this.props.result.closing_thoughts.review,
       editing:false,
       numberStars:this.props.result.closing_thoughts.rating,
+      errorText:""
     }
   }
 
@@ -38,12 +39,6 @@ export default class ClosingThoughts extends Component {
   }
 
   addClosingThoughtApi = async (review, rating) => {
-    console.log(JSON.stringify({
-      user_id: this.props.currentuser["id"],
-      book_id: this.props.result.BookID,
-      review: this.state.inputValue,
-      rating: this.state.numberStars
-  }))
     try {
       const res = await fetch("http://localhost:8000/api/library/add-closing-thoughts", {
         method: 'POST',
@@ -72,25 +67,25 @@ export default class ClosingThoughts extends Component {
     }
   }
 
-  submitClosingThought = () => {
-    if(this.addClosingThoughtApi(this.state.inputValue, this.state.numberStars)) {
+  submitClosingThought = async () => {
+    if(await this.addClosingThoughtApi(this.state.inputValue, this.state.numberStars) === true) {
       this.props.result.closing_thoughts.review=this.state.inputValue
       this.props.result.closing_thoughts.rating=this.state.numberStars
-      this.setState({editing:false});
+      this.setState({editing:false, errorText:""});
     }
     else {
-      console.log("Failure submitting closing thought.");
+      this.setState({errorText:"There was an error submitting your closing thoughts, please try again."});
     }
   }
 
-  deleteClosingThought = () => {
-    if(this.addClosingThoughtApi("", 0)) {
+  deleteClosingThought = async () => {
+    if(await this.addClosingThoughtApi("", 0) === true) {
       this.props.result.closing_thoughts.review=""
       this.props.result.closing_thoughts.rating=0
-      this.setState({inputValue:"", editing:false, numberStars:0});
+      this.setState({inputValue:"", editing:false, numberStars:0, errorText:""});
     }
     else {
-      console.log("Failure deleting closing thought.");
+      this.setState({errorText:"There was an error deleting your closing thoughts, please try again."});
     }
   }
 
@@ -112,6 +107,7 @@ export default class ClosingThoughts extends Component {
           <FiveStarButtonBar editing={this.state.editing} stars={this.props.result.closing_thoughts.rating} setStars={this.setStars}/>
           <div style={{textAlign:"center"}}>
             <Button onClick={this.submitClosingThought} className="notes-modal-button" >Submit</Button>
+            <p className="error-text-notes">{this.state.errorText}</p>
           </div>
           
         </div>
@@ -138,6 +134,7 @@ export default class ClosingThoughts extends Component {
           <h5 className="notes-modal-description-section-header no-select">Closing Thoughts<span className="button-bar"><NotEmptyClosingThoughtsButtonBar  deleteClosingThought={this.deleteClosingThought}  editClosingThoughts={this.editForm}/></span></h5>
           <p className="notes-modal-description-section" style={{marginBottom:"0px"}}>{this.props.result.closing_thoughts.review}</p>
           <FiveStarButtonBar editing={this.state.editing} stars={this.props.result.closing_thoughts.rating} setStars={this.setStars}/>
+          <p className="error-text-notes">{this.state.errorText}</p>
         </div>
       );
     }
