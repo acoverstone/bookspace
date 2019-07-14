@@ -148,13 +148,16 @@ export default class ReadAlready extends Component {
         (this.state.readList.length === 0) ? 
           <div className="loaded">There are no books in your 'Read Already' list.</div>
           : 
-          <Results removeResult={this.removeFromReadAlready} results={this.state.readList} currentUser={this.props.currentUser} showAlertModal={this.props.showAlertModal} showLargeModal={this.showLargeModal} resultType="read-already" />
+          <div>
+            <Results removeResult={this.removeFromReadAlready} results={this.state.readList} currentUser={this.props.currentUser} showAlertModal={this.props.showAlertModal} showLargeModal={this.showLargeModal} resultType="read-already" />
+            <LargeCenteredModal
+              show={this.state.largeModalShow}
+              onHide={this.closeLargeModal}
+              result={this.state.largeModalResult}
+              currentuser={this.props.currentUser}
+            />
+          </div>
         }
-        <LargeCenteredModal
-          show={this.state.largeModalShow}
-          onHide={this.closeLargeModal}
-          result={this.state.largeModalResult}
-        />
       </div>
     )
   }

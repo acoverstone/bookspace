@@ -11,37 +11,6 @@ type Library struct {
 	ReadingList []LibraryBook `json:"read_list"`
 }
 
-// LibraryBook represents a book in a User's Library
-type LibraryBook struct {
-	BookID     string `json:"id"`
-	ReadingNow bool   `json:"reading_now"` // is the user reading now? default false
-	Favorite   bool   `json:"favorite"`    // is this book a user's favorite? default to false
-
-	ClosingThoughts BookReview `json:"closing_thoughts"` // optional a user's closing thoughts about the book , maybe a rating?
-	BookSummary     string     `json:"book_summary"`     // optional	- final summary of the book
-	LessonsLearned  []Note     `json:"lessons_learned"`  // optional - list of concepts ex) * Big Bang Theory - description of a big bang - pg. 32
-	SectionNotes    []Note     `json:"section_notes"`    // optional - note about a particular section ex) Introduction - intro notes...
-	// Quotes        []Note          `json:"quotes"`         // optional - list of quotes
-
-	// Category    string    `json:"category"`     // optional - some sort of category given by user, default to ""
-	LastUpdated time.Time `json:"last_updated"` // last time something was changed or moved
-}
-
-// BookReview holds final thoughts and a rating for a LibraryBook
-type BookReview struct {
-	Review string `json:"review"`
-	Rating int8   `json:"rating"`
-}
-
-// Note represents something you can write about a book - SectionNote, Concept, Quote
-type Note struct {
-	Title     string    `json:"title"`
-	Notes     string    `json:"notes"`
-	Section   string    `json:"section"`
-	Highlight bool      `json:"highlight"`
-	Timestamp time.Time `json:"timestamp"`
-}
-
 // AddBookToReadList appends book to 'To-Read' list
 func AddBookToReadList(userID uint64, bookID string) error {
 
@@ -131,14 +100,19 @@ func RemoveBookFromReadAlreadyList(userID uint64, bookID string) error {
 	return nil
 }
 
-// removeFromSlice removes a string from a list of strings - v useful :)
-func removeFromReadingList(readingList []LibraryBook, toRemoveID string) ([]LibraryBook, error) {
+func getIndexFromReadingList(readingList []LibraryBook, toRemoveID string) int {
 	i := -1
 	for index, item := range readingList {
 		if item.BookID == toRemoveID {
 			i = index
 		}
 	}
+	return i
+}
+
+// removeFromSlice removes a string from a list of strings - v useful :)
+func removeFromReadingList(readingList []LibraryBook, toRemoveID string) ([]LibraryBook, error) {
+	i := getIndexFromReadingList(readingList, toRemoveID)
 
 	if i == -1 {
 		return nil, fmt.Errorf("%v not found in list", toRemoveID)
