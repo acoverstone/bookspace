@@ -95,7 +95,7 @@ export default class BookSummary extends Component {
 
   render() {
     if(this.state.editing) {
-      const rows = this.state.inputValue.length < 450 ? "4" : this.state.inputValue.length < 600 ? "6" : this.state.inputValue.length < 800 ? "8" : "12"
+      const rows = this.state.inputValue.length < 250 ? "4" : this.state.inputValue.length < 450 ? "6" : this.state.inputValue.length < 650 ? "8" : "12"
       return (
         <div>
           <h5 className="notes-modal-description-section-header no-select">Book Summary<span className="button-bar"><EditBookSummaryButtonBar cancelEditing={this.uneditForm}/></span></h5>
@@ -123,7 +123,7 @@ export default class BookSummary extends Component {
       return (
         <div>
           <h5 className="notes-modal-description-section-header no-select">Book Summary<span className="button-bar"><EmptyBookSummaryButtonBar editBookSummary={this.editForm}/></span></h5>
-          <p className="notes-modal-description-section">Add a quick recap so you can remember what this book was all about.</p>
+          <p className="notes-modal-description-section">Add a quick recap so you don't forget what this book was about.</p>
         </div>
       );
     }

@@ -60,8 +60,8 @@ func AddBookReadAlreadyList(userID uint64, bookID string) (*LibraryBook, error) 
 
 		ClosingThoughts: BookReview{},
 		BookSummary:     "",
-		SectionNotes:    []Note{},
-		LessonsLearned:  []Note{},
+		SectionNotes:    []SectionNote{},
+		LessonsLearned:  []Lesson{},
 
 		// Quotes:        []Note{},
 		// Category:      "",

@@ -103,7 +103,7 @@ export default class ClosingThoughts extends Component {
   
   render() {
     if(this.state.editing) {
-      const rows = this.state.inputValue.length < 450 ? "4" : this.state.inputValue.length < 600 ? "6" : this.state.inputValue.length < 800 ? "8" : "12"
+      const rows = this.state.inputValue.length < 250 ? "4" : this.state.inputValue.length < 450 ? "6" : this.state.inputValue.length < 600 ? "8" : "12"
       return (
         <div>
           <h5 className="notes-modal-description-section-header no-select">Closing Thoughts<span className="button-bar"><EditClosingThoughtButtonBar cancelEditing={this.uneditForm}/></span></h5>

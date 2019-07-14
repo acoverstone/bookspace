@@ -12,7 +12,7 @@ const EditClosingThoughtButtonBar = (props) => {
   return (
     <ButtonGroup size="sm">
       <Button variant="note" data-tip data-for="editThoughts" data-offset="{'bottom': 10}" onClick={stopEditing}><FaTimes /></Button>
-      <ReactTooltip id='editThoughts' className="tooltip-custom" effect='solid' >
+      <ReactTooltip id='editThoughts' className="tooltip-custom" effect='solid' globalEventOff='click'>
         <span className="note-tooltip">Cancel Adding Closing Thoughts</span>
       </ReactTooltip>
     </ButtonGroup>

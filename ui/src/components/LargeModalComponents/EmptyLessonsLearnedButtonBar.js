@@ -13,7 +13,7 @@ const EmptyLessonsLearnedButtonBar = (props) => {
   return (
     <ButtonGroup size="sm">
       <Button variant="note" data-tip data-for="emptyLessons" data-offset="{'bottom': 10}" onClick={addLesson}><FaPlus /></Button>
-      <ReactTooltip id='emptyLessons' className="tooltip-custom" effect='solid' >
+      <ReactTooltip id='emptyLessons' className="tooltip-custom" effect='solid' globalEventOff='click'>
         <span className="note-tooltip">Add New Lesson</span>
       </ReactTooltip>
     </ButtonGroup>

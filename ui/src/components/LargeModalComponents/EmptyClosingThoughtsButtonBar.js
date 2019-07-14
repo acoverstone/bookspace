@@ -12,7 +12,7 @@ const EmptyClosingThoughtsButtonBar = (props) => {
   return (
     <ButtonGroup size="sm">
       <Button variant="note" data-tip data-for="emptyReview" data-offset="{'bottom': 10}" onClick={addClosingThoughts}><FaPlus /></Button>
-      <ReactTooltip id='emptyReview' className="tooltip-custom" effect='solid' >
+      <ReactTooltip id='emptyReview' className="tooltip-custom" effect='solid' globalEventOff='click' >
         <span className="note-tooltip">Add Closing Thoughts</span>
       </ReactTooltip>
     </ButtonGroup>

@@ -8,7 +8,7 @@ const EmptySectionNoteButtonBar = (props) => {
   return (
     <ButtonGroup size="sm">
       <Button variant="note" data-tip data-for="emptySectionNotes" data-offset="{'bottom': 10}"><FaPlus /></Button>
-      <ReactTooltip id='emptySectionNotes' className="tooltip-custom" effect='solid' >
+      <ReactTooltip id='emptySectionNotes' className="tooltip-custom" effect='solid' globalEventOff='click'>
         <span className="note-tooltip">Add New Section Note</span>
       </ReactTooltip>
     </ButtonGroup>

@@ -41,7 +41,7 @@ export default class BookSummary extends Component {
 
   toggleHighlight = () => {
     this.setState({
-      highlight:!this.state.highlight
+      highlight: !this.state.highlight
     });
   }
 
@@ -57,20 +57,77 @@ export default class BookSummary extends Component {
     });
   }
 
+  capitalizeFirstLetter = string => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+  addLessonLearnedApi = async (title, description, reference, highlight) => {
+    try {
+      const res = await fetch("http://localhost:8000/api/library/add-lesson-learned", {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            user_id: this.props.currentuser["id"],
+            book_id: this.props.result.BookID,
+            title: title,
+            description: description,
+            reference:reference,
+            highlight:highlight
+        })
+      });
+
+      if(!res.ok) {
+        throw Error(res.statusText);
+      }
+
+      const resJson = await res.json();
+      console.log(resJson);
+      if("Timestamp" in resJson) {
+        this.props.result.last_updated=resJson.Timestamp;
+      }
+
+      return true;
+
+    } catch (e) {
+
+      console.log(e.message);
+      return false;
+    }
+  }
+
+  submitLesson= async () => {
+    if(this.state.titleValue === "" || this.state.lessonValue === "") {
+      this.setState({errorText:"Please make sure you have a Lesson Title and Description and try again."});
+      return;
+    }
+
+    if(await this.addLessonLearnedApi(this.state.titleValue, this.state.lessonValue, this.state.refValue, this.state.highlight) === true) {
+      this.setState({editing:false, errorText:"", titleValue:"", lessonValue:"", refValue:""});
+      this.props.updateModalDescription();
+    }
+    else {
+      this.setState({errorText:"There was an error submitting your lesson learned, please try again."});
+    }
+  }
+
   render() {
     if(this.state.editing) {
-      const rows = this.state.lessonValue.length < 450 ? "4" : this.state.lessonValue.length < 600 ? "6" : this.state.lessonValue.length < 800 ? "8" : "12"
+      const rows = this.state.lessonValue.length < 250 ? "4" : this.state.lessonValue.length < 450 ? "6" : this.state.lessonValue.length < 650 ? "8" : "12"
       return (
         <div>
-          <h5 className="notes-modal-description-section-header no-select">Lessons Learned<span className="button-bar"><EditLessonsLearnedButtonBar cancelEditing={this.uneditForm}/></span></h5>
+          <h5 className="notes-modal-description-section-header no-select">Lessons Learned<span className="button-bar"><EditLessonsLearnedButtonBar cancelEditing={this.uneditForm} toggleHighlight={this.toggleHighlight} highlighting={this.state.highlight}/></span></h5>
           <Form>
             <Form.Group controlId="closingThoughts" style={{marginBottom:"5px"}}>
               <Form.Row>
-                <Col xs={8}>
-                  <Form.Control className="form-control-test" size="sm" placeholder="Lesson Title" />
+                <Col xs={7}>
+                  <Form.Control className="form-control-test" size="sm"  value={this.state.titleValue} onChange={this.onTitleChange} placeholder="Lesson Title" />
                 </Col>
-                <Col xs={4}>
-                  <Form.Control className="form-control-test" size="sm" placeholder="Chapter / Page" />
+                <Col xs={5}>
+                  <Form.Control className="form-control-test" size="sm"  value={this.state.refValue} onChange={this.onRefChange} placeholder="Chapter / Page" />
                 </Col>
               </Form.Row>
               <Form.Row>
@@ -95,11 +152,19 @@ export default class BookSummary extends Component {
         </div>
       );
     }
+    else if(this.props.result.lessons.length === 0) {
+      return(
+        <div>
+          <h5 className="notes-modal-description-section-header no-select">Lessons Learned<span className="button-bar"><EmptyLessonsLearnedButtonBar addLesson={this.editForm}/></span></h5>
+          <p className="notes-modal-description-section">Summarizing key concepts in your own words is the best way to learn while you read - record those lessons here.</p>
+        </div>
+      );
+    }
     else {
       return (
         <div>
           <h5 className="notes-modal-description-section-header no-select">Lessons Learned<span className="button-bar"><EmptyLessonsLearnedButtonBar addLesson={this.editForm}/></span></h5>
-          <p className="notes-modal-description-section">Summarizing key concepts in your own words is the best way to learn while you read - record those lessons here.</p>
+          <p className="notes-modal-description-section">Fish.</p>
           {/* <h5 className="notes-modal-description-section-subheader no-select">Don't do drugs.</h5>
           <p className="notes-modal-description-section">Start with what you have, care about your customers more than yourself, and run your business like you don’t need the money.</p>
           <h5 className="notes-modal-description-section-subheader no-select">Blah blsh lorem sapvsd is csasd seev dvsd</h5>

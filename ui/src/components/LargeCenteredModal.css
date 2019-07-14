@@ -105,3 +105,31 @@
     padding-left: 5px;
     padding-right: 5px;
   }
+
+.btn-highlight {
+    background-color: white !important;
+    color: #878787 !important;
+    font-size: 100% !important;
+    outline: 0 !important;
+    box-shadow: 0 !important;
+}
+
+.btn-highlight:focus {
+    outline: none !important;
+    box-shadow: none !important;
+} 
+
+.btn-highlight:hover {
+    outline: none !important;
+    box-shadow: none !important;
+    color: rgba(27, 27, 150, 0.42) !important;
+} 
+
+
+.highlight-blue {
+    outline: none !important;
+    box-shadow: none !important;
+    color: rgba(27, 27, 150, 0.42) !important;
+} 
+
+

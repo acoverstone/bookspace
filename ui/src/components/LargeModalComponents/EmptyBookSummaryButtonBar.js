@@ -12,7 +12,7 @@ const EmptyBookSummaryButtonBar = (props) => {
   return (
     <ButtonGroup size="sm">
       <Button variant="note" data-tip data-for="emptySummary" data-offset="{'bottom': 10}" onClick={addBookSummary}><FaPlus /></Button>
-      <ReactTooltip id='emptySummary' className="tooltip-custom" effect='solid' >
+      <ReactTooltip id='emptySummary' className="tooltip-custom" effect='solid' globalEventOff='click'>
         <span className="note-tooltip">Add Book Summary</span>
       </ReactTooltip>
     </ButtonGroup>

@@ -75,7 +75,7 @@
 
 .btn-selected-star {
     background-color: white !important;
-    color: #555 !important;
+    color: rgba(235, 208, 0, 0.838) !important;
     font-size: 100% !important;
     outline: 0 !important;
     box-shadow: 0 !important;
@@ -85,14 +85,14 @@
 .btn-selected-star:focus {
     outline: none !important;
     box-shadow: none !important;
-    color: #555 !important;
+    color: rgba(228, 209, 0, 0.808)  !important;
     padding: 0 2px;
 } 
 
 .btn-selected-star:hover {
     outline: none !important;
     box-shadow: none !important;
-    color: #555 !important;
+    color: rgba(228, 209, 0, 0.808)  !important;
     padding: 0 2px;
 } 
 

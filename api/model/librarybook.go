@@ -11,10 +11,10 @@ type LibraryBook struct {
 	ReadingNow bool   `json:"reading_now"` // is the user reading now? default false
 	Favorite   bool   `json:"favorite"`    // is this book a user's favorite? default to false
 
-	ClosingThoughts BookReview `json:"closing_thoughts"` // optional a user's closing thoughts about the book , maybe a rating?
-	BookSummary     string     `json:"book_summary"`     // optional	- final summary of the book
-	LessonsLearned  []Note     `json:"lessons_learned"`  // optional - list of concepts ex) * Big Bang Theory - description of a big bang - pg. 32
-	SectionNotes    []Note     `json:"section_notes"`    // optional - note about a particular section ex) Introduction - intro notes...
+	ClosingThoughts BookReview    `json:"closing_thoughts"` // optional a user's closing thoughts about the book , maybe a rating?
+	BookSummary     string        `json:"book_summary"`     // optional	- final summary of the book
+	LessonsLearned  []Lesson      `json:"lessons"`          // optional - list of concepts ex) * Big Bang Theory - description of a big bang - pg. 32
+	SectionNotes    []SectionNote `json:"section_notes"`    // optional - note about a particular section ex) Introduction - intro notes...
 	// Quotes        []Note          `json:"quotes"`         // optional - list of quotes
 
 	// Category    string    `json:"category"`     // optional - some sort of category given by user, default to ""
@@ -27,12 +27,18 @@ type BookReview struct {
 	Rating int8   `json:"rating"`
 }
 
-// Note represents something you can write about a book - SectionNote, Concept, Quote
-type Note struct {
-	Title     string `json:"title"`
-	Notes     string `json:"notes"`
-	Section   string `json:"section"`
-	Highlight bool   `json:"highlight"`
+// Lesson represents a lesson/principle you can write about a book - like marginal utility
+type Lesson struct {
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	Reference   string `json:"reference"`
+	Highlight   bool   `json:"highlight"`
+}
+
+// SectionNote represents a note you can write about a chapter or section of a book - Chapter 1 or Introduction
+type SectionNote struct {
+	SectionTitle string `json:"section_title"`
+	Notes        string `json:"notes"`
 }
 
 // AddClosingThoughts appends book to 'Reading' list
@@ -96,7 +102,44 @@ func AddBookSummary(userID uint64, bookID string, summary string) error {
 
 	_, err = db.MutateIn(key, 0, 0).Replace(fmt.Sprintf("library.read_list[%v].last_updated", i), time.Now()).Execute()
 	if err != nil {
-		fmt.Println(time.Now())
+		fmt.Println("error updating timestamp for", key)
+	}
+
+	return nil
+}
+
+// AddLesson appends book to 'Reading' list
+func AddLesson(userID uint64, bookID string, title string, description string, reference string, highlight bool) error {
+
+	key := getKeyFromUserID(userID)
+	user := User{}
+	_, err := db.Get(key, &user)
+
+	if err != nil {
+		return fmt.Errorf(err.Error())
+	}
+
+	readingList := user.Library.ReadingList
+	i := getIndexFromReadingList(readingList, bookID)
+
+	if i == -1 {
+		return fmt.Errorf("book not found in reading list")
+	}
+
+	lesson := Lesson{
+		Title:       title,
+		Description: description,
+		Reference:   reference,
+		Highlight:   highlight,
+	}
+
+	_, err = db.MutateIn(key, 0, 0).ArrayAppend(fmt.Sprintf("library.read_list[%v].lessons", i), lesson, false).Execute()
+	if err != nil {
+		return fmt.Errorf(err.Error())
+	}
+
+	_, err = db.MutateIn(key, 0, 0).Replace(fmt.Sprintf("library.read_list[%v].last_updated", i), time.Now()).Execute()
+	if err != nil {
 		fmt.Println("error updating timestamp for", key)
 	}
 

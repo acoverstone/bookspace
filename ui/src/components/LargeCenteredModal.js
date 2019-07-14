@@ -27,6 +27,7 @@ export default class LargeCenteredModal extends Component {
     return authors.join(", ")
   }
 
+
   // returns true if 'closing thoughts',' book summary', 'lessons learned' and 'section notes' are all empty
   isNotesEmpty = () => {
     return this.isClosingThoughtsEmpty() && this.isBookSummaryEmpty() && this.isLessonsLearnedEmpty() && this.isSectionNotesEmpty();
@@ -44,7 +45,7 @@ export default class LargeCenteredModal extends Component {
 
   isLessonsLearnedEmpty = () => {
     if(!this.props.result) return false;
-    return this.props.result.lessons_learned.length === 0;
+    return this.props.result.lessons.length === 0;
   }
 
   isSectionNotesEmpty = () => {
@@ -63,8 +64,8 @@ export default class LargeCenteredModal extends Component {
           <p className="notes-model-test">You don't have any notes for this book yet.</p>
           <ClosingThoughts result={this.props.result} currentuser={this.props.currentuser} updateModalDescription={this.updateModalDescription}/>
           <BookSummary result={this.props.result} currentuser={this.props.currentuser} updateModalDescription={this.updateModalDescription}/>
-          <LessonsLearned />
-          <SectionNotes />
+          <LessonsLearned result={this.props.result} currentuser={this.props.currentuser} updateModalDescription={this.updateModalDescription} />
+          <SectionNotes result={this.props.result} currentuser={this.props.currentuser} updateModalDescription={this.updateModalDescription}/>
         </div>
       );
     } 
@@ -72,9 +73,9 @@ export default class LargeCenteredModal extends Component {
       return (
         <div className="notes-modal-description">
           <ClosingThoughts result={this.props.result} currentuser={this.props.currentuser} updateModalDescription={this.updateModalDescription}/>
-          <BookSummary result={this.props.result} currentuser={this.props.currentuser} justHeader={true} updateModalDescription={this.updateModalDescription}/>
-          <LessonsLearned justHeader={true}/>
-          <SectionNotes  justHeader={true}/>
+          <BookSummary result={this.props.result} currentuser={this.props.currentuser} updateModalDescription={this.updateModalDescription}  justHeader={true} />
+          <LessonsLearned result={this.props.result} currentuser={this.props.currentuser} updateModalDescription={this.updateModalDescription} justHeader={true}/>
+          <SectionNotes result={this.props.result} currentuser={this.props.currentuser} updateModalDescription={this.updateModalDescription} justHeader={true}/>
         </div>
       );
     }
@@ -82,9 +83,9 @@ export default class LargeCenteredModal extends Component {
       return (
         <div className="notes-modal-description">
           <BookSummary result={this.props.result} currentuser={this.props.currentuser} updateModalDescription={this.updateModalDescription}/>
-          <ClosingThoughts result={this.props.result} currentuser={this.props.currentuser} justHeader={true} updateModalDescription={this.updateModalDescription}/>
-          <LessonsLearned justHeader={true}/>
-          <SectionNotes  justHeader={true}/>
+          <ClosingThoughts result={this.props.result} currentuser={this.props.currentuser} updateModalDescription={this.updateModalDescription}  justHeader={true} />
+          <LessonsLearned result={this.props.result} currentuser={this.props.currentuser} updateModalDescription={this.updateModalDescription} justHeader={true}/>
+          <SectionNotes result={this.props.result} currentuser={this.props.currentuser} updateModalDescription={this.updateModalDescription} justHeader={true}/>
         </div>
       );
     }
@@ -93,8 +94,8 @@ export default class LargeCenteredModal extends Component {
         <div className="notes-modal-description">
           <ClosingThoughts result={this.props.result} currentuser={this.props.currentuser} updateModalDescription={this.updateModalDescription}/>
           <BookSummary result={this.props.result} currentuser={this.props.currentuser} updateModalDescription={this.updateModalDescription}/>
-          <LessonsLearned justHeader={true}/>
-          <SectionNotes  justHeader={true}/>
+          <LessonsLearned result={this.props.result} currentuser={this.props.currentuser} updateModalDescription={this.updateModalDescription} justHeader={true}/>
+          <SectionNotes result={this.props.result} currentuser={this.props.currentuser} updateModalDescription={this.updateModalDescription} justHeader={true}/>
         </div>
       );
     }
@@ -103,8 +104,8 @@ export default class LargeCenteredModal extends Component {
         <div className="notes-modal-description">
           <ClosingThoughts result={this.props.result} currentuser={this.props.currentuser} updateModalDescription={this.updateModalDescription}/>
           <BookSummary result={this.props.result} currentuser={this.props.currentuser} updateModalDescription={this.updateModalDescription}/>
-          <LessonsLearned />
-          <SectionNotes  />
+          <LessonsLearned result={this.props.result} currentuser={this.props.currentuser} updateModalDescription={this.updateModalDescription} />
+          <SectionNotes result={this.props.result} currentuser={this.props.currentuser} updateModalDescription={this.updateModalDescription} />
         </div>
       );
     }
