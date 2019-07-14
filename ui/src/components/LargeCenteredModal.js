@@ -25,30 +25,35 @@ export default class LargeCenteredModal extends Component {
   }
 
   isClosingThoughtsEmpty = () => {
+    if(!this.props.result) return false;
     return this.props.result.closing_thoughts.review.length === 0;
   }
 
   isBookSummaryEmpty = () => {
+    if(!this.props.result) return false;
     return this.props.result.book_summary.length === 0;
   }
 
   isLessonsLearnedEmpty = () => {
+    if(!this.props.result) return false;
     return this.props.result.lessons_learned.length === 0;
   }
 
   isSectionNotesEmpty = () => {
+    if(!this.props.result) return false;
     return this.props.result.section_notes.length === 0;
   }
 
   render() {
 
     const ModalDescription = (props) => {
+
       if (this.isNotesEmpty()) {
         return (
           <div className="notes-modal-description">
             <p className="notes-model-test">You don't have any notes for this book yet.</p>
             <ClosingThoughts result={this.props.result} currentuser={this.props.currentuser}/>
-            <BookSummary />
+            <BookSummary result={this.props.result} currentuser={this.props.currentuser} />
             <LessonsLearned />
             <SectionNotes />
           </div>
@@ -57,8 +62,8 @@ export default class LargeCenteredModal extends Component {
       else if (!this.isClosingThoughtsEmpty() && this.isBookSummaryEmpty() && this.isLessonsLearnedEmpty() && this.isSectionNotesEmpty()) {
         return (
           <div className="notes-modal-description">
-            <ClosingThoughts result={this.props.result}  currentuser={this.props.currentuser}/>
-            <BookSummary justHeader={true}/>
+            <ClosingThoughts result={this.props.result} currentuser={this.props.currentuser}/>
+            <BookSummary result={this.props.result} currentuser={this.props.currentuser} justHeader={true}/>
             <LessonsLearned justHeader={true}/>
             <SectionNotes  justHeader={true}/>
           </div>
@@ -67,14 +72,13 @@ export default class LargeCenteredModal extends Component {
       else {
         return (
           <div className="notes-modal-description">
-            <ClosingThoughts result={this.props.result}/>
-            <BookSummary />
+            <ClosingThoughts result={this.props.result} currentuser={this.props.currentuser} />
+            <BookSummary result={this.props.result} currentuser={this.props.currentuser} />
             <LessonsLearned />
             <SectionNotes  />
           </div>
         );
       }
-      
     }
 
     return (
@@ -106,4 +110,3 @@ export default class LargeCenteredModal extends Component {
     );
   }
 }
-  

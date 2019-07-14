@@ -5,7 +5,7 @@ import {  FaStar } from 'react-icons/fa';
 import "../ButtonBar.css";
 
 // TODO: Refactor this lol
-export default class NoteButtonBar extends Component {
+export default class FiveStarButtonBar extends Component {
   constructor(props) {
     super(props);
 

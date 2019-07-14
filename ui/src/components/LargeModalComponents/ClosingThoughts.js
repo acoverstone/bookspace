@@ -83,11 +83,13 @@ export default class ClosingThoughts extends Component {
       this.props.result.closing_thoughts.review=""
       this.props.result.closing_thoughts.rating=0
       this.setState({inputValue:"", editing:false, numberStars:0, errorText:""});
+      this.props.refreshDescription();
     }
     else {
       this.setState({errorText:"There was an error deleting your closing thoughts, please try again."});
     }
   }
+
 
   setStars = stars => {
     this.setState({numberStars:stars});
@@ -95,12 +97,13 @@ export default class ClosingThoughts extends Component {
   
   render() {
     if(this.state.editing) {
+      const rows = this.state.inputValue.length < 450 ? "4" : this.state.inputValue.length < 600 ? "6" : this.state.inputValue.length < 800 ? "8" : "12"
       return (
         <div>
           <h5 className="notes-modal-description-section-header no-select">Closing Thoughts<span className="button-bar"><EditClosingThoughtButtonBar cancelEditing={this.uneditForm}/></span></h5>
           <Form>
             <Form.Group controlId="closingThoughts" style={{marginBottom:"5px"}}>
-              <Form.Control autoFocus className="form-control-test" size="lg" as="textarea" rows="4" value={this.state.inputValue} onChange={this.onFormChange}/>
+              <Form.Control autoFocus className="form-control-test" size="lg" as="textarea" rows={rows} value={this.state.inputValue} onChange={this.onFormChange}/>
             </Form.Group>
             
           </Form>
