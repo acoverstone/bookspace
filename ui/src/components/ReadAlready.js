@@ -82,6 +82,15 @@ export default class ReadAlready extends Component {
       };
   }
 
+  updateUserReadAlreadyCopy = readAlreadyCopy => {
+    this.props.setCurrentUser({
+      ...this.props.currentUser,
+      library: {
+        ...this.props.currentUser.library,
+        read_list: readAlreadyCopy
+      }
+    });
+  }
 
    // remove book from Read Alreadylist by bookID
    removeFromReadAlready = bookID => {
@@ -99,14 +108,8 @@ export default class ReadAlready extends Component {
 
       if(index !== -1) {
         readAlreadyCopy.splice(index, 1);
-
-        this.props.setCurrentUser({
-          ...this.props.currentUser,
-          library: {
-            ...this.props.currentUser.library,
-            read_list: readAlreadyCopy
-          }
-        });
+        this.updateUserReadAlreadyCopy(readAlreadyCopy);
+        
       }
     }
 

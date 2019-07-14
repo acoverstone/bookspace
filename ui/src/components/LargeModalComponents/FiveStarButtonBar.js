@@ -16,39 +16,66 @@ export default class NoteButtonBar extends Component {
   }
 
   setOneStars = () => {
-    this.setState({stars:1});
+    if(this.props.editing) {
+      this.setState({stars:1});
+      this.props.setStars(1)
+    }
   }
   setTwoStars = () => {
-    this.setState({stars:2});
+    if(this.props.editing) {
+      this.setState({stars:2});
+      this.props.setStars(2)
+    }
   }
   setThreeStars = () => {
-    this.setState({stars:3});
+    if(this.props.editing) {
+      this.setState({stars:3});
+      this.props.setStars(3)
+    }
   }
   setFourStars = () => {
-    this.setState({stars:4});
+    if(this.props.editing) {
+      this.setState({stars:4});
+      this.props.setStars(4)
+    }
   }
   setFiveStars = () => {
-    this.setState({stars:5});
+    if(this.props.editing) {
+      this.setState({stars:5});
+      this.props.setStars(5)
+    }
   }
 
   hoverOneStars = () => {
-    this.setState({hovering:1});
+    if(this.props.editing) {
+      this.setState({hovering:1});
+    }
   }
   hoverTwoStars = () => {
-    this.setState({hovering:2});
+    if(this.props.editing) {
+      this.setState({hovering:2});
+    }
   }
   hoverThreeStars = () => {
-    this.setState({hovering:3});
+    if(this.props.editing) {
+      this.setState({hovering:3});
+    }
   }
   hoverFourStars = () => {
-    this.setState({hovering:4});
+    if(this.props.editing) {
+      this.setState({hovering:4});
+    }
   }
   hoverFiveStars = () => {
-    this.setState({hovering:5});
+    if(this.props.editing) {
+      this.setState({hovering:5});
+    }
   }
   
   unHover = () => {
-    this.setState({hovering:-1});
+    if(this.props.editing) {
+      this.setState({hovering:-1});
+    }
   }
   
   render() {

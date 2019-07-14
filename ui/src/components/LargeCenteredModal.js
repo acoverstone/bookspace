@@ -10,6 +10,7 @@ import "./LargeCenteredModal.css";
 
 export default class LargeCenteredModal extends Component {
 
+  // returns authors as a displayable string
   getAuthors = () => {
     var authors = this.props.result["Authors"]
     if(authors == null || !Array.isArray(authors) || authors.length === 0){
@@ -18,8 +19,25 @@ export default class LargeCenteredModal extends Component {
     return authors.join(", ")
   }
 
+  // returns true if 'closing thoughts',' book summary', 'lessons learned' and 'section notes' are all empty
   isNotesEmpty = () => {
-    return false;
+    return this.isClosingThoughtsEmpty() && this.isBookSummaryEmpty() && this.isLessonsLearnedEmpty() && this.isSectionNotesEmpty();
+  }
+
+  isClosingThoughtsEmpty = () => {
+    return this.props.result.closing_thoughts.review.length === 0;
+  }
+
+  isBookSummaryEmpty = () => {
+    return this.props.result.book_summary.length === 0;
+  }
+
+  isLessonsLearnedEmpty = () => {
+    return this.props.result.lessons_learned.length === 0;
+  }
+
+  isSectionNotesEmpty = () => {
+    return this.props.result.section_notes.length === 0;
   }
 
   render() {
@@ -28,21 +46,31 @@ export default class LargeCenteredModal extends Component {
       if (this.isNotesEmpty()) {
         return (
           <div className="notes-modal-description">
-            <p className="notes-model-test">You don't have any notes - add some below.</p>
-            <ClosingThoughts empty={true} editing={false}/>
-            <BookSummary empty={true} editing={false}/>
-            <LessonsLearned empty={true} editing={false}/>
-            <SectionNotes empty={true} editing={false}/>
+            <p className="notes-model-test">You don't have any notes for this book yet.</p>
+            <ClosingThoughts result={this.props.result}/>
+            <BookSummary />
+            <LessonsLearned />
+            <SectionNotes />
           </div>
         );
-      } else {
+      } 
+      else if (!this.isClosingThoughtsEmpty() && this.isBookSummaryEmpty() && this.isLessonsLearnedEmpty() && this.isSectionNotesEmpty()) {
         return (
           <div className="notes-modal-description">
-            <p className="notes-model-test">You don't have any notes - add some below.</p>
-            <ClosingThoughts empty={false} editing={false}/>
-            <BookSummary empty={false} editing={false}/>
-            <LessonsLearned empty={false} editing={false}/>
-            <SectionNotes empty={false} editing={false}/>
+            <ClosingThoughts result={this.props.result}/>
+            <BookSummary justHeader={true}/>
+            <LessonsLearned justHeader={true}/>
+            <SectionNotes  justHeader={true}/>
+          </div>
+        );
+      }
+      else {
+        return (
+          <div className="notes-modal-description">
+            <ClosingThoughts result={this.props.result}/>
+            <BookSummary />
+            <LessonsLearned />
+            <SectionNotes  />
           </div>
         );
       }
@@ -69,7 +97,9 @@ export default class LargeCenteredModal extends Component {
               </div>
             </div>
             :
-            <Button onClick={this.props.onHide} className="notes-modal-button">Close</Button>
+            <div style={{textAlign:"center"}}>
+              <Button onClick={this.props.onHide} className="notes-modal-button">Close</Button>
+            </div>
           }
         </Modal.Body>
       </Modal>
