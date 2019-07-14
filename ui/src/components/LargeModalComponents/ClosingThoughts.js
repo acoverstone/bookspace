@@ -109,7 +109,7 @@ export default class ClosingThoughts extends Component {
           <h5 className="notes-modal-description-section-header no-select">Closing Thoughts<span className="button-bar"><EditClosingThoughtButtonBar cancelEditing={this.uneditForm}/></span></h5>
           <Form>
             <Form.Group controlId="closingThoughts" style={{marginBottom:"5px"}}>
-              <Form.Control autoFocus className="form-control-test" size="lg" as="textarea" rows={rows} value={this.state.inputValue} onChange={this.onFormChange}/>
+              <Form.Control autoFocus className="form-control-test" size="lg" as="textarea" rows={rows} value={this.state.inputValue} onChange={this.onFormChange} placeholder="What did you think about this book? Would you read it again?"/>
             </Form.Group>
             
           </Form>

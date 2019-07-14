@@ -131,7 +131,8 @@ export default class ReadAlready extends Component {
 
   closeLargeModal = () => {
     this.setState({ largeModalShow: false });
-    this.sortBooks();
+    // TODO: See how to make this sort work when I update result last_update time - set read list item to result?
+    // this.sortBooks();
   }
 
   showLargeModal = result => {

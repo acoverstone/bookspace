@@ -29,11 +29,10 @@ type BookReview struct {
 
 // Note represents something you can write about a book - SectionNote, Concept, Quote
 type Note struct {
-	Title     string    `json:"title"`
-	Notes     string    `json:"notes"`
-	Section   string    `json:"section"`
-	Highlight bool      `json:"highlight"`
-	Timestamp time.Time `json:"timestamp"`
+	Title     string `json:"title"`
+	Notes     string `json:"notes"`
+	Section   string `json:"section"`
+	Highlight bool   `json:"highlight"`
 }
 
 // AddClosingThoughts appends book to 'Reading' list

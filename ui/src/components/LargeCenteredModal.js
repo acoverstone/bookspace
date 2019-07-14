@@ -78,6 +78,26 @@ export default class LargeCenteredModal extends Component {
         </div>
       );
     }
+    else if (this.isClosingThoughtsEmpty() && !this.isBookSummaryEmpty() && this.isLessonsLearnedEmpty() && this.isSectionNotesEmpty()) {
+      return (
+        <div className="notes-modal-description">
+          <BookSummary result={this.props.result} currentuser={this.props.currentuser} updateModalDescription={this.updateModalDescription}/>
+          <ClosingThoughts result={this.props.result} currentuser={this.props.currentuser} justHeader={true} updateModalDescription={this.updateModalDescription}/>
+          <LessonsLearned justHeader={true}/>
+          <SectionNotes  justHeader={true}/>
+        </div>
+      );
+    }
+    else if (!this.isClosingThoughtsEmpty() && !this.isBookSummaryEmpty() && this.isLessonsLearnedEmpty() && this.isSectionNotesEmpty()) {
+      return (
+        <div className="notes-modal-description">
+          <ClosingThoughts result={this.props.result} currentuser={this.props.currentuser} updateModalDescription={this.updateModalDescription}/>
+          <BookSummary result={this.props.result} currentuser={this.props.currentuser} updateModalDescription={this.updateModalDescription}/>
+          <LessonsLearned justHeader={true}/>
+          <SectionNotes  justHeader={true}/>
+        </div>
+      );
+    }
     else {
       return (
         <div className="notes-modal-description">

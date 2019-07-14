@@ -46,6 +46,8 @@
     font-size: 13px;
     color: #555;
     white-space: pre-wrap;
+    /* TODO: Decide if I like padding or not and how much */
+    padding: 0px 5px 5px 10px;
 }   
 
 /* End of example */

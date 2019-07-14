@@ -55,7 +55,7 @@ export default class BookSummary extends Component {
       if(!res.ok) {
         throw Error(res.statusText);
       }
-      
+
       const resJson = await res.json();
       if("Timestamp" in resJson) {
         this.props.result.last_updated=resJson.Timestamp;
@@ -95,12 +95,13 @@ export default class BookSummary extends Component {
 
   render() {
     if(this.state.editing) {
+      const rows = this.state.inputValue.length < 450 ? "4" : this.state.inputValue.length < 600 ? "6" : this.state.inputValue.length < 800 ? "8" : "12"
       return (
         <div>
           <h5 className="notes-modal-description-section-header no-select">Book Summary<span className="button-bar"><EditBookSummaryButtonBar cancelEditing={this.uneditForm}/></span></h5>
           <Form>
             <Form.Group controlId="closingThoughts" style={{marginBottom:"5px"}}>
-              <Form.Control autoFocus className="form-control-test" size="lg" as="textarea" rows="4" value={this.state.inputValue} onChange={this.onFormChange}/>
+              <Form.Control autoFocus className="form-control-test" size="lg" as="textarea" rows={rows} value={this.state.inputValue} onChange={this.onFormChange} placeholder="How could you describe this book to a friend in less than a paragraph?"/>
             </Form.Group>
             
           </Form>
