@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import Form from "react-bootstrap/Form"
 import Button from "react-bootstrap/Button"
 import EmptyBookSummaryButtonBar from "./EmptyBookSummaryButtonBar";
+import NotEmptyBookSummaryButtonBar from "./NotEmptyBookSummaryButtonBar";
+import EditBookSummaryButtonBar from "./EditBookSummaryButtonBar";
 
 // Takes params empty, allEmpty, editing, result
 export default class BookSummary extends Component {
@@ -34,15 +36,60 @@ export default class BookSummary extends Component {
     });
   }
 
-  submitBookSummary = () => {
+  addBookSummaryApi = async (summary) => {
+    try {
+      const res = await fetch("http://localhost:8000/api/library/add-book-summary", {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            user_id: this.props.currentuser["id"],
+            book_id: this.props.result.BookID,
+            summary: summary,
+        })
+      });
+
+      if(!res.ok) {
+        throw Error(res.statusText);
+      }
+
+      return true;
+    } catch (e) {
+
+      console.log(e.message);
+      return false;
+    }
+  }
+
+  submitBookSummary = async () => {
     console.log("Submitted.")
+    if(await this.addBookSummaryApi(this.state.inputValue) === true) {
+      this.props.result.book_summary=this.state.inputValue
+      this.setState({editing:false, errorText:""});
+    }
+    else {
+      this.setState({errorText:"There was an error submitting your book summary, please try again."});
+    }
+  }
+
+  deleteBookSummary = async () => {
+    if(await this.addBookSummaryApi("") === true) {
+      this.props.result.book_summary=""
+      this.setState({inputValue:"", editing:false, errorText:""});
+    }
+    else {
+      this.setState({errorText:"There was an error deleting your book summary, please try again."});
+    }
   }
 
   render() {
     if(this.state.editing) {
       return (
         <div>
-          <h5 className="notes-modal-description-section-header no-select">Book Summary<span className="button-bar"><EmptyBookSummaryButtonBar/></span></h5>
+          <h5 className="notes-modal-description-section-header no-select">Book Summary<span className="button-bar"><EditBookSummaryButtonBar cancelEditing={this.uneditForm}/></span></h5>
           <Form>
             <Form.Group controlId="closingThoughts" style={{marginBottom:"5px"}}>
               <Form.Control autoFocus className="form-control-test" size="lg" as="textarea" rows="4" value={this.state.inputValue} onChange={this.onFormChange}/>
@@ -60,13 +107,13 @@ export default class BookSummary extends Component {
     else if(this.props.justHeader) {
       return (
         <div>
-          <h5 className="notes-modal-description-section-header no-select">Book Summary<span className="button-bar"><EmptyBookSummaryButtonBar/></span></h5>
+          <h5 className="notes-modal-description-section-header no-select">Book Summary<span className="button-bar"><EmptyBookSummaryButtonBar editBookSummary={this.editForm}/></span></h5>
         </div>
       );
-    } else if(this.props.result.closing_thoughts.review.length === 0) {
+    } else if(this.props.result.book_summary.length === 0) {
       return (
         <div>
-          <h5 className="notes-modal-description-section-header no-select">Book Summary<span className="button-bar"><EmptyBookSummaryButtonBar/></span></h5>
+          <h5 className="notes-modal-description-section-header no-select">Book Summary<span className="button-bar"><EmptyBookSummaryButtonBar editBookSummary={this.editForm}/></span></h5>
           <p className="notes-modal-description-section">Add a quick recap so you can remember what this book was all about.</p>
         </div>
       );
@@ -74,10 +121,9 @@ export default class BookSummary extends Component {
     else {
       return (
           <div>
-            <h5 className="notes-modal-description-section-header no-select">Book Summary<span className="button-bar"><EmptyBookSummaryButtonBar/></span></h5>
-            <p className="notes-modal-description-section">Here is a book summary.</p>
-            {/* <p className="notes-modal-description-section">This unusual school had old railroad cars for classrooms, and it was run by an extraordinary man-its founder and headmaster, Sosaku Kobayashi--who was a firm believer in freedom of expression and activity.In real life, the Totto-chan of the book has become one of Japan's most popular television personalities--Tetsuko Kuroyanagi.</p> */}
-            {/* <br/> */}  
+            <h5 className="notes-modal-description-section-header no-select">Book Summary<span className="button-bar"><NotEmptyBookSummaryButtonBar editBookSummary={this.editForm} deleteBookSummary={this.deleteBookSummary} /></span></h5>
+            <p className="notes-modal-description-section">{this.props.result.book_summary}</p>
+            <p className="error-text-notes">{this.state.errorText}</p>
           </div> 
         );
       }

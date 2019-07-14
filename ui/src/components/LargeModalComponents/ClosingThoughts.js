@@ -61,7 +61,7 @@ export default class ClosingThoughts extends Component {
 
       return true;
     } catch (e) {
-      // TODO: Add error message if this fails
+
       console.log(e.message);
       return false;
     }

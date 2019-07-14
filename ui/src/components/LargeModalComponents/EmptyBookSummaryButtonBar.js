@@ -5,9 +5,13 @@ import { FaPlus } from "react-icons/fa";
 
 const EmptyBookSummaryButtonBar = (props) => {
 
+  const addBookSummary = () => {
+    props.editBookSummary();
+  }
+
   return (
     <ButtonGroup size="sm">
-      <Button variant="note" data-tip data-for="emptySummary" data-offset="{'bottom': 10}"><FaPlus /></Button>
+      <Button variant="note" data-tip data-for="emptySummary" data-offset="{'bottom': 10}" onClick={addBookSummary}><FaPlus /></Button>
       <ReactTooltip id='emptySummary' className="tooltip-custom" effect='solid' >
         <span className="note-tooltip">Add Book Summary</span>
       </ReactTooltip>

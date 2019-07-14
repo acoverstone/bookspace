@@ -36,7 +36,7 @@ type Note struct {
 	Timestamp time.Time `json:"timestamp"`
 }
 
-// AddClosingThoughts appends book to 'Read Already' list
+// AddClosingThoughts appends book to 'Reading' list
 func AddClosingThoughts(userID uint64, bookID string, review string, rating int8) error {
 
 	key := getKeyFromUserID(userID)
@@ -61,6 +61,32 @@ func AddClosingThoughts(userID uint64, bookID string, review string, rating int8
 	}
 
 	_, err = db.MutateIn(key, 0, 0).Replace(fmt.Sprintf("library.read_list[%v].closing_thoughts", i), bookReview).Execute()
+
+	if err != nil {
+		return fmt.Errorf(err.Error())
+	}
+	return nil
+}
+
+// AddBookSummary appends book to 'Reading' list
+func AddBookSummary(userID uint64, bookID string, summary string) error {
+
+	key := getKeyFromUserID(userID)
+	user := User{}
+	_, err := db.Get(key, &user)
+
+	if err != nil {
+		return fmt.Errorf(err.Error())
+	}
+
+	readingList := user.Library.ReadingList
+	i := getIndexFromReadingList(readingList, bookID)
+
+	if i == -1 {
+		return fmt.Errorf("book not found in reading list")
+	}
+
+	_, err = db.MutateIn(key, 0, 0).Replace(fmt.Sprintf("library.read_list[%v].book_summary", i), summary).Execute()
 
 	if err != nil {
 		return fmt.Errorf(err.Error())
