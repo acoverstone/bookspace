@@ -77,7 +77,6 @@ export default class SearchArea extends Component {
         }
 
         const resJson = await res.json();
-        console.log(resJson)
         this.props.setSearchResults(resJson);
 
         this.setState({ searchIsLoading: false, errorText:"" });

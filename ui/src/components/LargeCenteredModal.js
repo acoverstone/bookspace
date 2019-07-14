@@ -10,6 +10,14 @@ import "./LargeCenteredModal.css";
 
 export default class LargeCenteredModal extends Component {
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ModalDescription: this.getModalDescription
+    }
+  }
+
   // returns authors as a displayable string
   getAuthors = () => {
     var authors = this.props.result["Authors"]
@@ -44,42 +52,47 @@ export default class LargeCenteredModal extends Component {
     return this.props.result.section_notes.length === 0;
   }
 
+  updateModalDescription = () => {
+    this.setState({ModalDescription:this.getModalDescription});
+  }
+
+  getModalDescription = () => {  
+    if (this.isNotesEmpty()) {
+      return (
+        <div className="notes-modal-description">
+          <p className="notes-model-test">You don't have any notes for this book yet.</p>
+          <ClosingThoughts result={this.props.result} currentuser={this.props.currentuser} updateModalDescription={this.updateModalDescription}/>
+          <BookSummary result={this.props.result} currentuser={this.props.currentuser} updateModalDescription={this.updateModalDescription}/>
+          <LessonsLearned />
+          <SectionNotes />
+        </div>
+      );
+    } 
+    else if (!this.isClosingThoughtsEmpty() && this.isBookSummaryEmpty() && this.isLessonsLearnedEmpty() && this.isSectionNotesEmpty()) {
+      return (
+        <div className="notes-modal-description">
+          <ClosingThoughts result={this.props.result} currentuser={this.props.currentuser} updateModalDescription={this.updateModalDescription}/>
+          <BookSummary result={this.props.result} currentuser={this.props.currentuser} justHeader={true} updateModalDescription={this.updateModalDescription}/>
+          <LessonsLearned justHeader={true}/>
+          <SectionNotes  justHeader={true}/>
+        </div>
+      );
+    }
+    else {
+      return (
+        <div className="notes-modal-description">
+          <ClosingThoughts result={this.props.result} currentuser={this.props.currentuser} updateModalDescription={this.updateModalDescription}/>
+          <BookSummary result={this.props.result} currentuser={this.props.currentuser} updateModalDescription={this.updateModalDescription}/>
+          <LessonsLearned />
+          <SectionNotes  />
+        </div>
+      );
+    }
+  }
+
   render() {
 
-    const ModalDescription = (props) => {
-
-      if (this.isNotesEmpty()) {
-        return (
-          <div className="notes-modal-description">
-            <p className="notes-model-test">You don't have any notes for this book yet.</p>
-            <ClosingThoughts result={this.props.result} currentuser={this.props.currentuser}/>
-            <BookSummary result={this.props.result} currentuser={this.props.currentuser} />
-            <LessonsLearned />
-            <SectionNotes />
-          </div>
-        );
-      } 
-      else if (!this.isClosingThoughtsEmpty() && this.isBookSummaryEmpty() && this.isLessonsLearnedEmpty() && this.isSectionNotesEmpty()) {
-        return (
-          <div className="notes-modal-description">
-            <ClosingThoughts result={this.props.result} currentuser={this.props.currentuser}/>
-            <BookSummary result={this.props.result} currentuser={this.props.currentuser} justHeader={true}/>
-            <LessonsLearned justHeader={true}/>
-            <SectionNotes  justHeader={true}/>
-          </div>
-        );
-      }
-      else {
-        return (
-          <div className="notes-modal-description">
-            <ClosingThoughts result={this.props.result} currentuser={this.props.currentuser} />
-            <BookSummary result={this.props.result} currentuser={this.props.currentuser} />
-            <LessonsLearned />
-            <SectionNotes  />
-          </div>
-        );
-      }
-    }
+    var ModalDescription = this.state.ModalDescription;
 
     return (
       <Modal

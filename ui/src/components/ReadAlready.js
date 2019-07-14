@@ -129,7 +129,10 @@ export default class ReadAlready extends Component {
     }
   }
 
-  closeLargeModal = () => this.setState({ largeModalShow: false });
+  closeLargeModal = () => {
+    this.setState({ largeModalShow: false });
+    this.sortBooks();
+  }
 
   showLargeModal = result => {
     console.log(result);

@@ -55,6 +55,12 @@ export default class BookSummary extends Component {
       if(!res.ok) {
         throw Error(res.statusText);
       }
+      
+      const resJson = await res.json();
+      if("Timestamp" in resJson) {
+        this.props.result.last_updated=resJson.Timestamp;
+      }
+
 
       return true;
     } catch (e) {
@@ -69,6 +75,7 @@ export default class BookSummary extends Component {
     if(await this.addBookSummaryApi(this.state.inputValue) === true) {
       this.props.result.book_summary=this.state.inputValue
       this.setState({editing:false, errorText:""});
+      this.props.updateModalDescription();
     }
     else {
       this.setState({errorText:"There was an error submitting your book summary, please try again."});
@@ -79,6 +86,7 @@ export default class BookSummary extends Component {
     if(await this.addBookSummaryApi("") === true) {
       this.props.result.book_summary=""
       this.setState({inputValue:"", editing:false, errorText:""});
+      this.props.updateModalDescription();
     }
     else {
       this.setState({errorText:"There was an error deleting your book summary, please try again."});

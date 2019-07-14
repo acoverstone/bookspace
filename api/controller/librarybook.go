@@ -5,9 +5,13 @@ import (
 	"fmt"
 	"net/http"
 	"projects/bookcase/api/model"
+	"time"
 )
 
 type librarybook struct{}
+type tsResponse struct {
+	Timestamp time.Time `json:"timestamp"`
+}
 
 func (l librarybook) registerRoutes() {
 	http.HandleFunc("/api/library/add-closing-thoughts", l.handleAddClosingThoughts)
@@ -20,6 +24,7 @@ func (l librarybook) handleAddClosingThoughts(w http.ResponseWriter, r *http.Req
 	if r.Method == http.MethodPost {
 		// For a POST request - check UserID and BookID, return success or failure header
 		dec := json.NewDecoder(r.Body)
+		enc := json.NewEncoder(w)
 		var data struct {
 			UserID uint64 `json:"user_id"`
 			BookID string `json:"book_id"`
@@ -40,6 +45,7 @@ func (l librarybook) handleAddClosingThoughts(w http.ResponseWriter, r *http.Req
 		}
 
 		w.WriteHeader(http.StatusOK)
+		enc.Encode(tsResponse{Timestamp: time.Now()})
 		return
 
 	} else {
@@ -53,6 +59,7 @@ func (l librarybook) handleAddBookSummary(w http.ResponseWriter, r *http.Request
 	if r.Method == http.MethodPost {
 		// For a POST request - check UserID and BookID, return success or failure header
 		dec := json.NewDecoder(r.Body)
+		enc := json.NewEncoder(w)
 		var data struct {
 			UserID  uint64 `json:"user_id"`
 			BookID  string `json:"book_id"`
@@ -72,6 +79,7 @@ func (l librarybook) handleAddBookSummary(w http.ResponseWriter, r *http.Request
 		}
 
 		w.WriteHeader(http.StatusOK)
+		enc.Encode(tsResponse{Timestamp: time.Now()})
 		return
 
 	} else {

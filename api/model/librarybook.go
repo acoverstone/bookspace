@@ -61,10 +61,14 @@ func AddClosingThoughts(userID uint64, bookID string, review string, rating int8
 	}
 
 	_, err = db.MutateIn(key, 0, 0).Replace(fmt.Sprintf("library.read_list[%v].closing_thoughts", i), bookReview).Execute()
-
 	if err != nil {
 		return fmt.Errorf(err.Error())
 	}
+	_, err = db.MutateIn(key, 0, 0).Replace(fmt.Sprintf("library.read_list[%v].last_updated", i), time.Now()).Execute()
+	if err != nil {
+		fmt.Println("error updating timestamp for", key)
+	}
+
 	return nil
 }
 
@@ -87,9 +91,15 @@ func AddBookSummary(userID uint64, bookID string, summary string) error {
 	}
 
 	_, err = db.MutateIn(key, 0, 0).Replace(fmt.Sprintf("library.read_list[%v].book_summary", i), summary).Execute()
-
 	if err != nil {
 		return fmt.Errorf(err.Error())
 	}
+
+	_, err = db.MutateIn(key, 0, 0).Replace(fmt.Sprintf("library.read_list[%v].last_updated", i), time.Now()).Execute()
+	if err != nil {
+		fmt.Println(time.Now())
+		fmt.Println("error updating timestamp for", key)
+	}
+
 	return nil
 }

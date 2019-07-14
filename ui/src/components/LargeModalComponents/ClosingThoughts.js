@@ -59,6 +59,11 @@ export default class ClosingThoughts extends Component {
         throw Error(res.statusText);
       }
 
+      const resJson = await res.json();
+      if("Timestamp" in resJson) {
+        this.props.result.last_updated=resJson.Timestamp;
+      }
+
       return true;
     } catch (e) {
 
@@ -72,6 +77,7 @@ export default class ClosingThoughts extends Component {
       this.props.result.closing_thoughts.review=this.state.inputValue
       this.props.result.closing_thoughts.rating=this.state.numberStars
       this.setState({editing:false, errorText:""});
+      this.props.updateModalDescription();
     }
     else {
       this.setState({errorText:"There was an error submitting your closing thoughts, please try again."});
@@ -83,6 +89,7 @@ export default class ClosingThoughts extends Component {
       this.props.result.closing_thoughts.review=""
       this.props.result.closing_thoughts.rating=0
       this.setState({inputValue:"", editing:false, numberStars:0, errorText:""});
+      this.props.updateModalDescription();
     }
     else {
       this.setState({errorText:"There was an error deleting your closing thoughts, please try again."});
