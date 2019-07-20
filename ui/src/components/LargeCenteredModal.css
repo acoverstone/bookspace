@@ -38,6 +38,14 @@
     font-weight: 600;
     font-size: 14px;
     color:#333;
+    padding: 0px 5px 0px 10px;
+}   
+
+.subheader-subheader {
+    font-family: "Open Sans", sans-serif;
+    font-weight: 400;
+    font-size: 90%;
+    color:#999;
 }   
 
 .notes-modal-description-section {
@@ -49,6 +57,10 @@
     /* TODO: Decide if I like padding or not and how much */
     padding: 0px 5px 5px 10px;
 }   
+
+.blue-highlight {
+    background-color: rgba(57, 57, 155, 0.12) !important;
+}
 
 /* End of example */
 
