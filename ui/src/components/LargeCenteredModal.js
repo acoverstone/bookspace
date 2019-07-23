@@ -89,6 +89,26 @@ export default class LargeCenteredModal extends Component {
         </div>
       );
     }
+    else if (this.isClosingThoughtsEmpty() && this.isBookSummaryEmpty() && !this.isLessonsLearnedEmpty() && this.isSectionNotesEmpty()) {
+      return (
+        <div className="notes-modal-description">
+          <LessonsLearned result={this.props.result} currentuser={this.props.currentuser} updateModalDescription={this.updateModalDescription} />
+          <ClosingThoughts result={this.props.result} currentuser={this.props.currentuser} updateModalDescription={this.updateModalDescription}  justHeader={true} />
+          <BookSummary result={this.props.result} currentuser={this.props.currentuser} updateModalDescription={this.updateModalDescription} justHeader={true} />
+          <SectionNotes result={this.props.result} currentuser={this.props.currentuser} updateModalDescription={this.updateModalDescription} justHeader={true} />
+        </div>
+      );
+    }
+    else if (this.isClosingThoughtsEmpty() && this.isBookSummaryEmpty() && this.isLessonsLearnedEmpty() && !this.isSectionNotesEmpty()) {
+      return (
+        <div className="notes-modal-description">
+          <SectionNotes result={this.props.result} currentuser={this.props.currentuser} updateModalDescription={this.updateModalDescription}  />
+          <ClosingThoughts result={this.props.result} currentuser={this.props.currentuser} updateModalDescription={this.updateModalDescription}  justHeader={true} />
+          <BookSummary result={this.props.result} currentuser={this.props.currentuser} updateModalDescription={this.updateModalDescription} justHeader={true} />
+          <LessonsLearned result={this.props.result} currentuser={this.props.currentuser} updateModalDescription={this.updateModalDescription} justHeader={true} />
+        </div>
+      );
+    }
     else if (!this.isClosingThoughtsEmpty() && !this.isBookSummaryEmpty() && this.isLessonsLearnedEmpty() && this.isSectionNotesEmpty()) {
       return (
         <div className="notes-modal-description">

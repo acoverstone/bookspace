@@ -5,12 +5,12 @@ import { FaTrashAlt, FaPencilAlt } from "react-icons/fa";
 
 const LessonButtonBar = (props) => {
 
-  const startEditing = () => {
-    // props.editLessons();
+  const editLesson = () => {
+    props.editLesson(props.lessonIndex);
   }
 
   const deleteLesson = () => {
-    // props.deleteLesson()
+    props.deleteLesson(props.lessonIndex)
   }
 
   return (
@@ -19,7 +19,7 @@ const LessonButtonBar = (props) => {
       <ReactTooltip id='deleteLesson' className="tooltip-custom" effect='solid'  globalEventOff='click'>
         <span className="note-tooltip">Delete Lesson</span>
       </ReactTooltip>
-      <Button variant="note" data-tip data-for="editLesson" data-offset="{'bottom': 10}" onClick={startEditing}><FaPencilAlt/></Button>
+      <Button variant="note" data-tip data-for="editLesson" data-offset="{'bottom': 10}" onClick={editLesson}><FaPencilAlt/></Button>
       <ReactTooltip id='editLesson' className="tooltip-custom" effect='solid'  globalEventOff='click'>
         <span className="note-tooltip">Edit Lesson</span>
       </ReactTooltip>

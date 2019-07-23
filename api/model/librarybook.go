@@ -108,7 +108,7 @@ func AddBookSummary(userID uint64, bookID string, summary string) error {
 	return nil
 }
 
-// AddLesson appends book to 'Reading' list
+// AddLesson appends lesson to book in 'Reading' list
 func AddLesson(userID uint64, bookID string, title string, description string, reference string, highlight bool) error {
 
 	key := getKeyFromUserID(userID)
@@ -144,4 +144,81 @@ func AddLesson(userID uint64, bookID string, title string, description string, r
 	}
 
 	return nil
+}
+
+// DeleteLesson deletes lesson from book in 'Reading' list
+func DeleteLesson(userID uint64, bookID string, lessonIndex int16) error {
+
+	key := getKeyFromUserID(userID)
+	user := User{}
+	_, err := db.Get(key, &user)
+
+	if err != nil {
+		return fmt.Errorf(err.Error())
+	}
+
+	readingList := user.Library.ReadingList
+	i := getIndexFromReadingList(readingList, bookID)
+
+	if i == -1 {
+		return fmt.Errorf("book not found in reading list")
+	}
+
+	newLessonList, err := removeLessonFromList(readingList[i].LessonsLearned, lessonIndex)
+
+	_, err = db.MutateIn(key, 0, 0).Replace(fmt.Sprintf("library.read_list[%v].lessons", i), newLessonList).Execute()
+	if err != nil {
+		return fmt.Errorf(err.Error())
+	}
+
+	_, err = db.MutateIn(key, 0, 0).Replace(fmt.Sprintf("library.read_list[%v].last_updated", i), time.Now()).Execute()
+	if err != nil {
+		fmt.Println("error updating timestamp for", key)
+	}
+
+	return nil
+}
+
+// EditLesson edits lesson from book in 'Reading' list
+func EditLesson(userID uint64, bookID string, lessonIndex int16, title string, description string, reference string, highlight bool) error {
+
+	key := getKeyFromUserID(userID)
+	user := User{}
+	_, err := db.Get(key, &user)
+
+	if err != nil {
+		return fmt.Errorf(err.Error())
+	}
+
+	readingList := user.Library.ReadingList
+	i := getIndexFromReadingList(readingList, bookID)
+
+	if i == -1 {
+		return fmt.Errorf("book not found in reading list")
+	}
+
+	lessonList := readingList[i].LessonsLearned
+	lesson := Lesson{
+		Title:       title,
+		Description: description,
+		Reference:   reference,
+		Highlight:   highlight,
+	}
+	lessonList[lessonIndex] = lesson
+
+	_, err = db.MutateIn(key, 0, 0).Replace(fmt.Sprintf("library.read_list[%v].lessons", i), lessonList).Execute()
+	if err != nil {
+		return fmt.Errorf(err.Error())
+	}
+
+	_, err = db.MutateIn(key, 0, 0).Replace(fmt.Sprintf("library.read_list[%v].last_updated", i), time.Now()).Execute()
+	if err != nil {
+		fmt.Println("error updating timestamp for", key)
+	}
+
+	return nil
+}
+
+func removeLessonFromList(lessonList []Lesson, i int16) ([]Lesson, error) {
+	return append(lessonList[:i], lessonList[i+1:]...), nil
 }
