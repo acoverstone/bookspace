@@ -101,7 +101,7 @@ export default class BookSummary extends Component {
           <h5 className="notes-modal-description-section-header no-select">Book Summary<span className="button-bar"><EditBookSummaryButtonBar cancelEditing={this.uneditForm}/></span></h5>
           <Form>
             <Form.Group controlId="closingThoughts" style={{marginBottom:"5px"}}>
-              <Form.Control autoFocus className="form-control-test" size="lg" as="textarea" rows={rows} value={this.state.inputValue} onChange={this.onFormChange} placeholder="How could you describe this book to a friend in less than a paragraph?"/>
+              <Form.Control autoFocus className="form-control-test" size="lg" as="textarea" rows={rows} value={this.state.inputValue} onChange={this.onFormChange} placeholder="How would you describe this book to a friend in less than a paragraph?"/>
             </Form.Group>
             
           </Form>

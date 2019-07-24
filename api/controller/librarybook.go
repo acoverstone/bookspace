@@ -17,8 +17,11 @@ func (l librarybook) registerRoutes() {
 	http.HandleFunc("/api/library/add-closing-thoughts", l.handleAddClosingThoughts)
 	http.HandleFunc("/api/library/add-book-summary", l.handleAddBookSummary)
 	http.HandleFunc("/api/library/add-lesson-learned", l.handleAddLesson)
+	http.HandleFunc("/api/library/add-section-note", l.handleAddSectionNote)
 	http.HandleFunc("/api/library/delete-lesson-learned", l.handleDeleteLesson)
 	http.HandleFunc("/api/library/edit-lesson-learned", l.handleEditLesson)
+	http.HandleFunc("/api/library/delete-section-note", l.handleDeleteSectionNote)
+	http.HandleFunc("/api/library/edit-section-note", l.handleEditSectionNote)
 }
 
 // Add/Edit Closing Thoughts to book
@@ -161,7 +164,7 @@ func (l librarybook) handleDeleteLesson(w http.ResponseWriter, r *http.Request) 
 	}
 }
 
-// Delete a Lesson Learned for a given book
+// Edit a Lesson Learned for a given book
 func (l librarybook) handleEditLesson(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodPost {
 		// For a POST request - check UserID and BookID, return success or failure header
@@ -185,6 +188,111 @@ func (l librarybook) handleEditLesson(w http.ResponseWriter, r *http.Request) {
 		err = model.EditLesson(data.UserID, data.BookID, data.LessonIndex, data.Title, data.Description, data.Reference, data.Highlight)
 		if err != nil {
 			fmt.Printf("Error editing Lesson from DB: %v\n", err)
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+
+		w.WriteHeader(http.StatusOK)
+		enc.Encode(tsResponse{Timestamp: time.Now()})
+		return
+
+	} else {
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		return
+	}
+}
+
+// Add a Lesson Learned for a given book
+func (l librarybook) handleAddSectionNote(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodPost {
+		// For a POST request - check UserID and BookID, return success or failure header
+		dec := json.NewDecoder(r.Body)
+		enc := json.NewEncoder(w)
+		var data struct {
+			UserID       uint64 `json:"user_id"`
+			BookID       string `json:"book_id"`
+			SectionTitle string `json:"section_title"`
+			Notes        string `json:"notes"`
+		}
+		err := dec.Decode(&data)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+
+		err = model.AddSectionNote(data.UserID, data.BookID, data.SectionTitle, data.Notes)
+		if err != nil {
+			fmt.Printf("Error writing Section Note to DB: %v\n", err)
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+
+		w.WriteHeader(http.StatusOK)
+		enc.Encode(tsResponse{Timestamp: time.Now()})
+		return
+
+	} else {
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		return
+	}
+}
+
+// Delete a Section Note Learned for a given book
+func (l librarybook) handleDeleteSectionNote(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodPost {
+		// For a POST request - check UserID and BookID, return success or failure header
+		dec := json.NewDecoder(r.Body)
+		enc := json.NewEncoder(w)
+		var data struct {
+			UserID       uint64 `json:"user_id"`
+			BookID       string `json:"book_id"`
+			SectionIndex int16  `json:"index"`
+		}
+		err := dec.Decode(&data)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+
+		err = model.DeleteSectionNote(data.UserID, data.BookID, data.SectionIndex)
+		if err != nil {
+			fmt.Printf("Error deleting Section Note from DB: %v\n", err)
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+
+		w.WriteHeader(http.StatusOK)
+		enc.Encode(tsResponse{Timestamp: time.Now()})
+		return
+
+	} else {
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		return
+	}
+}
+
+// Edit a Section Notefor a given book
+func (l librarybook) handleEditSectionNote(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodPost {
+		// For a POST request - check UserID and BookID, return success or failure header
+		dec := json.NewDecoder(r.Body)
+		enc := json.NewEncoder(w)
+		var data struct {
+			UserID       uint64 `json:"user_id"`
+			BookID       string `json:"book_id"`
+			SectionIndex int16  `json:"index"`
+			SectionTitle string `json:"section_title"`
+			Notes        string `json:"notes"`
+		}
+		err := dec.Decode(&data)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+
+		err = model.EditSectionNote(data.UserID, data.BookID, data.SectionIndex, data.SectionTitle, data.Notes)
+		if err != nil {
+			fmt.Printf("Error editing Section Note from DB: %v\n", err)
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}

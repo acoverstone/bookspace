@@ -58,19 +58,23 @@ export default class BookSummary extends Component {
   }
   unaddForm = () => {
     this.setState({
-      adding:false
+      adding:false,
+      errorText:"",
+      editing:false,
     });
   }
 
   editForm = () => {
     this.setState({
-      editing:true
+      editing:true,
     });
   }
 
   uneditForm = () => {
     this.setState({
       editing:false,
+      adding:false,
+      errorText:"",
       editingLesson:-1,
       titleValue:"",
       lessonValue:"",
@@ -210,11 +214,11 @@ export default class BookSummary extends Component {
         highlight: this.state.highlight
       };
       this.props.result.lessons.push(newLesson);
-      this.setState({editing:false, adding:false, errorText:"", titleValue:"", lessonValue:"", refValue:"", editingLesson:-1, lessonList:this.getLessonList});
+      this.setState({editing:false, adding:false, highlight:false, errorText:"", titleValue:"", lessonValue:"", refValue:"", editingLesson:-1, lessonList:this.getLessonList});
       this.props.updateModalDescription();
     }
     else {
-      this.setState({errorText:"There was an error submitting your lesson learned, please try again."});
+      this.setState({errorText:"There was an error submitting your Lesson Learned, please try again."});
     }
   }
 
@@ -231,8 +235,7 @@ export default class BookSummary extends Component {
       this.setState({errorText:"Please make sure you have a Lesson Title and Description and try again."});
       return;
     }
-    console.log(this.state.titleValue);
-
+    
     if(await this.editLessonLearnedApi(this.state.editingLesson, this.state.titleValue, this.state.lessonValue, this.state.refValue, this.state.highlight) === true) {
       const newLesson = {
         title: this.state.titleValue,
@@ -241,11 +244,11 @@ export default class BookSummary extends Component {
         highlight: this.state.highlight
       };
       this.props.result.lessons[this.state.editingLesson] = newLesson;
-      this.setState({editing:false, adding:false, errorText:"", titleValue:"", lessonValue:"", refValue:"", editingLesson:-1, lessonList: this.getLessonList});
+      this.setState({editing:false, adding:false, highlight:false,  errorText:"", titleValue:"", lessonValue:"", refValue:"", editingLesson:-1, lessonList: this.getLessonList});
       this.props.updateModalDescription();
     }
     else {
-      this.setState({errorText:"There was an error submitting your lesson learned, please try again."});
+      this.setState({errorText:"There was an error submitting your Lesson Learned, please try again."});
     }
   }
 
@@ -254,11 +257,12 @@ export default class BookSummary extends Component {
       var rows = [];
       for(var i = 0; i < this.props.result.lessons.length; i++) {
         if(this.state.editingLesson === i ){
+          const numberRows = this.state.lessonValue.length < 250 ? "4" : this.state.lessonValue.length < 450 ? "6" : this.state.lessonValue.length < 650 ? "8" : "12"
           rows.push(
             <div  key={i}>
               <div className="small-button-bar"><EditLessonsLearnedButtonBar cancelEditing={this.uneditForm} editingLesson={this.state.editingLesson} toggleHighlight={this.toggleHighlight} highlighting={this.state.highlight}/></div> 
               <Form>
-                <Form.Group controlId="closingThoughts" style={{marginBottom:"5px"}}>
+                <Form.Group controlId="lessonsLearned" style={{marginBottom:"5px"}}>
                   <Form.Row>
                     <Col xs={7}>
                       <Form.Control autoFocus className="form-control-test" size="sm"  value={this.state.titleValue} onChange={this.onTitleChange} placeholder="Lesson Title" />
@@ -269,7 +273,7 @@ export default class BookSummary extends Component {
                   </Form.Row>
                   <Form.Row>
                     <Col>
-                      <Form.Control style={{marginTop:"5px"}} className="form-control-test" size="sm" as="textarea" rows={4} value={this.state.lessonValue} onChange={this.onLessonChange} placeholder="Summarize what you learned and keep it simple!" />
+                      <Form.Control style={{marginTop:"5px"}} className="form-control-test" size="sm" as="textarea" rows={numberRows} value={this.state.lessonValue} onChange={this.onLessonChange} placeholder="Summarize what you learned and keep it simple!" />
                     </Col>
                   </Form.Row>
                 </Form.Group>
@@ -283,29 +287,33 @@ export default class BookSummary extends Component {
           );
         }
         else if(this.props.result.lessons[i].highlight) {
-          rows.push(<div key={i}>
-                      {this.state.editing 
-                        ? <div className="small-button-bar"><LessonButtonBar lessonIndex={i} deleteLesson={this.deleteLesson} editLesson={this.editLesson}/></div> 
-                        : <span></span>
-                      }
-                      <h5 className="notes-modal-description-section-subheader no-select"><mark className="blue-highlight">{this.props.result.lessons[i].title}<span className="subheader-subheader">&nbsp;&nbsp;{this.props.result.lessons[i].reference}</span></mark></h5>
-                      <p className="notes-modal-description-section">{this.props.result.lessons[i].description}</p>
-                    </div>)       
+          rows.push(
+            <div key={i}>
+              {this.state.editing 
+                ? <div className="small-button-bar"><LessonButtonBar lessonIndex={i} deleteLesson={this.deleteLesson} editLesson={this.editLesson}/></div> 
+                : <span></span>
+              }
+              <h5 className="notes-modal-description-section-subheader no-select"><mark className="blue-highlight">{this.props.result.lessons[i].title}<span className="subheader-subheader">&nbsp;&nbsp;{this.props.result.lessons[i].reference}</span></mark></h5>
+              <p className="notes-modal-description-section">{this.props.result.lessons[i].description}</p>
+            </div>
+          )       
         } 
         else {
-          rows.push(<div key={i}>
-                      {this.state.editing 
-                        ? <div className="small-button-bar"><LessonButtonBar lessonIndex={i} deleteLesson={this.deleteLesson} editLesson={this.editLesson}/></div> 
-                        : <span></span>
-                      }
-                      <h5 className="notes-modal-description-section-subheader no-select">{this.props.result.lessons[i].title}<span className="subheader-subheader">&nbsp;&nbsp;{this.props.result.lessons[i].reference}</span></h5>  
-                      <p className="notes-modal-description-section">{this.props.result.lessons[i].description}</p>
-                    </div>)
+          rows.push(
+            <div key={i}>
+              {this.state.editing 
+                ? <div className="small-button-bar"><LessonButtonBar lessonIndex={i} deleteLesson={this.deleteLesson} editLesson={this.editLesson}/></div> 
+                : <span></span>
+              }
+              <h5 className="notes-modal-description-section-subheader no-select">{this.props.result.lessons[i].title}<span className="subheader-subheader">&nbsp;&nbsp;{this.props.result.lessons[i].reference}</span></h5>  
+              <p className="notes-modal-description-section">{this.props.result.lessons[i].description}</p>
+            </div>
+          )
         }
       }
 
       return (
-        <div style={{marginTop:"20px"}}>
+        <div style={{marginTop:"15px"}}>
           {rows}
         </div>
       )
@@ -328,7 +336,7 @@ export default class BookSummary extends Component {
           <h5 className="notes-modal-description-section-header no-select">Lessons Learned<span className="button-bar"><AddLessonsLearnedButtonBar cancelAdding={this.unaddForm} toggleHighlight={this.toggleHighlight} highlighting={this.state.highlight}/></span></h5>
           
           <Form style={{marginTop:"20px"}}>
-            <Form.Group controlId="closingThoughts" style={{marginBottom:"5px"}}>
+            <Form.Group controlId="lessonsLearned" style={{marginBottom:"5px"}}>
               <Form.Row>
                 <Col xs={7}>
                   <Form.Control autoFocus className="form-control-test" size="sm"  value={this.state.titleValue} onChange={this.onTitleChange} placeholder="Lesson Title" />

@@ -1,7 +1,7 @@
 import React from "react";
 import { ButtonGroup, Button } from "react-bootstrap";
 import ReactTooltip from 'react-tooltip'
-import { FaPlus, FaPencilAlt } from "react-icons/fa";
+import { FaPlus, FaList } from "react-icons/fa";
 
 const NotEmptyLessonsLearnedButtonBar = (props) => {
 
@@ -15,7 +15,7 @@ const NotEmptyLessonsLearnedButtonBar = (props) => {
 
   return (
     <ButtonGroup size="sm">
-      <Button variant="note" data-tip data-for="notEmptyLessonsEdit" data-offset="{'bottom': 10}" onClick={editLessons}><FaPencilAlt /></Button>
+      <Button variant="note" data-tip data-for="notEmptyLessonsEdit" data-offset="{'bottom': 10}" onClick={editLessons}><FaList /></Button>
       <ReactTooltip id='notEmptyLessonsEdit' className="tooltip-custom" effect='solid' globalEventOff='click'>
         <span className="note-tooltip">Edit Lessons Learned</span>
       </ReactTooltip>

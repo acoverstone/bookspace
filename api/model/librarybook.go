@@ -222,3 +222,114 @@ func EditLesson(userID uint64, bookID string, lessonIndex int16, title string, d
 func removeLessonFromList(lessonList []Lesson, i int16) ([]Lesson, error) {
 	return append(lessonList[:i], lessonList[i+1:]...), nil
 }
+
+// AddSectionNote appends Section Note to book in 'Reading' list
+func AddSectionNote(userID uint64, bookID string, title string, notes string) error {
+
+	key := getKeyFromUserID(userID)
+	user := User{}
+	_, err := db.Get(key, &user)
+
+	if err != nil {
+		return fmt.Errorf(err.Error())
+	}
+
+	readingList := user.Library.ReadingList
+	i := getIndexFromReadingList(readingList, bookID)
+
+	if i == -1 {
+		return fmt.Errorf("book not found in reading list")
+	}
+
+	sectionNote := SectionNote{
+		SectionTitle: title,
+		Notes:        notes,
+	}
+
+	_, err = db.MutateIn(key, 0, 0).ArrayAppend(fmt.Sprintf("library.read_list[%v].section_notes", i), sectionNote, false).Execute()
+	if err != nil {
+		return fmt.Errorf(err.Error())
+	}
+
+	_, err = db.MutateIn(key, 0, 0).Replace(fmt.Sprintf("library.read_list[%v].last_updated", i), time.Now()).Execute()
+	if err != nil {
+		fmt.Println("error updating timestamp for", key)
+	}
+
+	return nil
+}
+
+// DeleteSectionNote deletes Section Note from book in 'Reading' list
+func DeleteSectionNote(userID uint64, bookID string, sectionIndex int16) error {
+
+	key := getKeyFromUserID(userID)
+	user := User{}
+	_, err := db.Get(key, &user)
+
+	if err != nil {
+		return fmt.Errorf(err.Error())
+	}
+
+	readingList := user.Library.ReadingList
+	i := getIndexFromReadingList(readingList, bookID)
+
+	if i == -1 {
+		return fmt.Errorf("book not found in reading list")
+	}
+
+	newSectionNotesList, err := removeSectionNoteFromList(readingList[i].SectionNotes, sectionIndex)
+
+	_, err = db.MutateIn(key, 0, 0).Replace(fmt.Sprintf("library.read_list[%v].section_notes", i), newSectionNotesList).Execute()
+	if err != nil {
+		return fmt.Errorf(err.Error())
+	}
+
+	_, err = db.MutateIn(key, 0, 0).Replace(fmt.Sprintf("library.read_list[%v].last_updated", i), time.Now()).Execute()
+	if err != nil {
+		fmt.Println("error updating timestamp for", key)
+	}
+
+	return nil
+}
+
+func removeSectionNoteFromList(sectionNoteList []SectionNote, i int16) ([]SectionNote, error) {
+	return append(sectionNoteList[:i], sectionNoteList[i+1:]...), nil
+}
+
+// EditSectionNote edits a Section Note from book in 'Reading' list
+func EditSectionNote(userID uint64, bookID string, sectionIndex int16, title string, notes string) error {
+
+	key := getKeyFromUserID(userID)
+	user := User{}
+	_, err := db.Get(key, &user)
+
+	if err != nil {
+		return fmt.Errorf(err.Error())
+	}
+
+	readingList := user.Library.ReadingList
+	i := getIndexFromReadingList(readingList, bookID)
+
+	if i == -1 {
+		return fmt.Errorf("book not found in reading list")
+	}
+
+	newSectionNotesList := readingList[i].SectionNotes
+	sectionNote := SectionNote{
+		SectionTitle: title,
+		Notes:        notes,
+	}
+	newSectionNotesList[sectionIndex] = sectionNote
+
+	_, err = db.MutateIn(key, 0, 0).Replace(fmt.Sprintf("library.read_list[%v].section_notes", i), newSectionNotesList).Execute()
+	if err != nil {
+		return fmt.Errorf(err.Error())
+	}
+
+	_, err = db.MutateIn(key, 0, 0).Replace(fmt.Sprintf("library.read_list[%v].last_updated", i), time.Now()).Execute()
+	if err != nil {
+		fmt.Println("error updating timestamp for", key)
+	}
+
+	return nil
+}
