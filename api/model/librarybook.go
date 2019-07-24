@@ -333,3 +333,34 @@ func EditSectionNote(userID uint64, bookID string, sectionIndex int16, title str
 
 	return nil
 }
+
+// SetReadingNow toggles a book between reading_now or read_already
+func SetReadingNow(userID uint64, bookID string, readingNow bool) error {
+
+	key := getKeyFromUserID(userID)
+	user := User{}
+	_, err := db.Get(key, &user)
+
+	if err != nil {
+		return fmt.Errorf(err.Error())
+	}
+
+	readingList := user.Library.ReadingList
+	i := getIndexFromReadingList(readingList, bookID)
+
+	if i == -1 {
+		return fmt.Errorf("book not found in reading list")
+	}
+
+	_, err = db.MutateIn(key, 0, 0).Replace(fmt.Sprintf("library.read_list[%v].reading_now", i), readingNow).Execute()
+	if err != nil {
+		return fmt.Errorf(err.Error())
+	}
+
+	_, err = db.MutateIn(key, 0, 0).Replace(fmt.Sprintf("library.read_list[%v].last_updated", i), time.Now()).Execute()
+	if err != nil {
+		fmt.Println("error updating timestamp for", key)
+	}
+
+	return nil
+}

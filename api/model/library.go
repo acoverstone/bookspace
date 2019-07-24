@@ -47,15 +47,15 @@ func RemoveBookFromToReadList(userID uint64, bookID string) error {
 	return nil
 }
 
-// AddBookReadAlreadyList appends book to 'Read Already' list
-func AddBookReadAlreadyList(userID uint64, bookID string) (*LibraryBook, error) {
+// AddBookReadList appends book to 'Read Already' / 'Reading' list
+func AddBookReadList(userID uint64, bookID string, readingNow bool) (*LibraryBook, error) {
 
 	key := getKeyFromUserID(userID)
 
 	// Create new LibraryBook object to insert to DB
 	book := LibraryBook{
 		BookID:     bookID,
-		ReadingNow: false,
+		ReadingNow: readingNow,
 		Favorite:   false,
 
 		ClosingThoughts: BookReview{},
@@ -76,8 +76,8 @@ func AddBookReadAlreadyList(userID uint64, bookID string) (*LibraryBook, error) 
 	return &book, nil
 }
 
-// RemoveBookFromReadAlreadyList removes book from 'Read Already' list
-func RemoveBookFromReadAlreadyList(userID uint64, bookID string) error {
+// RemoveBookFromReadList removes book from 'Read Already' list
+func RemoveBookFromReadList(userID uint64, bookID string) error {
 
 	key := getKeyFromUserID(userID)
 	user := User{}
@@ -100,10 +100,10 @@ func RemoveBookFromReadAlreadyList(userID uint64, bookID string) error {
 	return nil
 }
 
-func getIndexFromReadingList(readingList []LibraryBook, toRemoveID string) int {
+func getIndexFromReadingList(readingList []LibraryBook, bookID string) int {
 	i := -1
 	for index, item := range readingList {
-		if item.BookID == toRemoveID {
+		if item.BookID == bookID {
 			i = index
 		}
 	}

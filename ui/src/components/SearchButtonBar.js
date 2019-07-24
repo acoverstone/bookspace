@@ -101,6 +101,50 @@ export default class SearchButtonBar extends Component {
     }
   }
 
+  addReadingNow = () => {
+    if(this.props.currentUser !== null) {
+      this.addReadingNowApi()
+    } else {
+      this.props.showAlertModal("Oops.", "Login or Signup to add a book to your 'Reading' List.");
+    }
+  }
+
+  // Add book to "Reading" list
+  addReadingNowApi = async () => {
+    try {
+      const res = await fetch("http://localhost:8000/api/library/add-reading-now", {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          user_id: this.props.currentUser["id"],
+          book_id: this.props.result.BookID,
+        })
+      });
+
+      if(!res.ok) {
+        throw Error(res.statusText);
+      }
+    
+      var resJson = await res.json();
+      if(this.props.result.BookID && 'id' in resJson && 'library' in this.props.currentUser) {
+        
+        this.props.currentUser["library"]["read_list"].push(resJson);
+        this.props.showAlertModal("Done.", "'" + this.props.result.Title + "' has been added to your Reading list.");
+      } else {
+        this.props.showAlertModal("Oops.", "There was an error adding '" + this.props.result.Title + "' to your Reading List. Please refresh and try again.");
+        console.log("Invalid bookID - " + this.props.result.BookID);
+      }
+      
+    } catch (e) {
+      this.props.showAlertModal("Oops.", "Something went wrong - please try again.")
+      console.log(e.message);
+    }
+  }
+
   // Returns true if book is in Read, To-Read or Reading List, false otherwise
   existsInLibrary = () => {
     if(this.props.currentUser != null ) {
@@ -138,7 +182,7 @@ export default class SearchButtonBar extends Component {
               <ReactTooltip id='readalready' className="tooltip-custom" effect='solid' globalEventOff='click' >
                 <span>Read Already</span>
               </ReactTooltip>
-              <Button variant="result" data-tip data-for="reading" data-offset="{'bottom': 10}"><FaBookReader /></Button>
+              <Button variant="result" data-tip data-for="reading" data-offset="{'bottom': 10}" onClick={this.addReadingNow} ><FaBookReader /></Button>
               <ReactTooltip id='reading' className="tooltip-custom" effect='solid' globalEventOff='click' >
                 <span>Read Now</span>
               </ReactTooltip>

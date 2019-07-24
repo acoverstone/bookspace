@@ -6,6 +6,7 @@ import ReactHoverObserver from 'react-hover-observer';
 import SearchButtonBar from "./SearchButtonBar";
 import ToReadButtonBar from "./ToReadButtonBar";
 import ReadAlreadyButtonBar from "./ReadAlreadyButtonBar";
+import ReadingNowButtonBar from "./ReadingNowButtonBar";
 
 
 // Serve this inside a col
@@ -71,7 +72,7 @@ export default class Result extends Component {
       else if(this.props.resultType === "read-already") {
         return (<ReadAlreadyButtonBar removeResult={this.props.removeResult} showAlertModal={this.props.showAlertModal} showLargeModal={this.props.showLargeModal} currentUser={this.props.currentUser} result={this.props.result}/>);
       } else {
-        return (<div></div>);
+        return (<ReadingNowButtonBar removeResult={this.props.removeResult} showAlertModal={this.props.showAlertModal} showLargeModal={this.props.showLargeModal} currentUser={this.props.currentUser} result={this.props.result}/>);
       }
       
     }

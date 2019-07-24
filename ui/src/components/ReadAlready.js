@@ -20,12 +20,10 @@ export default class ReadAlready extends Component {
   }
 
   async componentWillMount() {
-    // TODO: remove timeout?
     setTimeout(async () => {
       await this.getBooks();
-      // Is this needed?
       this.sortBooks();
-    }, 50)
+    }, 30)
   }
 
   // Get's book info for each book in read alreadylist, returns empty array if anything goes wrong
@@ -42,14 +40,16 @@ export default class ReadAlready extends Component {
 
       // Get details from Cache or API and add to list - skip if not available
       for (let i = 0; i < initialReadList.length; i++) {
-        var bookDetails = await this.props.getBookDetails(initialReadList[i]["id"]);
-        if(bookDetails === null) {
-            continue;
+        if(initialReadList[i]["reading_now"] === false) {
+          var bookDetails = await this.props.getBookDetails(initialReadList[i]["id"]);
+          if(bookDetails === null) {
+              continue;
+          }
+          
+          bookDetailList.push(bookDetails);
+          bookList.push({...initialReadList[i], BookID:bookDetails.BookID, Authors:bookDetails.Authors, Description:bookDetails.Description, Image:bookDetails.Image, Title:bookDetails.Title, Subtitle:bookDetails.Subtitle})// ...bookDetails})  
         }
-        
-        bookDetailList.push(bookDetails);
-        bookList.push({...initialReadList[i], BookID:bookDetails.BookID, Authors:bookDetails.Authors, Description:bookDetails.Description, Image:bookDetails.Image, Title:bookDetails.Title, Subtitle:bookDetails.Subtitle})// ...bookDetails})
-
+       
         // Set state after every three books or when all books have been loaded
         if(i % 3 === 0 || i === initialReadList - 1) {
           this.setState({readList: bookList, isLoading: false});
@@ -92,8 +92,8 @@ export default class ReadAlready extends Component {
     });
   }
 
-   // remove book from Read Alreadylist by bookID
-   removeFromReadAlready = bookID => {
+  // remove book from Read Alreadylist by bookID
+  removeFromReadAlready = bookID => {
 
     if(this.props.currentUser) {
       // Remove from current user
@@ -131,12 +131,9 @@ export default class ReadAlready extends Component {
 
   closeLargeModal = () => {
     this.setState({ largeModalShow: false });
-    // TODO: See how to make this sort work when I update result last_update time - set read list item to result?
-    // this.sortBooks();
   }
 
   showLargeModal = result => {
-    console.log(result);
     this.setState({
       largeModalShow: true,
       largeModalResult: result

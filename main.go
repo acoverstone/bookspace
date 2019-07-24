@@ -22,7 +22,7 @@ func main() {
 	defer db.Close()
 
 	// Setup session manager and start grabage collector
-	globalSessions, err := session.NewManager("memory", "gosessionid", 3600, "/Users/acovers/Desktop")
+	globalSessions, err := session.NewManager("memory", "gosessionid", 7200, "/Users/acovers/Desktop")
 	if err != nil {
 		panic("error creating session manager: " + err.Error())
 	}

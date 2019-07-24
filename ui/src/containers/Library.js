@@ -186,7 +186,7 @@ export default class Library extends Component {
               (this.state.selected === "read-already") ?
                 <ReadAlready showAlertModal={this.showAlertModal} doneLoading={this.doneLoading} currentUser={this.props.currentUser} setCurrentUser={this.props.setCurrentUser} addBooksToCache={this.addBooksToCache} getBookDetails={this.getBookDetails} />
               :
-              <Reading />
+              <Reading showAlertModal={this.showAlertModal} doneLoading={this.doneLoading} currentUser={this.props.currentUser} setCurrentUser={this.props.setCurrentUser} addBooksToCache={this.addBooksToCache} getBookDetails={this.getBookDetails}/>
             }
             </Col>
           </Row>

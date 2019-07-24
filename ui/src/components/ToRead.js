@@ -15,10 +15,9 @@ export default class ToRead extends Component {
   }
 
   async componentWillMount() {
-    // TODO: remove timeout?
     setTimeout(() => {
       this.getBooks()
-    }, 200)
+    }, 30)
   }
 
   // Get's book info for each book in to-read list, returns empty array if anything goes wrong
