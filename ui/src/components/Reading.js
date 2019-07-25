@@ -93,8 +93,8 @@ export default class Reading extends Component {
     })
   }
 
-  updateUserReadingCopy = readingCopy => {
-    this.props.setCurrentUser({
+  updateUserReadingCopy = async readingCopy => {
+    await this.props.setCurrentUser({
       ...this.props.currentUser,
       library: {
         ...this.props.currentUser.library,
@@ -103,7 +103,7 @@ export default class Reading extends Component {
     });
   }
 
-  removeFromReading = bookID => {
+  removeFromReading = async bookID => {
     if(this.props.currentUser) {
       // Remove from current user
       var readingListCopy = [...this.props.currentUser["library"]["read_list"]]
@@ -117,7 +117,7 @@ export default class Reading extends Component {
 
       if(index !== -1) {
         readingListCopy.splice(index, 1);
-        this.updateUserReadingCopy(readingListCopy);
+        await this.updateUserReadingCopy(readingListCopy);
         
       }
     }
@@ -138,6 +138,43 @@ export default class Reading extends Component {
     }
   }
 
+  replaceReading = async result => {
+    if(this.props.currentUser) {
+      // Remove from current user
+      var readingListCopy = [...this.props.currentUser["library"]["read_list"]]
+      var index = -1;
+
+      for (let i = 0; i < readingListCopy.length; i++) {
+        if(readingListCopy[i]["id"] === result.id) {
+          index = i
+        } 
+      }
+
+      if(index !== -1) {
+        readingListCopy[index] = result;
+       await  this.updateUserReadingCopy(readingListCopy);
+        
+      }
+    }
+
+    // Remove from current state
+    var readingListCopyOuter = [...this.state.readList]
+    var indexOuter = -1;
+
+    for (let i = 0; i < readingListCopyOuter.length; i++) {
+      if(readingListCopyOuter[i]["BookID"] && readingListCopyOuter[i]["BookID"] === result.id) {
+        indexOuter = i
+      } 
+    }
+
+    if(indexOuter !== -1) {
+      readingListCopyOuter[indexOuter] = result;
+      await this.setState({readList:readingListCopyOuter});
+    }
+    await this.getBooks();
+  }
+
+
 
   render() {
 
@@ -149,7 +186,7 @@ export default class Reading extends Component {
           ? <div className="loaded">There are no books in your 'Reading' list.</div>
           : 
             <div>
-              <Results removeResult={this.removeFromReading} results={this.state.readList} currentUser={this.props.currentUser} showAlertModal={this.props.showAlertModal} showLargeModal={this.showLargeModal} resultType="reading-now" />
+              <Results refreshResults={this.replaceReading} removeResult={this.removeFromReading} results={this.state.readList} currentUser={this.props.currentUser} showAlertModal={this.props.showAlertModal} showLargeModal={this.showLargeModal} resultType="reading-now" />
               <LargeCenteredModal
                 show={this.state.largeModalShow}
                 onHide={this.closeLargeModal}

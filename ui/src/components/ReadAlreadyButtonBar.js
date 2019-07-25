@@ -55,50 +55,50 @@ export default class ReadAlreadyButtonBar extends Component {
 
   readNow = () => {
     if(this.props.currentUser !== null) {
-      // this.readNowApi();
-      // TODO: Figure out how to set for currentUser (not just for this result) for correct behavior without refreshing - possibly refactor "removeResult"
-      this.props.result.reading_now = true;
+      this.readNowApi();      
     } else {
       console.log("Not authenticated.")
       this.props.showAlertModal("Oops.", "Login or Signup to add a book to your 'Reading' List.")
     }
   }
 
-  // readNowApi = async () => {
-  //   try {
-  //     const res = await fetch("http://localhost:8000/api/library/set-reading-now", {
-  //       method: 'POST',
-  //       credentials: 'include',
-  //       headers: {
-  //           'Accept': 'application/json',
-  //           'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify({
-  //           user_id: this.props.currentUser["id"],
-  //           book_id: this.props.result.BookID,
-  //           reading_now:true
-  //       })
-  //     });
+  readNowApi = async () => {
+    try {
+      const res = await fetch("http://localhost:8000/api/library/set-reading-now", {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            user_id: this.props.currentUser["id"],
+            book_id: this.props.result.BookID,
+            reading_now:true
+        })
+      });
 
-  //     if(!res.ok) {
-  //       throw Error(res.statusText);
-  //     }
+      if(!res.ok) {
+        throw Error(res.statusText);
+      }
 
-  //     if(this.props.result.BookID) {
-  //       this.props.showAlertModal("Done.", "'" + this.props.result.Title + "' has been added to your Reading list.")
-  //       return true;
-  //     } else {
-  //       this.props.showAlertModal("Oops.", "There was an error adding '" + this.props.result.Title + "' from your Reading List. Please refresh and try again.");
-  //       console.log("Invalid bookID - " + this.props.result.BookID);
-  //       return false;
-  //     }
+      if(this.props.result.BookID) {
+        this.props.showAlertModal("Done.", "'" + this.props.result.Title + "' has been added to your Reading list.");
+        this.props.result.reading_now = true;
+        this.props.refreshResults(this.props.result);
+        return true;
+      } else {
+        this.props.showAlertModal("Oops.", "There was an error adding '" + this.props.result.Title + "' to your Reading List. Please refresh and try again.");
+        console.log("Invalid bookID - " + this.props.result.BookID);
+        return false;
+      }
         
-  //   } catch (e) {
-  //     this.props.showAlertModal("Oops.", "Something went wrong - please refresh and try again.")
-  //     console.log(e.message);
-  //     return false;
-  //   }
-  // }
+    } catch (e) {
+      this.props.showAlertModal("Oops.", "Something went wrong - please refresh and try again.")
+      console.log(e.message);
+      return false;
+    }
+  }
 
   showEditModal = () => {
     this.props.showLargeModal(this.props.result);

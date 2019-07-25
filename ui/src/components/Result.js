@@ -64,15 +64,15 @@ export default class Result extends Component {
 
     const ButtonBar = () => {
       if(this.props.resultType === "search") {
-        return (<SearchButtonBar showAlertModal={this.props.showAlertModal} currentUser={this.props.currentUser} result={this.props.result}/>);
+        return (<SearchButtonBar refreshResults={() => {}} showAlertModal={this.props.showAlertModal} currentUser={this.props.currentUser} result={this.props.result}/>);
       } 
       else if(this.props.resultType === "to-read") {
-        return (<ToReadButtonBar removeResult={this.props.removeResult} showAlertModal={this.props.showAlertModal} currentUser={this.props.currentUser} result={this.props.result}/>);
+        return (<ToReadButtonBar refreshResults={() => {}} removeResult={this.props.removeResult} showAlertModal={this.props.showAlertModal} currentUser={this.props.currentUser} result={this.props.result}/>);
       }
       else if(this.props.resultType === "read-already") {
-        return (<ReadAlreadyButtonBar removeResult={this.props.removeResult} showAlertModal={this.props.showAlertModal} showLargeModal={this.props.showLargeModal} currentUser={this.props.currentUser} result={this.props.result}/>);
+        return (<ReadAlreadyButtonBar refreshResults={this.props.refreshResults} removeResult={this.props.removeResult} showAlertModal={this.props.showAlertModal} showLargeModal={this.props.showLargeModal} currentUser={this.props.currentUser} result={this.props.result}/>);
       } else {
-        return (<ReadingNowButtonBar removeResult={this.props.removeResult} showAlertModal={this.props.showAlertModal} showLargeModal={this.props.showLargeModal} currentUser={this.props.currentUser} result={this.props.result}/>);
+        return (<ReadingNowButtonBar refreshResults={this.props.refreshResults} removeResult={this.props.removeResult} showAlertModal={this.props.showAlertModal} showLargeModal={this.props.showLargeModal} currentUser={this.props.currentUser} result={this.props.result}/>);
       }
       
     }

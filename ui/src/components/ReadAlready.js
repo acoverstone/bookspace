@@ -82,8 +82,8 @@ export default class ReadAlready extends Component {
       };
   }
 
-  updateUserReadAlreadyCopy = readAlreadyCopy => {
-    this.props.setCurrentUser({
+  updateUserReadAlreadyCopy = async readAlreadyCopy => {
+    await this.props.setCurrentUser({
       ...this.props.currentUser,
       library: {
         ...this.props.currentUser.library,
@@ -93,7 +93,7 @@ export default class ReadAlready extends Component {
   }
 
   // remove book from Read Alreadylist by bookID
-  removeFromReadAlready = bookID => {
+  removeFromReadAlready = async bookID => {
 
     if(this.props.currentUser) {
       // Remove from current user
@@ -108,7 +108,7 @@ export default class ReadAlready extends Component {
 
       if(index !== -1) {
         readAlreadyCopy.splice(index, 1);
-        this.updateUserReadAlreadyCopy(readAlreadyCopy);
+        await this.updateUserReadAlreadyCopy(readAlreadyCopy);
         
       }
     }
@@ -128,6 +128,43 @@ export default class ReadAlready extends Component {
       this.setState({readList:readAlreadyCopyOuter});
     }
   }
+
+  replaceReadAlready = async result => {
+    if(this.props.currentUser) {
+      // Remove from current user
+      var readAlreadyCopy = [...this.props.currentUser["library"]["read_list"]]
+      var index = -1;
+
+      for (let i = 0; i < readAlreadyCopy.length; i++) {
+        if(readAlreadyCopy[i]["id"] === result.id) {
+          index = i
+        } 
+      }
+
+      if(index !== -1) {
+        readAlreadyCopy[index] = result;
+       await  this.updateUserReadAlreadyCopy(readAlreadyCopy);
+        
+      }
+    }
+
+    // Remove from current state
+    var readAlreadyCopyOuter = [...this.state.readList]
+    var indexOuter = -1;
+
+    for (let i = 0; i < readAlreadyCopyOuter.length; i++) {
+      if(readAlreadyCopyOuter[i]["BookID"] && readAlreadyCopyOuter[i]["BookID"] === result.id) {
+        indexOuter = i
+      } 
+    }
+
+    if(indexOuter !== -1) {
+      readAlreadyCopyOuter[indexOuter] = result;
+      await this.setState({readList:readAlreadyCopyOuter});
+    }
+    await this.getBooks();
+  }
+
 
   closeLargeModal = () => {
     this.setState({ largeModalShow: false });
@@ -150,7 +187,7 @@ export default class ReadAlready extends Component {
           <div className="loaded">There are no books in your 'Read Already' list.</div>
           : 
           <div>
-            <Results removeResult={this.removeFromReadAlready} results={this.state.readList} currentUser={this.props.currentUser} showAlertModal={this.props.showAlertModal} showLargeModal={this.showLargeModal} resultType="read-already" />
+            <Results refreshResults={this.replaceReadAlready} removeResult={this.removeFromReadAlready} results={this.state.readList} currentUser={this.props.currentUser} showAlertModal={this.props.showAlertModal} showLargeModal={this.showLargeModal} resultType="read-already" />
             <LargeCenteredModal
               show={this.state.largeModalShow}
               onHide={this.closeLargeModal}
