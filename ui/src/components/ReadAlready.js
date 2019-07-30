@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import "./Read.css";
 import { FaSyncAlt } from "react-icons/fa";
+import {Col} from 'react-bootstrap';
+import SearchBar from '../components/SearchBar'
+
 import Results from "../components/Results.js"
 import LargeCenteredModal from '../components/LargeCenteredModal'
 
@@ -15,24 +18,48 @@ export default class ReadAlready extends Component {
       readList:[],
 
       largeModalShow: false,
-      largeModalResult: null
+      largeModalResult: null,
+
+      searchType: "title",        // options are "title", "author"
+      searchString: "",
     }
   }
 
-  async componentWillMount() {
-    setTimeout(async () => {
-      await this.getBooks();
-      this.sortBooks();
-    }, 30)
+  componentWillMount() {
+    this.getBooks();
+  }
+
+  // Check for press of Enter Key
+  onEnter = e => {
+    if(e.keyCode === 13){
+      // console.log("ENTER")
+    }
+  }
+
+  onSearchChange = async event => {
+    await this.setState({
+        [event.target.name]: event.target.value
+    });
+    // TODO: Create less heavy function searchBooks - or see how to improve getBooks - or edit results shpwing in <Results> by passing searchString...
+    this.getBooks();
+  } 
+
+  searchTitle = () => {
+    this.setState({searchType:"title"});
+  }
+
+  searchAuthor = () => {
+    this.setState({searchType:"author"});
   }
 
   // Get's book info for each book in read alreadylist, returns empty array if anything goes wrong
   // Updates state every 3 frames to reduce number of state changes (and signals doen loading) - set's cache at the end 
   async getBooks() {
     if(this.props.currentUser) {
-      var initialReadList = this.props.currentUser["library"]["read_list"].reverse();
+      var initialReadList = this.props.currentUser["library"]["read_list"]; // Uncomment for pagination: .slice(0,10);
       if(initialReadList === null) {
         initialReadList = [];
+        this.setState({isLoading: false});
       }
 
       var bookList = [];
@@ -45,24 +72,21 @@ export default class ReadAlready extends Component {
           if(bookDetails === null) {
               continue;
           }
-          
-          bookDetailList.push(bookDetails);
-          bookList.push({...initialReadList[i], BookID:bookDetails.BookID, Authors:bookDetails.Authors, Description:bookDetails.Description, Image:bookDetails.Image, Title:bookDetails.Title, Subtitle:bookDetails.Subtitle})// ...bookDetails})  
-        }
-       
-        // Set state after every three books or when all books have been loaded
-        if(i % 3 === 0 || i === initialReadList - 1) {
-          this.setState({readList: bookList, isLoading: false});
-          this.props.doneLoading(); 
+          if(this.state.searchString === "" || (this.state.searchString !== "" && ((bookDetails.Title.toLowerCase().indexOf(this.state.searchString.toLowerCase()) !== -1) || bookDetails.Authors.join("").toLowerCase().indexOf(this.state.searchString.toLowerCase()) !== -1))) {
+            bookDetailList.push(bookDetails);
+            bookList.push({...initialReadList[i], BookID:bookDetails.BookID, Authors:bookDetails.Authors, Description:bookDetails.Description, Image:bookDetails.Image, Title:bookDetails.Title, Subtitle:bookDetails.Subtitle})// ...bookDetails})  
+          }
         }
       }
-
+      await this.setState({readList: bookList, isLoading: false});
+      this.sortBooks();
+      
       // Add books to cache
       this.props.addBooksToCache(bookDetailList);
-    } 
+    } else {
+      this.setState({isLoading: false});
+    }
     
-    this.setState({ isLoading: false });
-    this.props.doneLoading(); 
   }
 
   sortBooks() {
@@ -180,23 +204,37 @@ export default class ReadAlready extends Component {
   render() {
 
     return (
-      <div >
-        {this.state.isLoading ? 
-          <div className="loading"> <FaSyncAlt className="spinning"/> Loading...</div> :
-        (this.state.readList.length === 0) ? 
-          <div className="loaded">There are no books in your 'Read Already' list.</div>
+
+        <Col xs={{span:12}}  >
+          <Col xs={{span:12}}  md={{span:8, offset:2}} lg={{span:6, offset:3}}>
+            <SearchBar searchType={this.state.searchType} searchAuthor={this.searchAuthor} searchTitle={this.searchTitle} onInputChange={this.onSearchChange} onEnter={this.onEnter} autoFocus={false}/>
+            {(this.props.currentUser==null)
+                ?  <div><p className="not-logged-in-msg no-select" ><span><a href="/login">Login</a></span> or <span><a href="/signup">Signup</a></span> to start your own Library.</p></div>
+                :  <p className="not-logged-in-msg no-select" ></p>
+              }
+          </Col>
+          {this.state.isLoading ? 
+            <div className="loading"> <FaSyncAlt className="spinning"/> Loading...</div> :
+          (this.state.readList.length === 0 && this.state.searchString === "") ? 
+            <div className="loaded">There are no books in your 'Read Already' list.</div>
+            : 
+          (this.state.readList.length === 0 && this.state.searchString !== "")  ? 
+            <div className="loaded">
+              <p>There are no books that match the search '{this.state.searchString}'.</p>
+              <p >Clear Search</p>
+            </div>
           : 
-          <div>
-            <Results refreshResults={this.replaceReadAlready} removeResult={this.removeFromReadAlready} results={this.state.readList} currentUser={this.props.currentUser} showAlertModal={this.props.showAlertModal} showLargeModal={this.showLargeModal} resultType="read-already" />
-            <LargeCenteredModal
-              show={this.state.largeModalShow}
-              onHide={this.closeLargeModal}
-              result={this.state.largeModalResult}
-              currentuser={this.props.currentUser}
-            />
-          </div>
-        }
-      </div>
+            <div>
+              <Results refreshResults={this.replaceReadAlready} removeResult={this.removeFromReadAlready} results={this.state.readList} currentUser={this.props.currentUser} showAlertModal={this.props.showAlertModal} showLargeModal={this.showLargeModal} resultType="read-already" />
+              <LargeCenteredModal
+                show={this.state.largeModalShow}
+                onHide={this.closeLargeModal}
+                result={this.state.largeModalResult}
+                currentuser={this.props.currentUser}
+              />
+            </div>
+          }
+        </Col>
     )
   }
 }

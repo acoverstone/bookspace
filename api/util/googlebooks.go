@@ -3,9 +3,11 @@ package util
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"net/url"
 	"os"
+	"regexp"
 	"time"
 )
 
@@ -65,4 +67,12 @@ func GetBook(id string) ([]byte, error) {
 	}
 
 	return data, nil
+}
+
+func removePunctuation(str string) string {
+	reg, err := regexp.Compile("[^a-zA-Z0-9]+")
+	if err != nil {
+		log.Fatal(err)
+	}
+	return reg.ReplaceAllString(str, "")
 }

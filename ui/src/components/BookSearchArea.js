@@ -60,9 +60,11 @@ export default class SearchArea extends Component {
     if(this.searchEndpoint !== "" && this.state.searchString !== "") {
 
       this.setState({ searchIsLoading: true });
+
+      const strippedSearchString = this.state.searchString.replace(/[.,/#!$%^&*;:{}=\-_`~()]/g,"");
       
       try {
-        const url = searchEndpoint + "?q=" + this.state.searchString;
+        const url = searchEndpoint + "?q=" + strippedSearchString;
         const res = await fetch(url, {
           method: 'GET',
           credentials: 'include',

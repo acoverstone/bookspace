@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import {Container, Row, Col} from 'react-bootstrap';
 import LibraryOptions from '../components/LibraryOptions'
-import SearchBar from '../components/SearchBar'
 import Reading from '../components/Reading'
 import ToRead from '../components/ToRead'
 import ReadAlready from '../components/ReadAlready'
@@ -15,13 +14,10 @@ export default class Library extends Component {
     super(props);
 
     this.state = {
-      searchType: "title",        // options are "title", "author"
-      searchString: "",
 
       // TODO: CHANGE BACK
       // selected:"to-read",     // optins are "reading-now", "to-read", "read-already"
       selected:"read-already",
-      hasResults:false,
 
       smallModalShow: false,
       modalTitle: "",
@@ -44,17 +40,21 @@ export default class Library extends Component {
   }
 
   // Add books to cache if each doesn't already exist in cache...
+  // TODO: can optimize by limiting cache to 100 books, loop around front if it fills up and don't have to check in list (makes On^2) or only set state on new book...
   addBooksToCache = books => {
     var bookCache = this.getBookCache();
-
+    var count = 0;
     books.forEach(book => {
       if(!this.checkBookInList(book.BookID, bookCache)) {
         bookCache.push(book);
+        count++;
       }
     });
 
-    localStorage.setItem("book_cache", JSON.stringify(bookCache));
-    this.setState({bookCache: bookCache});
+    if(count > 0){
+      localStorage.setItem("book_cache", JSON.stringify(bookCache));
+      this.setState({bookCache: bookCache});
+    }
   }
 
   // Returns book if it exists in cache or null otherwise
@@ -74,33 +74,6 @@ export default class Library extends Component {
       }
     }
     return false;
-  }
-
-  
-  // Moves "Your Library " to the top of the page by setting hasResults to True
-  doneLoading = () => {
-    this.setState({hasResults:true})
-  }
-
-  // Check for press of Enter Key
-  onEnter = e => {
-    if(e.keyCode === 13){
-      console.log('value', e.target.value);
-    }
-  }
-
-  onSearchChange = event => {
-    this.setState({
-        [event.target.name]: event.target.value
-    });
-  } 
-
-  searchTitle = () => {
-    this.setState({searchType:"title"});
-  }
-
-  searchAuthor = () => {
-    this.setState({searchType:"author"});
   }
 
   selectOption = selectedOption => {
@@ -142,7 +115,6 @@ export default class Library extends Component {
       return resJson;
         
     } catch (e) {
-      // TODO: gracefully handle a bad response...
       console.log(e.message);
       return null;
     }
@@ -156,7 +128,7 @@ export default class Library extends Component {
         <div className="Library">
           <Row>
             <Col>
-              <div className={this.state.hasResults ? "lander has-results" : "lander"}>
+              <div className="lander has-results">
               
                 {(this.props.currentUser==null)
                   ? <h1>Sample Library</h1>
@@ -168,27 +140,15 @@ export default class Library extends Component {
             </Col>
           </Row>
           <Row>
-            <Col xs={{span:12}}  md={{span:8, offset:2}} lg={{span:6, offset:3}}>
-              <SearchBar searchType={this.state.searchType} searchAuthor={this.searchAuthor} searchTitle={this.searchTitle} onInputChange={this.onSearchChange} onEnter={this.onEnter} autoFocus={false}/>
-              {(this.props.currentUser==null)
-                  ?  <div><p className="not-logged-in-msg no-select" ><span><a href="/login">Login</a></span> or <span><a href="/signup">Signup</a></span> to start your own Library.</p></div>
-                  :  <p className="not-logged-in-msg no-select" ></p>
-                }
-            </Col>
-            
-          </Row>
-          <Row>
-            <Col xs={{span:12}}>
-              {(this.props.currentUser==null) ?
-                <div>Log in dummy.</div> :
-              (this.state.selected === "to-read") ?
-                <ToRead showAlertModal={this.showAlertModal} doneLoading={this.doneLoading} currentUser={this.props.currentUser} setCurrentUser={this.props.setCurrentUser} addBooksToCache={this.addBooksToCache} getBookDetails={this.getBookDetails} /> :
-              (this.state.selected === "read-already") ?
-                <ReadAlready showAlertModal={this.showAlertModal} doneLoading={this.doneLoading} currentUser={this.props.currentUser} setCurrentUser={this.props.setCurrentUser} addBooksToCache={this.addBooksToCache} getBookDetails={this.getBookDetails} />
-              :
-              <Reading showAlertModal={this.showAlertModal} doneLoading={this.doneLoading} currentUser={this.props.currentUser} setCurrentUser={this.props.setCurrentUser} addBooksToCache={this.addBooksToCache} getBookDetails={this.getBookDetails}/>
+            {(this.props.currentUser==null) ?
+              <div>Log in dummy.</div> :
+            (this.state.selected === "to-read") ?
+              <ToRead showAlertModal={this.showAlertModal} currentUser={this.props.currentUser} setCurrentUser={this.props.setCurrentUser} addBooksToCache={this.addBooksToCache} getBookDetails={this.getBookDetails} /> :
+            (this.state.selected === "read-already") ?
+              <ReadAlready showAlertModal={this.showAlertModal} currentUser={this.props.currentUser} setCurrentUser={this.props.setCurrentUser} addBooksToCache={this.addBooksToCache} getBookDetails={this.getBookDetails} />
+            :
+              <Reading showAlertModal={this.showAlertModal} currentUser={this.props.currentUser} setCurrentUser={this.props.setCurrentUser} addBooksToCache={this.addBooksToCache} getBookDetails={this.getBookDetails}/>
             }
-            </Col>
           </Row>
         </div>
         <SmallCenteredModal
