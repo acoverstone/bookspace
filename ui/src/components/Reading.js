@@ -105,6 +105,22 @@ export default class Reading extends Component {
 
   closeLargeModal = () => {
     this.setState({ largeModalShow: false });
+    // BELOW IS A WEIRD FIX: Added to update Book Summary of a book in local copy of Library...
+    if(this.props.currentUser) { 
+      var readingListCopy = [...this.props.currentUser["library"]["read_list"]]
+      var index = -1;
+
+      for (let i = 0; i < readingListCopy.length; i++) {
+        if(readingListCopy[i]["id"] === this.state.largeModalResult.id) {
+          index = i
+        } 
+      }
+
+      if(index !== -1) {
+        readingListCopy[index] = this.state.largeModalResult;
+        this.updateUserReadingCopy(readingListCopy);
+      }
+    }
   }
 
   showLargeModal = result => {

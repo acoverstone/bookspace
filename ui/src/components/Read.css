@@ -10,6 +10,14 @@
     text-align: center;
 }
 
+.load-more {
+  margin-top: -10px;
+  margin-bottom: 80px;
+  color: #999;
+  text-align: center;
+  cursor: pointer;
+}
+
 .spinning {
     margin-right: 6px;
     top: 2px;
@@ -19,3 +27,4 @@
     from { transform: scale(1) rotate(0deg); }
     to { transform: scale(1) rotate(360deg); }
   }
+

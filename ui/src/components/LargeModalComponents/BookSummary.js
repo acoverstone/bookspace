@@ -71,7 +71,6 @@ export default class BookSummary extends Component {
   }
 
   submitBookSummary = async () => {
-    console.log("Submitted.")
     if(await this.addBookSummaryApi(this.state.inputValue) === true) {
       this.props.result.book_summary=this.state.inputValue
       this.setState({editing:false, errorText:""});

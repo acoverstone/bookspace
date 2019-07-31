@@ -7,6 +7,7 @@ import SearchBar from '../components/SearchBar'
 import Results from "../components/Results.js"
 import LargeCenteredModal from '../components/LargeCenteredModal'
 
+const BOOKS_PER_PAGE = 8;
 
 export default class ReadAlready extends Component {
 
@@ -22,6 +23,9 @@ export default class ReadAlready extends Component {
 
       searchType: "title",        // options are "title", "author"
       searchString: "",
+
+      loadedPage: 1
+      // TODO: Save whole sorted list once... then take slices as the page changes? This will load in sorted order
     }
   }
 
@@ -56,7 +60,7 @@ export default class ReadAlready extends Component {
   // Updates state every 3 frames to reduce number of state changes (and signals doen loading) - set's cache at the end 
   async getBooks() {
     if(this.props.currentUser) {
-      var initialReadList = this.props.currentUser["library"]["read_list"]; // Uncomment for pagination: .slice(0,10);
+      var initialReadList = this.props.currentUser["library"]["read_list"].slice(0, this.state.loadedPage * BOOKS_PER_PAGE); // Uncomment for pagination: .slice(0,10);
       if(initialReadList === null) {
         initialReadList = [];
         this.setState({isLoading: false});
@@ -86,7 +90,6 @@ export default class ReadAlready extends Component {
     } else {
       this.setState({isLoading: false});
     }
-    
   }
 
   sortBooks() {
@@ -167,7 +170,7 @@ export default class ReadAlready extends Component {
 
       if(index !== -1) {
         readAlreadyCopy[index] = result;
-       await  this.updateUserReadAlreadyCopy(readAlreadyCopy);
+        await this.updateUserReadAlreadyCopy(readAlreadyCopy);
         
       }
     }
@@ -192,6 +195,24 @@ export default class ReadAlready extends Component {
 
   closeLargeModal = () => {
     this.setState({ largeModalShow: false });
+
+    // BELOW IS A WEIRD FIX: Added to update Book Summary of a book in local copy of Library...
+    if(this.props.currentUser) { 
+      var readAlreadyCopy = [...this.props.currentUser["library"]["read_list"]]
+      var index = -1;
+
+      for (let i = 0; i < readAlreadyCopy.length; i++) {
+        if(readAlreadyCopy[i]["id"] === this.state.largeModalResult.id) {
+          index = i
+        } 
+      }
+
+      if(index !== -1) {
+        readAlreadyCopy[index] = this.state.largeModalResult;
+        this.updateUserReadAlreadyCopy(readAlreadyCopy);
+      }
+    }
+
   }
 
   showLargeModal = result => {
@@ -200,6 +221,14 @@ export default class ReadAlready extends Component {
       largeModalResult: result
     })
   }
+
+  increasePageCount = async () => {
+    await this.setState({
+      loadedPage:this.state.loadedPage + 1,
+    })
+    this.getBooks()
+  }
+
 
   render() {
 
@@ -226,6 +255,12 @@ export default class ReadAlready extends Component {
           : 
             <div>
               <Results refreshResults={this.replaceReadAlready} removeResult={this.removeFromReadAlready} results={this.state.readList} currentUser={this.props.currentUser} showAlertModal={this.props.showAlertModal} showLargeModal={this.showLargeModal} resultType="read-already" />
+              {
+                (this.state.loadedPage * BOOKS_PER_PAGE) < this.props.currentUser["library"]["read_list"].length 
+                  ? <p className="load-more" onClick={this.increasePageCount}>Load More...</p> 
+                  : <br /> 
+              }
+              
               <LargeCenteredModal
                 show={this.state.largeModalShow}
                 onHide={this.closeLargeModal}

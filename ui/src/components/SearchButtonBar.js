@@ -150,14 +150,19 @@ export default class SearchButtonBar extends Component {
     if(this.props.currentUser != null ) {
 
       var existsinReadList = false;
+      var readingNow = false;
       for (let i = 0; i < this.props.currentUser["library"]["read_list"].length; i++) {
         if(this.props.currentUser["library"]["read_list"][i]["id"] === this.props.result.BookID) {
           existsinReadList = true;
+          readingNow = this.props.currentUser["library"]["read_list"][i]["reading_now"]
         }
       }
 
-      if(existsinReadList) {
+      if(existsinReadList && !readingNow) {
         return "Read Already";
+      }
+      else if(existsinReadList && readingNow) {
+        return "Reading";
       }
       else if(this.props.currentUser["library"]["to_read_list"].includes(this.props.result.BookID)) {
         return "To-Read";
