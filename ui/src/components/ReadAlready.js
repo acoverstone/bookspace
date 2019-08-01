@@ -7,7 +7,7 @@ import SearchBar from '../components/SearchBar'
 import Results from "../components/Results.js"
 import LargeCenteredModal from '../components/LargeCenteredModal'
 
-const BOOKS_PER_PAGE = 8;
+const BOOKS_PER_PAGE = 10;
 
 export default class ReadAlready extends Component {
 
@@ -60,7 +60,7 @@ export default class ReadAlready extends Component {
   // Updates state every 3 frames to reduce number of state changes (and signals doen loading) - set's cache at the end 
   async getBooks() {
     if(this.props.currentUser) {
-      var initialReadList = this.props.currentUser["library"]["read_list"].slice(0, this.state.loadedPage * BOOKS_PER_PAGE); // Uncomment for pagination: .slice(0,10);
+      var initialReadList = this.sortBooks(this.props.currentUser["library"]["read_list"]).slice(0, this.state.loadedPage * BOOKS_PER_PAGE); // Uncomment for pagination: .slice(0,10);
       if(initialReadList === null) {
         initialReadList = [];
         this.setState({isLoading: false});
@@ -92,10 +92,13 @@ export default class ReadAlready extends Component {
     }
   }
 
-  sortBooks() {
-    var readAlreadyCopy = [...this.state.readList]
-    readAlreadyCopy.sort(this.compareValues("last_updated"))
-    this.setState({readList: readAlreadyCopy, isLoading: false});
+  sortBooks(booklist) {
+    // var readAlreadyCopy = [...this.state.readList]
+    // readAlreadyCopy.sort(this.compareValues("last_updated"))
+    // this.setState({readList: readAlreadyCopy, isLoading: false});
+    if(booklist)
+      return booklist.sort(this.compareValues("last_updated"));
+    else return [];
   }
 
   compareValues(key, order='desc') {
