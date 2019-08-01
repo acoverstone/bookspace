@@ -59,7 +59,7 @@ export default class Reading extends Component {
   // Updates state every 3 frames to reduce number of state changes (and signals doen loading) - set's cache at the end 
   async getBooks() {
     if(this.props.currentUser) {
-      var initialReadList = this.getReadingNow().slice(0, this.state.loadedPage * BOOKS_PER_PAGE);
+      var initialReadList = this.sortBooks(this.getReadingNow()).slice(0, this.state.loadedPage * BOOKS_PER_PAGE);
       if(initialReadList === null) {
         initialReadList = [];
         this.setState({isLoading: false});
@@ -88,6 +88,12 @@ export default class Reading extends Component {
     } else {
       this.setState({isLoading: false});
     }
+  }
+
+  sortBooks(booklist) {
+    if(booklist)
+      return booklist.sort(this.compareValues("last_updated"));
+    else return [];
   }
 
   getReadingNow() {

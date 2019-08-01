@@ -217,7 +217,7 @@ export default class ReadAlready extends Component {
         this.updateUserReadAlreadyCopy(readAlreadyCopy);
       }
     }
-
+    // TODO: Add re-sort of list here?????
   }
 
   showLargeModal = result => {
