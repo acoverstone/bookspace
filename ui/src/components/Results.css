@@ -17,10 +17,8 @@
 }
 
 .timestamp {
-
     font-family: "Open Sans", sans-serif;
     font-size: 13px;
-    z-index: 999999999;
     color: #999;
     margin-bottom: 0px;
     margin-top: 0px !important;

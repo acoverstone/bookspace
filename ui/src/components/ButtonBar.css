@@ -27,7 +27,7 @@
 
 .btn-note {
     background-color: white !important;
-    color: #878787 !important;
+    color: #888888 !important;
     font-size: 100% !important;
     outline: 0 !important;
     box-shadow: 0 !important;
@@ -36,7 +36,7 @@
 .btn-note:focus {
     outline: none !important;
     box-shadow: none !important;
-    color: #878787 !important;
+    color: #888888 !important;
 } 
 
 .btn-note:hover {

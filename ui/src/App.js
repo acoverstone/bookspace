@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import {  withRouter } from "react-router-dom";
 import { Navbar, Nav } from "react-bootstrap";
 import Routes from "./Routes";
+import SmallCenteredModal from './components/SmallCenteredModal'
+
 
 import "./App.css";
 
@@ -14,6 +16,7 @@ class App extends Component {
       currentUser: null,
       isAuthenticating: true,
       headerTriggered: false,
+      modalShow: false
     };
 
   }
@@ -60,6 +63,12 @@ class App extends Component {
     this.setState({currentUser:null});
   }
 
+  showLogoutModal = () => {
+    this.setState({
+      modalShow: true
+    })
+  }
+
   handleLogout = async event => {
     try {
       const res = await fetch('http://localhost:8000/api/logout', {
@@ -72,8 +81,7 @@ class App extends Component {
       }
 
       this.deleteCurrentUser();
-      // TODO: popup for logout error
-      alert("Logout successful.");
+      this.showLogoutModal()
       this.props.history.push("/");
      
     }
@@ -82,8 +90,11 @@ class App extends Component {
       alert("Logout Not successful, pelase try again.");
       this.props.history.push("/");
     }
-    
   }
+
+  closeModal = () => {
+    this.setState({ modalShow: false });
+  };
 
   handleScroll = event => {
  
@@ -123,6 +134,12 @@ class App extends Component {
             </Nav>
         </Navbar>
         <Routes childProps={childProps} />
+        <SmallCenteredModal
+            show={this.state.modalShow}
+            onHide={this.closeModal}
+            modaltitle="Logout Successful."
+            modaldescription="See you again soon!"
+          />
       </div>
     );
   }

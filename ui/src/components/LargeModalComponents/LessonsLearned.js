@@ -382,7 +382,7 @@ export default class BookSummary extends Component {
           <h5 className="notes-modal-description-section-header no-select">Lessons Learned
             <span className="button-bar">
               { this.state.editing && this.state.editingLesson !== -1 
-                ? <div></div> 
+                ? null
                 : this.state.editing && this.state.editingLesson === -1 
                 ? <EditLessonsLearnedButtonBar cancelEditing={this.uneditForm} editingLesson={this.state.editingLesson} toggleHighlight={this.toggleHighlight} highlighting={this.state.highlight}/>
                 : <NotEmptyLessonsLearnedButtonBar editLessons={this.editForm} addLesson={this.addForm}/>

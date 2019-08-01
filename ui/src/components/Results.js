@@ -68,9 +68,7 @@ export default class Results extends Component {
     }
 
     const results = this.props.results.map((item, key) =>
-      // <Col key={item.BookID}  xl={{span:6, offset:0}} lg={{span:10, offset:1}} xs={{span:12, offset:0}} className="search-result-col">
       <Col key={item.BookID}  xl={{span:8, offset:2}} lg={{span:10, offset:1}} xs={{span:12, offset:0}} className="search-result-col">
-        {/* <p className="timestamp no-select">{item.last_updated}</p> */}
         <InfoBlock timestamp={item.last_updated}/>
         <Result refreshResults={this.props.refreshResults} removeResult={this.props.removeResult} result={item} currentUser={this.props.currentUser} showAlertModal={this.props.showAlertModal} showLargeModal={this.props.showLargeModal} resultType={this.props.resultType}></Result>
       </Col>

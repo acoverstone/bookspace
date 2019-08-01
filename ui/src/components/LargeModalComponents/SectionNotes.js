@@ -334,7 +334,7 @@ export default class SectionNotes extends Component {
           <h5 className="notes-modal-description-section-header no-select">Section Notes
             <span className="button-bar">
               { this.state.editing && this.state.editingSection !== -1 
-                ? <div></div> 
+                ? null
                 : this.state.editing && this.state.editingSection === -1 
                 ? <EditSectionNotesButtonBar cancelEditing={this.uneditForm} />
                 : <NotEmptySectionNotesButtonBar editSectionNotes={this.editForm} addSectionNote={this.addForm}/>
