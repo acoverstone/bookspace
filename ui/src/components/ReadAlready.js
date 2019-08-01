@@ -2,12 +2,11 @@ import React, { Component } from "react";
 import "./Read.css";
 import { FaSyncAlt } from "react-icons/fa";
 import {Col} from 'react-bootstrap';
-import SearchBar from '../components/SearchBar'
+import SearchBar from './SearchBar'
 
-import Results from "../components/Results.js"
-import LargeCenteredModal from '../components/LargeCenteredModal'
-
-const BOOKS_PER_PAGE = 10;
+import Results from "./Results.js"
+import LargeCenteredModal from './LargeCenteredModal'
+import { BOOKS_PER_PAGE } from "../containers/Library.js";
 
 export default class ReadAlready extends Component {
 
@@ -25,7 +24,6 @@ export default class ReadAlready extends Component {
       searchString: "",
 
       loadedPage: 1
-      // TODO: Save whole sorted list once... then take slices as the page changes? This will load in sorted order
     }
   }
 
@@ -60,7 +58,7 @@ export default class ReadAlready extends Component {
   // Updates state every 3 frames to reduce number of state changes (and signals doen loading) - set's cache at the end 
   async getBooks() {
     if(this.props.currentUser) {
-      var initialReadList = this.sortBooks(this.props.currentUser["library"]["read_list"]).slice(0, this.state.loadedPage * BOOKS_PER_PAGE); // Uncomment for pagination: .slice(0,10);
+      var initialReadList = this.sortBooks(this.getReadAlready()).slice(0, this.state.loadedPage * BOOKS_PER_PAGE);
       if(initialReadList === null) {
         initialReadList = [];
         this.setState({isLoading: false});
@@ -71,19 +69,16 @@ export default class ReadAlready extends Component {
 
       // Get details from Cache or API and add to list - skip if not available
       for (let i = 0; i < initialReadList.length; i++) {
-        if(initialReadList[i]["reading_now"] === false) {
-          var bookDetails = await this.props.getBookDetails(initialReadList[i]["id"]);
-          if(bookDetails === null) {
-              continue;
-          }
-          if(this.state.searchString === "" || (this.state.searchString !== "" && ((bookDetails.Title.toLowerCase().indexOf(this.state.searchString.toLowerCase()) !== -1) || bookDetails.Authors.join("").toLowerCase().indexOf(this.state.searchString.toLowerCase()) !== -1))) {
-            bookDetailList.push(bookDetails);
-            bookList.push({...initialReadList[i], BookID:bookDetails.BookID, Authors:bookDetails.Authors, Description:bookDetails.Description, Image:bookDetails.Image, Title:bookDetails.Title, Subtitle:bookDetails.Subtitle})// ...bookDetails})  
-          }
+        var bookDetails = await this.props.getBookDetails(initialReadList[i]["id"]);
+        if(bookDetails === null) {
+            continue;
+        }
+        if(this.state.searchString === "" || (this.state.searchString !== "" && ((bookDetails.Title.toLowerCase().indexOf(this.state.searchString.toLowerCase()) !== -1) || bookDetails.Authors.join("").toLowerCase().indexOf(this.state.searchString.toLowerCase()) !== -1))) {
+          bookDetailList.push(bookDetails);
+          bookList.push({...initialReadList[i], BookID:bookDetails.BookID, Authors:bookDetails.Authors, Description:bookDetails.Description, Image:bookDetails.Image, Title:bookDetails.Title, Subtitle:bookDetails.Subtitle})// ...bookDetails})  
         }
       }
       await this.setState({readList: bookList, isLoading: false});
-      this.sortBooks();
       
       // Add books to cache
       this.props.addBooksToCache(bookDetailList);
@@ -92,10 +87,17 @@ export default class ReadAlready extends Component {
     }
   }
 
+  getReadAlready() {
+    var readAlready = [];
+    for(var i = 0; i < this.props.currentUser["library"]["read_list"].length; i++) {
+      if(this.props.currentUser["library"]["read_list"][i]["reading_now"] === false) {
+        readAlready.push(this.props.currentUser["library"]["read_list"][i]);
+      }
+    }
+    return readAlready;
+  }
+
   sortBooks(booklist) {
-    // var readAlreadyCopy = [...this.state.readList]
-    // readAlreadyCopy.sort(this.compareValues("last_updated"))
-    // this.setState({readList: readAlreadyCopy, isLoading: false});
     if(booklist)
       return booklist.sort(this.compareValues("last_updated"));
     else return [];
@@ -236,7 +238,6 @@ export default class ReadAlready extends Component {
   render() {
 
     return (
-
         <Col xs={{span:12}}  >
           <Col xs={{span:12}}  md={{span:8, offset:2}} lg={{span:6, offset:3}}>
             <SearchBar searchType={this.state.searchType} searchAuthor={this.searchAuthor} searchTitle={this.searchTitle} onInputChange={this.onSearchChange} onEnter={this.onEnter} autoFocus={false}/>
@@ -259,7 +260,7 @@ export default class ReadAlready extends Component {
             <div>
               <Results refreshResults={this.replaceReadAlready} removeResult={this.removeFromReadAlready} results={this.state.readList} currentUser={this.props.currentUser} showAlertModal={this.props.showAlertModal} showLargeModal={this.showLargeModal} resultType="read-already" />
               {
-                (this.state.loadedPage * BOOKS_PER_PAGE) < this.props.currentUser["library"]["read_list"].length 
+                (this.state.loadedPage * BOOKS_PER_PAGE) < this.getReadAlready().length 
                   ? <p className="load-more" onClick={this.increasePageCount}>Load More...</p> 
                   : <br /> 
               }

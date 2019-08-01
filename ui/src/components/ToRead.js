@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import "./Read.css";
 import { FaSyncAlt } from "react-icons/fa";
-import Results from "../components/Results.js"
+import Results from "./Results.js"
 import {Col} from 'react-bootstrap';
-import SearchBar from '../components/SearchBar'
+import SearchBar from './SearchBar'
 
 export default class ToRead extends Component {
 

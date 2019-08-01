@@ -7,6 +7,7 @@ import ReadAlready from '../components/ReadAlready'
 import SmallCenteredModal from '../components/SmallCenteredModal'
 import "./Library.css";
 
+export const BOOKS_PER_PAGE = 8;
 
 export default class Library extends Component {
 

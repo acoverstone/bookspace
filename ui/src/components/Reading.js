@@ -5,6 +5,8 @@ import Results from "../components/Results.js"
 import LargeCenteredModal from '../components/LargeCenteredModal'
 import {Col} from 'react-bootstrap';
 import SearchBar from '../components/SearchBar'
+import { BOOKS_PER_PAGE } from "../containers/Library.js";
+
 
 export default class Reading extends Component {
 
@@ -20,6 +22,8 @@ export default class Reading extends Component {
 
       searchType: "title",        // options are "title", "author"
       searchString: "",
+
+      loadedPage: 1
     }
   }
 
@@ -55,7 +59,7 @@ export default class Reading extends Component {
   // Updates state every 3 frames to reduce number of state changes (and signals doen loading) - set's cache at the end 
   async getBooks() {
     if(this.props.currentUser) {
-      var initialReadList = this.props.currentUser["library"]["read_list"];
+      var initialReadList = this.getReadingNow().slice(0, this.state.loadedPage * BOOKS_PER_PAGE);
       if(initialReadList === null) {
         initialReadList = [];
         this.setState({isLoading: false});
@@ -86,11 +90,16 @@ export default class Reading extends Component {
     }
   }
 
-  sortBooks() {
-    var readingCopy = [...this.state.readList]
-    readingCopy.sort(this.compareValues("last_updated"))
-    this.setState({readList: readingCopy, isLoading: false});
+  getReadingNow() {
+    var readingNow = [];
+    for(var i = 0; i < this.props.currentUser["library"]["read_list"].length; i++) {
+      if(this.props.currentUser["library"]["read_list"][i]["reading_now"] === true) {
+        readingNow.push(this.props.currentUser["library"]["read_list"][i]);
+      }
+    }
+    return readingNow;
   }
+
 
   compareValues(key, order='desc') {
       return function(a, b) {
@@ -212,6 +221,12 @@ export default class Reading extends Component {
     await this.getBooks();
   }
 
+  increasePageCount = async () => {
+    await this.setState({
+      loadedPage:this.state.loadedPage + 1,
+    })
+    this.getBooks()
+  }
 
 
   render() {
@@ -237,6 +252,11 @@ export default class Reading extends Component {
         : 
             <div>
               <Results refreshResults={this.replaceReading} removeResult={this.removeFromReading} results={this.state.readList} currentUser={this.props.currentUser} showAlertModal={this.props.showAlertModal} showLargeModal={this.showLargeModal} resultType="reading-now" />
+              {
+                (this.state.loadedPage * BOOKS_PER_PAGE) < this.getReadingNow().length 
+                  ? <p className="load-more" onClick={this.increasePageCount}>Load More...</p> 
+                  : <br /> 
+              }
               <LargeCenteredModal
                 show={this.state.largeModalShow}
                 onHide={this.closeLargeModal}
