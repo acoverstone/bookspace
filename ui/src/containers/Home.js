@@ -26,7 +26,6 @@ export default class Home extends Component {
   }
 
   setSurpriseResults = (results, surpriseType) => {
-    console.log(surpriseType);
     this.setState({searchResults: results, surpriseType:surpriseType});
   }
 

@@ -18,7 +18,6 @@ export default class Signup extends Component {
       email: "",
       password: "",
       confirmPassword: "",
-      confirmationCode: "",
       newUser: null,
       errorText:""
     };
@@ -30,10 +29,6 @@ export default class Signup extends Component {
       this.state.password.length > 6 &&
       this.state.password === this.state.confirmPassword
     );
-  }
-
-  validateConfirmationForm() {
-    return this.state.confirmationCode.length > 0;
   }
 
   handleChange = event => {
@@ -80,36 +75,6 @@ export default class Signup extends Component {
     } 
   }
 
-
-  handleConfirmationSubmit = async event => {
-    event.preventDefault();
-    this.setState({ isLoading: true });
-  }
-
-  renderConfirmationForm() {
-    return (
-      <form onSubmit={this.handleConfirmationSubmit}>
-        <FormGroup controlId="confirmationCode" bsSize="large">
-          <FormLabel>Confirmation Code</FormLabel>
-          <FormControl
-            autoFocus
-            type="tel"
-            value={this.state.confirmationCode}
-            onChange={this.handleChange}
-          />
-        </FormGroup>
-        <LoaderButton
-          block
-          bsSize="large"
-          disabled={!this.validateConfirmationForm()}
-          type="submit"
-          isLoading={this.state.isLoading}
-          text="Verify"
-          loadingText="Verifying…"
-        />
-      </form>
-    );
-  }
 
   renderForm() {
     return (
@@ -173,9 +138,6 @@ export default class Signup extends Component {
         <h1>Welcome!</h1>
         <p>Get started by setting up an account below.</p>
         {this.renderForm()}
-        {/* {this.state.newUser === null
-          ? this.renderForm()
-          : this.renderConfirmationForm()} */}
       </div>
     );
   }

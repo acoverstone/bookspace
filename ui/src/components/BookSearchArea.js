@@ -54,13 +54,13 @@ export default class SearchArea extends Component {
     const surpriseIndex = Math.floor((Math.random() * surpriseTypes.length));
     var res = await this.getSurpriseList(surpriseTypes[surpriseIndex]);
 
-    if("books" in res && "surpriseType" in res) {
+    if("books" in res && "surprise_type" in res) {
       var bookIdList = res["books"];
       var surpriseType = res["surprise_type"];
-  
+      
       this.setSurpriseBooks(bookIdList, surpriseType)
     } else {
-      this.setState({ searchIsLoading: false, errorText:"Something went wrong getting your surprise, please try again." });
+      this.setState({ surpriseIsLoading: false, errorText:"Something went wrong getting your surprise, please try again." });
     }
     
   }
@@ -87,7 +87,7 @@ export default class SearchArea extends Component {
     } catch (e) {
       // otherwise alert error
       console.log(e.message);
-      this.setState({ searchIsLoading: false, errorText:"Something went wrong, please try again." });
+      this.setState({ surpriseIsLoading: false, errorText:"Something went wrong, please try again." });
     }
   }
 
