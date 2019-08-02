@@ -7,6 +7,7 @@ import ReadAlready from '../components/ReadAlready'
 import SmallCenteredModal from '../components/SmallCenteredModal'
 import "./Library.css";
 import { BookCache } from "../utils/BookCache.js";
+import { SampleUser } from "../utils/SampleUser.js";
 
 export const BOOKS_PER_PAGE = 8;
 
@@ -73,27 +74,6 @@ export default class Library extends Component {
 
   render() {
 
-    const LibraryContent = () => {
-      if(this.props.currentUser === null) {
-        return(<div>Log in dummy.</div>);
-      } 
-      else if (this.state.selected === "to-read"){
-        return(
-          <ToRead showAlertModal={this.showAlertModal} currentUser={this.props.currentUser} setCurrentUser={this.props.setCurrentUser} addBooksToCache={this.state.bookCache.addBooksToCache} getBookDetails={this.getBookDetails} />
-        );
-      }
-      else if (this.state.selected === "read-already"){
-        return(
-          <ReadAlready showAlertModal={this.showAlertModal} currentUser={this.props.currentUser} setCurrentUser={this.props.setCurrentUser} addBooksToCache={this.state.bookCache.addBooksToCache} getBookDetails={this.getBookDetails} />
-        )
-      }
-      else {
-        return(
-          <Reading showAlertModal={this.showAlertModal} currentUser={this.props.currentUser} setCurrentUser={this.props.setCurrentUser} addBooksToCache={this.state.bookCache.addBooksToCache} getBookDetails={this.getBookDetails}/>
-        )
-      }
-    }
-
     return (
       <Container>
         <div className="Library">
@@ -111,7 +91,20 @@ export default class Library extends Component {
             </Col>
           </Row>
           <Row>
-            <LibraryContent />
+            {((this.props.currentUser==null || this.props.currentUser["type"] === "sample_user") && this.state.selected === "to-read") ?
+              <ToRead showAlertModal={this.showAlertModal} currentUser={SampleUser} setCurrentUser={(user)=>{}} addBooksToCache={this.state.bookCache.addBooksToCache} getBookDetails={this.getBookDetails} /> 
+            : ((this.props.currentUser==null || this.props.currentUser["type"] === "sample_user") && this.state.selected === "read-already") ?
+              <ReadAlready showAlertModal={this.showAlertModal} currentUser={SampleUser} setCurrentUser={(user)=>{}} addBooksToCache={this.state.bookCache.addBooksToCache} getBookDetails={this.getBookDetails} />
+            : ((this.props.currentUser==null || this.props.currentUser["type"] === "sample_user") && this.state.selected === "reading-now") ?
+              <Reading showAlertModal={this.showAlertModal} currentUser={SampleUser} setCurrentUser={(user)=>{}} addBooksToCache={this.state.bookCache.addBooksToCache} getBookDetails={this.getBookDetails}/>  
+            
+            : (this.state.selected === "to-read") ?
+              <ToRead showAlertModal={this.showAlertModal} currentUser={this.props.currentUser} setCurrentUser={this.props.setCurrentUser} addBooksToCache={this.state.bookCache.addBooksToCache} getBookDetails={this.getBookDetails} /> 
+            : (this.state.selected === "read-already") ?
+              <ReadAlready showAlertModal={this.showAlertModal} currentUser={this.props.currentUser} setCurrentUser={this.props.setCurrentUser} addBooksToCache={this.state.bookCache.addBooksToCache} getBookDetails={this.getBookDetails} />
+            :
+              <Reading showAlertModal={this.showAlertModal} currentUser={this.props.currentUser} setCurrentUser={this.props.setCurrentUser} addBooksToCache={this.state.bookCache.addBooksToCache} getBookDetails={this.getBookDetails}/>
+            }
           </Row>
         </div>
         <SmallCenteredModal

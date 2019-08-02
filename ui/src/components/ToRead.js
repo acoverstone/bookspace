@@ -23,7 +23,6 @@ export default class ToRead extends Component {
     this.getBooks();
   }
 
-  // Check for press of Enter Key
   onEnter = e => {
     if(e.keyCode === 13){
       // console.log("ENTER")

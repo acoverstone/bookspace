@@ -32,7 +32,6 @@ export default class Reading extends Component {
   }
  
 
-  // Check for press of Enter Key
   onEnter = e => {
     if(e.keyCode === 13){
       // console.log("ENTER")
@@ -139,7 +138,6 @@ export default class Reading extends Component {
   }
 
   showLargeModal = result => {
-    console.log(result);
     this.setState({
       largeModalShow: true,
       largeModalResult: result

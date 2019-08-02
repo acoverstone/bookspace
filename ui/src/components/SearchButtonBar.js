@@ -14,10 +14,9 @@ import "./ButtonBar.css";
 export default class SearchButtonBar extends Component {
     
   addToRead = () => {
-    if(this.props.currentUser !== null) {
+    if(this.props.currentUser !== null && this.props.currentUser["type"] !== "sample_user") {
       this.addToReadApi()
     } else {
-      console.log("Not authenticated.")
       this.props.showAlertModal("Oops.", "Login or Signup to add a book to your 'To-Read' List.")
     }
   }
@@ -46,7 +45,6 @@ export default class SearchButtonBar extends Component {
         this.props.currentUser["library"]["to_read_list"].push(this.props.result.BookID)
         this.props.showAlertModal("Done.", "'" + this.props.result.Title + "' has been added to your To-Read list.");
       } else {
-        // TODO: Add some logic to handle invalid book id...
         console.log("Invalid bookID - " + this.props.result.BookID);
       }
       
@@ -57,10 +55,9 @@ export default class SearchButtonBar extends Component {
   }
 
   addReadAlready = () => {
-    if(this.props.currentUser !== null) {
+    if(this.props.currentUser !== null && this.props.currentUser["type"] !== "sample_user") {
       this.addReadAlreadyApi()
     } else {
-      console.log("Not authenticated.")
       this.props.showAlertModal("Oops.", "Login or Signup to add a book to your 'Read Already' List.");
     }
   }
@@ -102,7 +99,7 @@ export default class SearchButtonBar extends Component {
   }
 
   addReadingNow = () => {
-    if(this.props.currentUser !== null) {
+    if(this.props.currentUser !== null && this.props.currentUser["type"] !== "sample_user") {
       this.addReadingNowApi()
     } else {
       this.props.showAlertModal("Oops.", "Login or Signup to add a book to your 'Reading' List.");

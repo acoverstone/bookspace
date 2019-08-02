@@ -53,7 +53,8 @@ export default class BookSummary extends Component {
 
   addForm = () => {
     this.setState({
-      adding:true
+      adding:true,
+      errorText: ""
     });
   }
   unaddForm = () => {
@@ -67,6 +68,7 @@ export default class BookSummary extends Component {
   editForm = () => {
     this.setState({
       editing:true,
+      errorText:""
     });
   }
 
@@ -90,6 +92,7 @@ export default class BookSummary extends Component {
       lessonValue:this.props.result.lessons[index].description,
       refValue:this.props.result.lessons[index].reference,
       highlight: this.props.result.lessons[index].highlight,
+      errorText:""
     });
   }
 
@@ -201,6 +204,11 @@ export default class BookSummary extends Component {
   }
 
   submitNewLesson = async () => {
+    if(this.props.currentuser === null || this.props.currentuser["type"] === "sample_user") {
+      await this.setState({errorText:"Please Login or Signup to add a Lesson."});
+      return;
+    }
+
     if(this.state.titleValue === "" || this.state.lessonValue === "") {
       this.setState({errorText:"Please make sure you have a Lesson Title and Description and try again."});
       return;
@@ -223,6 +231,11 @@ export default class BookSummary extends Component {
   }
 
   deleteLesson = async index => {
+    if(this.props.currentuser === null || this.props.currentuser["type"] === "sample_user") {
+      await this.setState({errorText:"Please Login or Signup to delete a Lesson."});
+      return;
+    }
+
     if(await this.deleteLessonLearnedApi(index) === true) {
       this.props.result.lessons.splice(index, 1);
       this.setState({lessonList:this.getLessonList});
@@ -231,6 +244,11 @@ export default class BookSummary extends Component {
   }
 
   submitEditLesson = async () => {
+    if(this.props.currentuser === null || this.props.currentuser["type"] === "sample_user") {
+      await this.setState({errorText:"Please Login or Signup to edit a Lesson."});
+      return;
+    }
+
     if(this.state.titleValue === "" || this.state.lessonValue === "") {
       this.setState({errorText:"Please make sure you have a Lesson Title and Description and try again."});
       return;

@@ -7,14 +7,6 @@ const _MS_PER_DAY = 1000 * 60 * 60 * 24;
 
 export default class Results extends Component {
 
-  
-  dateDiffInDays(a, b) {
-    const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
-    const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
-  
-    return Math.floor( Math.abs(utc2 - utc1) / _MS_PER_DAY);
-  }
-
   render() {
     var usedDay = false;
     var usedYesterday= false;

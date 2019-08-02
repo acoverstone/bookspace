@@ -9,7 +9,7 @@ import "./ButtonBar.css";
 export default class ToReadButtonBar extends Component {
     
   removeFromToRead = () => {
-    if(this.props.currentUser !== null) {
+    if(this.props.currentUser !== null && this.props.currentUser["type"] !== "sample_user") {
       this.removeFromToReadApi()
     } else {
       console.log("Not authenticated.")
@@ -55,7 +55,7 @@ export default class ToReadButtonBar extends Component {
   
 
   addReadAlready = () => {
-    if(this.props.currentUser !== null) {
+    if(this.props.currentUser !== null && this.props.currentUser["type"] !== "sample_user") {
       this.addReadAlreadyApi()
     } else {
       console.log("Not authenticated.")
@@ -107,7 +107,7 @@ export default class ToReadButtonBar extends Component {
     }
 
     addReadingNow = () => {
-      if(this.props.currentUser !== null) {
+      if(this.props.currentUser !== null && this.props.currentUser["type"] !== "sample_user") {
         this.addReadingApi()
       } else {
         console.log("Not authenticated.")

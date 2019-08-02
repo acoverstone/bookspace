@@ -31,7 +31,6 @@ export default class ReadAlready extends Component {
     this.getBooks();
   }
 
-  // Check for press of Enter Key
   onEnter = e => {
     if(e.keyCode === 13){
       // console.log("ENTER")
@@ -42,7 +41,6 @@ export default class ReadAlready extends Component {
     await this.setState({
         [event.target.name]: event.target.value
     });
-    // TODO: Create less heavy function searchBooks - or see how to improve getBooks - or edit results shpwing in <Results> by passing searchString...
     this.getBooks();
   } 
 

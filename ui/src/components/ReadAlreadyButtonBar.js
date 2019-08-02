@@ -9,10 +9,9 @@ import "./ButtonBar.css";
 export default class ReadAlreadyButtonBar extends Component {
     
   removeReadAlready = () => {
-    if(this.props.currentUser !== null) {
+    if(this.props.currentUser !== null && this.props.currentUser["type"] !== "sample_user") {
       this.removeReadAlreadyApi()
     } else {
-      console.log("Not authenticated.")
       this.props.showAlertModal("Oops.", "Login or Signup to remove a book from your 'Read Already' List.")
     }
   }
@@ -54,10 +53,9 @@ export default class ReadAlreadyButtonBar extends Component {
   }
 
   readNow = () => {
-    if(this.props.currentUser !== null) {
+    if(this.props.currentUser !== null && this.props.currentUser["type"] !== "sample_user") {
       this.readNowApi();      
     } else {
-      console.log("Not authenticated.")
       this.props.showAlertModal("Oops.", "Login or Signup to add a book to your 'Reading' List.")
     }
   }

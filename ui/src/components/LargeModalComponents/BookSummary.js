@@ -26,13 +26,15 @@ export default class BookSummary extends Component {
 
   editForm = () => {
     this.setState({
-      editing:true
+      editing:true,
+      errorText:""
     });
   }
 
   uneditForm = () => {
     this.setState({
-      editing:false
+      editing:false,
+      errorText:""
     });
   }
 
@@ -71,6 +73,11 @@ export default class BookSummary extends Component {
   }
 
   submitBookSummary = async () => {
+    if(this.props.currentuser === null || this.props.currentuser["type"] === "sample_user") {
+      await this.setState({errorText:"Please Login or Signup to write a Book Summary."});
+      return;
+    }
+
     if(await this.addBookSummaryApi(this.state.inputValue) === true) {
       this.props.result.book_summary=this.state.inputValue
       this.setState({editing:false, errorText:""});
@@ -82,6 +89,11 @@ export default class BookSummary extends Component {
   }
 
   deleteBookSummary = async () => {
+    if(this.props.currentuser === null || this.props.currentuser["type"] === "sample_user") {
+      await this.setState({errorText:"Please Login or Signup to delete a Book Summary."});
+      return;
+    }
+
     if(await this.addBookSummaryApi("") === true) {
       this.props.result.book_summary=""
       this.setState({inputValue:"", editing:false, errorText:""});

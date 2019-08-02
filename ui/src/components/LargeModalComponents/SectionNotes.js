@@ -40,7 +40,8 @@ export default class SectionNotes extends Component {
 
   addForm = () => {
     this.setState({
-      adding:true
+      adding:true,
+      errorText:""
     });
   }
   unaddForm = () => {
@@ -53,7 +54,8 @@ export default class SectionNotes extends Component {
 
   editForm = () => {
     this.setState({
-      editing:true
+      editing:true,
+      errorText:""
     });
   }
 
@@ -225,6 +227,11 @@ export default class SectionNotes extends Component {
   }
 
   submitNewSectionNote = async () => {
+    if(this.props.currentuser === null || this.props.currentuser["type"] === "sample_user") {
+      await this.setState({errorText:"Please Login or Signup to add a Section Note."});
+      return;
+    }
+
     if(this.state.titleValue === "" || this.state.notesValue === "") {
       this.setState({errorText:"Please make sure you have filled out the Section Title and Notes and try again."});
       return;
@@ -245,6 +252,11 @@ export default class SectionNotes extends Component {
   }
 
   submitEditSectionNote = async () => {
+    if(this.props.currentuser === null || this.props.currentuser["type"] === "sample_user") {
+      await this.setState({errorText:"Please Login or Signup to edit a Section Note."});
+      return;
+    }
+
     if(this.state.titleValue === "" || this.state.notesValue === "") {
       this.setState({errorText:"Please make sure you have filled out the Section Title and Notes and try again."});
       return;
@@ -269,10 +281,16 @@ export default class SectionNotes extends Component {
       editingSection:index,
       titleValue:this.props.result.section_notes[index].section_title,
       notesValue:this.props.result.section_notes[index].notes,
+      errorText:""
     });
   }
 
   deleteSectionNote = async (index) => {
+    if(this.props.currentuser === null || this.props.currentuser["type"] === "sample_user") {
+      await this.setState({errorText:"Please Login or Signup to delete a Section Note."});
+      return;
+    }
+
     if(await this.deleteSectionNoteApi(index) === true) {
       this.props.result.section_notes.splice(index, 1);
       this.setState({sectionNotesList: this.getSectionNotesList});

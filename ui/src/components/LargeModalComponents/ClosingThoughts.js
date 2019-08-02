@@ -28,13 +28,15 @@ export default class ClosingThoughts extends Component {
 
   editForm = () => {
     this.setState({
-      editing:true
+      editing:true,
+      errorText:""
     });
   }
 
   uneditForm = () => {
     this.setState({
-      editing:false
+      editing:false,
+      errorText:""
     });
   }
 
@@ -73,6 +75,11 @@ export default class ClosingThoughts extends Component {
   }
 
   submitClosingThought = async () => {
+    if(this.props.currentuser === null || this.props.currentuser["type"] === "sample_user") {
+      await this.setState({errorText:"Please Login or Signup to add your Closing Thoughts."});
+      return;
+    }
+
     if(await this.addClosingThoughtApi(this.state.inputValue, this.state.numberStars) === true) {
       this.props.result.closing_thoughts.review=this.state.inputValue
       this.props.result.closing_thoughts.rating=this.state.numberStars
@@ -85,6 +92,11 @@ export default class ClosingThoughts extends Component {
   }
 
   deleteClosingThought = async () => {
+    if(this.props.currentuser === null || this.props.currentuser["type"] === "sample_user") {
+      await this.setState({errorText:"Please Login or Signup to delete Closing Thoughts."});
+      return;
+    }
+
     if(await this.addClosingThoughtApi("", 0) === true) {
       this.props.result.closing_thoughts.review=""
       this.props.result.closing_thoughts.rating=0
