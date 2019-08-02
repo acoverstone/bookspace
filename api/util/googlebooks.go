@@ -17,7 +17,7 @@ type googlebooks interface {
 }
 
 var client = http.Client{
-	Timeout: time.Duration(3 * time.Second),
+	Timeout: time.Duration(7 * time.Second),
 }
 
 // SearchBooks returns a list of books from Google Books API for a given querystring.

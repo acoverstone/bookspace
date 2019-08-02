@@ -7,6 +7,7 @@ var (
 	booksController       books
 	userController        user
 	libraryController     library
+	surpriseController    surprise
 	libraryBookController librarybook
 	sessionManager        *session.Manager
 )
@@ -18,6 +19,7 @@ func Startup(globalSessionManager *session.Manager) {
 	userController.registerRoutes()
 	libraryController.registerRoutes()
 	libraryBookController.registerRoutes()
+	surpriseController.registerRoutes()
 
 	sessionManager = globalSessionManager
 }

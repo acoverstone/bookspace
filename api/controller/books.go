@@ -26,7 +26,7 @@ func (b books) handleSearchBooks(w http.ResponseWriter, r *http.Request) {
 		// Grabs querystring from: /api/books?q=[querystring], returns 400 if not exists
 		keys, ok := r.URL.Query()["q"]
 		enc := json.NewEncoder(w)
-		fmt.Println(keys)
+
 		if !ok || len(keys) < 1 {
 			fmt.Printf("Error parsing querystring\n")
 			w.WriteHeader(http.StatusBadRequest)
@@ -70,7 +70,7 @@ func (b books) handleSearchBooksByAuthor(w http.ResponseWriter, r *http.Request)
 		// Grabs querystring from: /api/authors?q=[querystring], returns 400 if not exists
 		keys, ok := r.URL.Query()["q"]
 		enc := json.NewEncoder(w)
-		fmt.Println(keys)
+
 		if !ok || len(keys) < 1 {
 			fmt.Printf("Error parsing querystring\n")
 			w.WriteHeader(http.StatusBadRequest)

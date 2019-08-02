@@ -15,13 +15,21 @@ export default class Home extends Component {
       searchResults: [],     
       modalShow: false,
       modalTitle: "",
-      modalDescription: ""
+      modalDescription: "",
+      surpriseType: "",
     };
   }
 
   setSearchResults = results => {
-    this.setState({searchResults: results});
+    // console.log(results);   // For seeing search results
+    this.setState({searchResults: results, surpriseType:""});
   }
+
+  setSurpriseResults = (results, surpriseType) => {
+    console.log(surpriseType);
+    this.setState({searchResults: results, surpriseType:surpriseType});
+  }
+
 
   showAlertModal = (title, description) => {
     this.setState({
@@ -51,12 +59,12 @@ export default class Home extends Component {
           </Row>
           <Row>
             <Col xs={{span:12}}  md={{span:8, offset:2}} lg={{span:6, offset:3}}>
-              <SearchArea setSearchResults={this.setSearchResults}/>
+              <SearchArea setSearchResults={this.setSearchResults} setSurpriseResults={this.setSurpriseResults}/>
             </Col>
           </Row>
           <Row>
             <Col xs={12}>
-              <Results removeResult={()=>{}} results={this.state.searchResults} currentUser={this.props.currentUser} showAlertModal={this.showAlertModal} resultType="search" />
+              <Results removeResult={()=>{}} results={this.state.searchResults} currentUser={this.props.currentUser} showAlertModal={this.showAlertModal} resultType="search" surpriseType={this.state.surpriseType}/>
             </Col>
           </Row>
         </div>

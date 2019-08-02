@@ -6,6 +6,7 @@ import ToRead from '../components/ToRead'
 import ReadAlready from '../components/ReadAlready'
 import SmallCenteredModal from '../components/SmallCenteredModal'
 import "./Library.css";
+import { BookCache } from "../utils/BookCache.js";
 
 export const BOOKS_PER_PAGE = 8;
 
@@ -15,66 +16,13 @@ export default class Library extends Component {
     super(props);
 
     this.state = {
-
-      // TODO: CHANGE BACK
-      // selected:"to-read",     // optins are "reading-now", "to-read", "read-already"
-      selected:"read-already",
-
+      selected:"read-already", // optins are "reading-now", "to-read", "read-already"
       smallModalShow: false,
       modalTitle: "",
       modalDescription: "",
 
-      bookCache: this.getBookCache()
+      bookCache: new BookCache()
     }
-  }
-
-  // Get list of cached books
-  getBookCache = () => {
-    var bookCache = JSON.parse(localStorage.getItem("book_cache"));
-    if(bookCache != null) {
-      if(Array.isArray(bookCache)){
-        return bookCache;
-      } 
-    }
-
-    return [];
-  }
-
-  // Add books to cache if each doesn't already exist in cache...
-  // TODO: can optimize by limiting cache to 100 books, loop around front if it fills up and don't have to check in list (makes On^2) or only set state on new book...
-  addBooksToCache = books => {
-    var bookCache = this.getBookCache();
-    var count = 0;
-    books.forEach(book => {
-      if(!this.checkBookInList(book.BookID, bookCache)) {
-        bookCache.push(book);
-        count++;
-      }
-    });
-
-    if(count > 0){
-      localStorage.setItem("book_cache", JSON.stringify(bookCache));
-      this.setState({bookCache: bookCache});
-    }
-  }
-
-  // Returns book if it exists in cache or null otherwise
-  getBookFromCache = bookID => {
-    for(var i = 0; i < this.state.bookCache.length; i++) {
-      if(this.state.bookCache[i].BookID === bookID) {
-        return this.state.bookCache[i]
-      }
-    }
-    return null;
-  }
-
-  checkBookInList = (bookID, books) => {
-    for(var i = 0; i < books.length; i++) {
-      if(books[i].BookID === bookID) {
-        return true
-      }
-    }
-    return false;
   }
 
   selectOption = selectedOption => {
@@ -92,7 +40,7 @@ export default class Library extends Component {
   // Tries to retreive book details from cache - if not present uses the API - if still not present returns null
   getBookDetails = async bookID => {
     // Try to retreive book from cache
-    var book = this.getBookFromCache(bookID);
+    var book = this.state.bookCache.getBookFromCache(bookID);
     if(book != null) {
       return book;
     }
@@ -144,11 +92,11 @@ export default class Library extends Component {
             {(this.props.currentUser==null) ?
               <div>Log in dummy.</div> :
             (this.state.selected === "to-read") ?
-              <ToRead showAlertModal={this.showAlertModal} currentUser={this.props.currentUser} setCurrentUser={this.props.setCurrentUser} addBooksToCache={this.addBooksToCache} getBookDetails={this.getBookDetails} /> :
+              <ToRead showAlertModal={this.showAlertModal} currentUser={this.props.currentUser} setCurrentUser={this.props.setCurrentUser} addBooksToCache={this.state.bookCache.addBooksToCache} getBookDetails={this.getBookDetails} /> :
             (this.state.selected === "read-already") ?
-              <ReadAlready showAlertModal={this.showAlertModal} currentUser={this.props.currentUser} setCurrentUser={this.props.setCurrentUser} addBooksToCache={this.addBooksToCache} getBookDetails={this.getBookDetails} />
+              <ReadAlready showAlertModal={this.showAlertModal} currentUser={this.props.currentUser} setCurrentUser={this.props.setCurrentUser} addBooksToCache={this.state.bookCache.addBooksToCache} getBookDetails={this.getBookDetails} />
             :
-              <Reading showAlertModal={this.showAlertModal} currentUser={this.props.currentUser} setCurrentUser={this.props.setCurrentUser} addBooksToCache={this.addBooksToCache} getBookDetails={this.getBookDetails}/>
+              <Reading showAlertModal={this.showAlertModal} currentUser={this.props.currentUser} setCurrentUser={this.props.setCurrentUser} addBooksToCache={this.state.bookCache.addBooksToCache} getBookDetails={this.getBookDetails}/>
             }
           </Row>
         </div>

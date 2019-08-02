@@ -23,6 +23,8 @@ export default class Results extends Component {
     var usedYear = false;
     var usedOver = false;
 
+    var usedSurprise = false;
+
     const InfoBlock = props  => {
       if((this.props.resultType==="read-already" || this.props.resultType==="reading-now") && props.timestamp) {
         var dateDiffDays;
@@ -61,8 +63,12 @@ export default class Results extends Component {
         else {
           return null;
         }
-
-      } else {
+      } 
+      else if(this.props.resultType==="search" && this.props.surpriseType && this.props.surpriseType !== "" && !usedSurprise ) {
+        usedSurprise = true;
+        return (<p className="timestamp no-select">{this.props.surpriseType}</p>);
+      }
+      else {
         return null;
       }
     }

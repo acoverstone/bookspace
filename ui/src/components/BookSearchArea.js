@@ -1,7 +1,13 @@
 import React, { Component } from "react";
 import LoaderButton from './LoaderButton';
 import SearchBar from './SearchBar'
+import { BookCache } from "../utils/BookCache.js";
 import "./BookSearchArea.css";
+
+const surpriseTypes = [
+  "recommended",
+  "popular"
+]
 
 export default class SearchArea extends Component {
 
@@ -16,6 +22,8 @@ export default class SearchArea extends Component {
       errorText:"",
       searchIsLoading: false,
       surpriseIsLoading: false,
+
+      bookCache: new BookCache()
     };
   }
 
@@ -42,11 +50,93 @@ export default class SearchArea extends Component {
 
   surpriseMe = async () => {
     this.setState({ surpriseIsLoading: true });
-    console.log("SURPRISE!");
 
+    const surpriseIndex = Math.floor((Math.random() * surpriseTypes.length));
+    var res = await this.getSurpriseList(surpriseTypes[surpriseIndex]);
 
+    if("books" in res && "surpriseType" in res) {
+      var bookIdList = res["books"];
+      var surpriseType = res["surprise_type"];
+  
+      this.setSurpriseBooks(bookIdList, surpriseType)
+    } else {
+      this.setState({ searchIsLoading: false, errorText:"Something went wrong getting your surprise, please try again." });
+    }
+    
+  }
 
-    this.setState({ surpriseIsLoading: false });
+  getSurpriseList = async (surpriseType) => {
+    try {
+      const url = "http://localhost:8000/api/surprise/" + surpriseType;
+      const res = await fetch(url, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        }
+      });
+
+      if(!res.ok) {
+        throw Error(res.statusText);
+      }
+
+      const resJson = await res.json();
+      this.setState({ searchIsLoading: false, errorText:"" });
+      return resJson;
+    } catch (e) {
+      // otherwise alert error
+      console.log(e.message);
+      this.setState({ searchIsLoading: false, errorText:"Something went wrong, please try again." });
+    }
+  }
+
+  setSurpriseBooks = async (bookList, surpriseType) => {
+    var books = []
+    for(var i = 0; i < bookList.length; i++) {
+      var bookDetails = await this.getBookDetails(bookList[i]);
+      books.push(bookDetails);
+
+      // keeps from taking so long to load the first time
+      if(i % 3 === 0 || i === bookList.length - 1){
+        this.props.setSurpriseResults(books, surpriseType);
+        this.setState({ surpriseIsLoading: false });
+      }
+    }
+    this.state.bookCache.addBooksToCache(books);
+    return books;
+  }
+
+  // Tries to retreive book details from cache - if not present uses the API - if still not present returns null
+  getBookDetails = async bookID => {
+    // Try to retreive book from cache
+    var book = this.state.bookCache.getBookFromCache(bookID);
+    if(book != null) {
+      return book;
+    }
+
+    // If not available, retreive from api
+    try {
+      const res = await fetch("http://localhost:8000/api/books/" + bookID , {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if(!res.ok) {
+        throw Error(res.statusText);
+      }
+
+      var resJson = await res.json();
+      return resJson;
+        
+    } catch (e) {
+      console.log(e.message);
+      return null;
+    }
   }
 
   searchBooks = async () => {
