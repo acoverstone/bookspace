@@ -8,6 +8,9 @@ import LoaderButton from "../components/LoaderButton";
 import { LinkContainer } from "react-router-bootstrap";
 import "./Signup.css";
 
+const emailRegex = /\S+@\S+\.\S+/;
+const nameRegex = /^[a-z0-9]+$/i
+
 export default class Signup extends Component {
   constructor(props) {
     super(props);
@@ -24,11 +27,7 @@ export default class Signup extends Component {
   }
 
   validateForm() {
-    return (
-      this.state.email.length > 0 &&
-      this.state.password.length > 6 &&
-      this.state.password === this.state.confirmPassword
-    );
+    return true;
   }
 
   handleChange = event => {
@@ -39,6 +38,19 @@ export default class Signup extends Component {
 
   handleSubmit = async event => {
     event.preventDefault();
+    if(this.state.name.length <= 3 || !nameRegex.test(this.state.name) || this.state.name.length > 30) {
+      this.setState({errorText: "Please enter an alphanumeric name longer than 3 characters.", isLoading: false });
+      return;
+    } else if(this.state.email.length <= 0 || !emailRegex.test(this.state.email) || this.state.email.length > 30) {
+      this.setState({errorText: "Please enter a valid email.", isLoading: false });
+      return;
+    } else if(this.state.password.length < 6 || this.state.password !== this.state.confirmPassword || this.state.password.length > 30) {
+      this.setState({errorText: "Please enter a password longer than 6 characters and ensure your passwords match.", isLoading: false });
+      return;
+    }
+
+
+    
     this.setState({ isLoading: true });
 
     try {
