@@ -36,9 +36,9 @@ class App extends Component {
       const resJson = await res.json();
       if(resJson["email"] !== "") {
         this.setCurrentUser(resJson)
-        console.log(this.state.currentUser)
+        // console.log(this.state.currentUser)
       } else {
-        console.log("No current user.")
+        // console.log("No current user.")
       }
     }
     catch(error) {

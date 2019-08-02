@@ -1,5 +1,9 @@
+const _MS_PER_DAY = 1000 * 60 * 60 * 24;
 
-console.log(Date.now())
+const today = new Date(Date.now()).toISOString();
+const this_week = new Date(Date.now() - 5 * _MS_PER_DAY).toISOString();
+// const yesterday = new Date(Date.now() - 1* _MS_PER_DAY).toISOString();
+// const this_month = new Date(Date.now() - 15 * _MS_PER_DAY).toISOString();
 
 export const SampleUser = {
     "id": 0,
@@ -34,7 +38,7 @@ export const SampleUser = {
             }
           ],
           "section_notes": [],
-          "last_updated": "2019-07-24T11:42:18.327875-04:00"
+          "last_updated": today
         },
         {
             "id": "lA48AQAAIAAJ",
@@ -47,7 +51,7 @@ export const SampleUser = {
             "book_summary": "",
             "lessons": [],
             "section_notes": [],
-            "last_updated": "2019-08-02T09:06:58.515364-04:00"
+            "last_updated": this_week
           }
       ]
     }

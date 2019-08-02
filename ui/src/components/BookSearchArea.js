@@ -6,7 +6,16 @@ import "./BookSearchArea.css";
 
 const surpriseTypes = [
   "recommended",
-  "popular"
+  "popular",
+  "popular-author",
+  "popular-author",   // two for increased chance in random generator
+  "fiction",
+  "science",
+  "biography",
+  "nonfiction",
+  "sci-fi",
+  "classic",
+  "finance"
 ]
 
 export default class SearchArea extends Component {
@@ -52,18 +61,71 @@ export default class SearchArea extends Component {
     this.setState({ surpriseIsLoading: true });
 
     const surpriseIndex = Math.floor((Math.random() * surpriseTypes.length));
-    var res = await this.getSurpriseList(surpriseTypes[surpriseIndex]);
+    const surprise = surpriseTypes[surpriseIndex];
+    var res;
+    if(surprise === "popular-author") {
+      const author = this.getSurpriseAuthor();
+      res = {
+        "books": await this.getBooks("author", author),
+        "surprise_type": "Popular Author: " + author
+      }
 
-    if("books" in res && "surprise_type" in res) {
-      var bookIdList = res["books"];
-      var surpriseType = res["surprise_type"];
-      
-      this.setSurpriseBooks(bookIdList, surpriseType)
+      if(res["books"] === null) {
+        this.setState({ surpriseIsLoading: false, errorText:"Something went wrong getting your surprise, please try again." });
+      }
+      else {
+        this.props.setSurpriseResults(res["books"], res["surprise_type"]);
+        this.setState({ surpriseIsLoading: false, errorText:"" });
+      }
     } else {
-      this.setState({ surpriseIsLoading: false, errorText:"Something went wrong getting your surprise, please try again." });
-    }
+      res = await this.getSurpriseList(surpriseTypes[surpriseIndex]);
     
+      if(res && "books" in res && "surprise_type" in res) {
+        var bookIdList = res["books"];
+        var surpriseType = res["surprise_type"];
+        
+        this.setSurpriseBooks(bookIdList, surpriseType)
+        this.setState({ surpriseIsLoading: false, errorText:"" });
+      } else {
+        this.setState({ surpriseIsLoading: false, errorText:"Something went wrong getting your surprise, please try again." });
+      }
+    }
+      
   }
+  
+  getSurpriseAuthor = () => {
+    const authors = [
+      "J.K Rowling",
+      "Tim Ferriss",
+      "James Patterson",
+      "Stephen King",
+      "J.R.R. Tolkien",
+      "Mark Twain",
+      "Dr. Seuss",
+      "Jack Kerouac",
+      "Oscar Wilde",
+      "Ernest Hemingway",
+      "C.S Lewis",
+      "Walt Whitman",
+      "Robert Frost",
+      "Yuval Noah Harari",
+      "Tony Robbins",
+      "Nicholas Taleb",
+      "George Orwell",
+      "Ayn Rand",
+      "Robert Penn Warren",
+      "John Steinbeck",
+      "Aldous Huxley",
+      "Paulo Coelho",
+      "Mark Edwards",
+      "Nora Roberts",
+      "Brene Brown",
+      "Agatha Christie"
+    ]
+    const authorIndex = Math.floor((Math.random() * authors.length));
+    return authors[authorIndex];
+  }
+
 
   getSurpriseList = async (surpriseType) => {
     try {
@@ -82,12 +144,10 @@ export default class SearchArea extends Component {
       }
 
       const resJson = await res.json();
-      this.setState({ searchIsLoading: false, errorText:"" });
       return resJson;
     } catch (e) {
-      // otherwise alert error
       console.log(e.message);
-      this.setState({ surpriseIsLoading: false, errorText:"Something went wrong, please try again." });
+      return null;
     }
   }
 
@@ -140,45 +200,54 @@ export default class SearchArea extends Component {
   }
 
   searchBooks = async () => {
+    if(this.state.searchString === "") {
+      this.setState({ searchIsLoading: false, surpriseIsLoading: false, errorText:"Please enter a book title or author name." });
+      return;
+    }
+
+    this.setState({ searchIsLoading: true });
+    var res = await this.getBooks(this.state.searchType, this.state.searchString);
+
+    if(res === null) {
+      this.setState({ searchIsLoading: false, errorText:"Something went wrong, please try again." });
+    } else if(res.length === 0) {
+      this.setState({ searchIsLoading: false, errorText:"There were no results for search '" + this.state.searchString + "', please check your spelling or try another title."});
+    } else {
+      this.setState({ searchIsLoading: false, errorText:"" });
+      this.props.setSearchResults(res);
+    }
+  }
+
+  getBooks = async (searchType, searchString) => {
     var searchEndpoint;
-    if(this.state.searchType === "author") {
+    if(searchType === "author") {
       searchEndpoint = "http://localhost:8000/api/authors";
     } else {
       searchEndpoint  = "http://localhost:8000/api/books";
     }
     
-    if(this.searchEndpoint !== "" && this.state.searchString !== "") {
-
-      this.setState({ searchIsLoading: true });
-
-      const strippedSearchString = this.state.searchString.replace(/[.,/#!$%^&*;:{}=\-_`~()]/g,"");
-      
-      try {
-        const url = searchEndpoint + "?q=" + strippedSearchString;
-        const res = await fetch(url, {
-          method: 'GET',
-          credentials: 'include',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          }
-        });
-  
-        if(!res.ok) {
-          throw Error(res.statusText);
+    const strippedSearchString = searchString.replace(/[.,/#!$%^&*;:{}=\-_`~()]/g,"");
+    
+    try {
+      const url = searchEndpoint + "?q=" + strippedSearchString;
+      const res = await fetch(url, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
         }
+      });
 
-        const resJson = await res.json();
-        this.props.setSearchResults(resJson);
-
-        this.setState({ searchIsLoading: false, errorText:"" });
-      } catch (e) {
-        // otherwise alert error
-        console.log(e.message);
-        this.setState({ searchIsLoading: false, errorText:"Something went wrong, please try again." });
+      if(!res.ok) {
+        throw Error(res.statusText);
       }
-    } else {
-      this.setState({ searchIsLoading: false, errorText:"Please enter a book title or author name." });
+
+      const resJson = await res.json();
+      return resJson;
+    } catch (e) {
+      console.log(e.message);
+      return null;
     }
   }
 

@@ -49,7 +49,6 @@ export default class Login extends Component {
       }
 
       const resJson = await res.json();
-      console.log(resJson)
       if(resJson["email"] !== "") {
         this.setState({ isLoading: false, errorText: "", email:"", password:"" });
         this.props.setCurrentUser(resJson);
