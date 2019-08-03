@@ -1,4 +1,4 @@
-# Book Club App
+# Bookspace
 
 ## Introduction
 

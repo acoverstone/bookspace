@@ -6,6 +6,8 @@ import {
 } from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
 import { LinkContainer } from "react-router-bootstrap";
+import TermsAndPrivacyModal from "../components/TermsAndPrivacyModal";
+
 import "./Signup.css";
 
 const emailRegex = /\S+@\S+\.\S+/;
@@ -22,7 +24,10 @@ export default class Signup extends Component {
       password: "",
       confirmPassword: "",
       newUser: null,
-      errorText:""
+      errorText:"",
+
+      termsAndPrivacyModalShow: false,
+      modalType: "terms"                // options are "terms" or "privacy"
     };
   }
 
@@ -35,6 +40,28 @@ export default class Signup extends Component {
       [event.target.id]: event.target.value
     });
   }
+
+  clickPrivacy = () => {
+    this.setState({
+      termsAndPrivacyModalShow:true,
+      modalType: "privacy"
+    });
+  }
+
+  clickTerms= () => {
+    this.setState({
+      termsAndPrivacyModalShow:true,
+      modalType: "terms"
+    });
+  }
+
+  closeLargeModal= () => {
+    this.setState({
+      termsAndPrivacyModalShow:false,
+      modalType: "terms"
+    })
+  }
+
 
   handleSubmit = async event => {
     event.preventDefault();
@@ -139,7 +166,8 @@ export default class Signup extends Component {
         <LinkContainer to="/signup">
           <p className="sign-up no-select">Forgot your password?</p>
         </LinkContainer>
-        <p className="error-text-signup">{this.state.errorText}</p>
+        <p className="error-text-login">{this.state.errorText}</p>
+        <p className="footer"><span onClick={this.clickTerms}>Terms of Use</span> | <span onClick={this.clickPrivacy}>Privacy Policy</span></p>
       </form>
     );
   }
@@ -150,6 +178,11 @@ export default class Signup extends Component {
         <h1>Welcome!</h1>
         <p>Get started by setting up an account below.</p>
         {this.renderForm()}
+        <TermsAndPrivacyModal
+          show={this.state.termsAndPrivacyModalShow}
+          onHide={this.closeLargeModal}
+          modaltype={this.state.modalType}
+        />
       </div>
     );
   }

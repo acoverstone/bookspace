@@ -334,7 +334,7 @@ export const SampleUser = {
             }
           ],
           "section_notes": [],
-          "last_updated": this_week
+          "last_updated": yesterday
         },
         {
           "id": "8bbMjwEACAAJ",
@@ -344,63 +344,12 @@ export const SampleUser = {
             "review": "My second or third time going through this book - absolutely incredible writing on setting goals and turning them into reality.",
             "rating": 5
           },
-          "book_summary": "I really enjoyed the following self-analysis questions and think I should revisit these often (great for journaling):\n\n- Do you complain often of \"feeling bad,\" and if so, what is the cause?\n\n- Do you find fault with other people at the slightest provocation?\n\n- Do you frequently make mistakes in your work, and if so, why?\n\n- Are you sarcastic and offensive in your conversation?\n\n- Do you deliberately avoid the association of anyone, and if so, why?\n\n- Do you suffer frequently with indigestion? If so, what is the cause?\n\n- Does life seem futile and the future hopeless to you? If so, why?\n\n- Do you like your occupation? If not, why?\n\n- Do you often feel self-pity, and if so why?\n\n- Are you envious of those who excel you?\n\n- To which do you devote most time, thinking of Success, or of Failure?\n\n- Are you gaining or losing self-confidence as you grow older?\n\n- Do you learn something of value from all mistakes?\n\n- Are you permitting some relative or acquaintance to worry you? If so, why?\n\n- Are you sometimes \"in the clouds\" and at other times in the depths of despondency?\n\n- Who has the most inspiring influence upon you? What is the cause?\n\n- Do you tolerate negative or discouraging influences which you can avoid?\n\n- Are you careless of your personal appearance? If so, when and why?\n\n- Have you learned how to \"drown your troubles\" by being too busy to be annoyed by them?\n\n- Would you call yourself a \"spineless weakling\" if you permitted others to do your thinking for you?\n\n- Do you neglect internal bathing until auto-intoxication makes you ill-tempered and irritable?\n\n- How many preventable disturbances annoy you, and why do you tolerate them?\n\n- Do you resort to liquor, narcotics, or cigarettes to \"quiet your nerves\"? If so, why do you not try - will-power instead?\n\n- Does anyone \"nag\" you, and if so, for what reason?\n\n- Do you have a DEFINITE MAJOR PURPOSE, and if so, what is it, and what plan have you for achieving it?\n\n- Do you suffer from any of the Six Basic Fears? If so, which ones?\n (Poverty, Criticism, Ill Health, Loss of love, Old age, Death) \n\n- Have you a method by which you can shield yourself against the negative influence of others?\n",
+          "book_summary": "I really enjoyed the following self-analysis questions and think I should revisit these often (great for journaling):\n\n     - Do you complain often of \"feeling bad,\" and if so, what is the cause?\n\n     - Do you find fault with other people at the slightest provocation?\n\n     - Do you frequently make mistakes in your work, and if so, why?\n\n     - Are you sarcastic and offensive in your conversation?\n\n     - Do you deliberately avoid the association of anyone, and if so, why?\n\n     - Do you suffer frequently with indigestion? If so, what is the cause?\n\n     - Does life seem futile and the future hopeless to you? If so, why?\n\n     - Do you like your occupation? If not, why?\n\n     - Do you often feel self-pity, and if so why?\n\n     - Are you envious of those who excel you?\n\n     - To which do you devote most time, thinking of Success, or of Failure?\n\n     - Are you gaining or losing self-confidence as you grow older?\n\n     - Do you learn something of value from all mistakes?\n\n     - Are you permitting some relative or acquaintance to worry you? If so, why?\n\n     - Are you sometimes \"in the clouds\" and at other times in the depths of despondency?\n\n     - Who has the most inspiring influence upon you? What is the cause?\n\n     - Do you tolerate negative or discouraging influences which you can avoid?\n\n     - Are you careless of your personal appearance? If so, when and why?\n\n     - Have you learned how to \"drown your troubles\" by being too busy to be annoyed by them?\n\n     - Would you call yourself a \"spineless weakling\" if you permitted others to do your thinking for you?\n\n     - Do you neglect internal bathing until auto-intoxication makes you ill-tempered and irritable?\n\n     - How many preventable disturbances annoy you, and why do you tolerate them?\n\n     - Do you resort to liquor, narcotics, or cigarettes to \"quiet your nerves\"? If so, why do you not try - will-power instead?\n\n     - Does anyone \"nag\" you, and if so, for what reason?\n\n     - Do you have a DEFINITE MAJOR PURPOSE, and if so, what is it, and what plan have you for achieving it?\n\n     - Do you suffer from any of the Six Basic Fears? If so, which ones?\n       (Poverty, Criticism, Ill Health, Loss of love, Old age, Death) \n\n     - Have you a method by which you can shield yourself against the negative influence of others?\n",
           "lessons": [],
           "section_notes": [
-            {
-              "section_title": "1. DESIRE",
-              "notes": " The Turning Point Of Achievement"
-            },
-            {
-              "section_title": "2. FAITH ",
-              "notes": "Visualization & Belief In Attainment Of Desire"
-            },
-            {
-              "section_title": "3. AUTO-SUGGESTION ",
-              "notes": "The Medium For Influencing The Subconscious\n"
-            },
-            {
-              "section_title": "4. SPECIALIZED KNOWLEDGE ",
-              "notes": "Personal Experience Or Observations\n"
-            },
-            {
-              "section_title": "5. IMAGINATION ",
-              "notes": "The Workshop Of The Mind\n"
-            },
-            {
-              "section_title": "6. ORGANIZED PLANNING ",
-              "notes": "The Crystallisation Of Desire Into Action"
-            },
-            {
-              "section_title": "7. DECISION ",
-              "notes": "The Mastery Of Procrastination\n"
-            },
-            {
-              "section_title": "8. PERSISTENCE ",
-              "notes": "The Sustained Effort Necessary To Induce Faith\n"
-            },
-            {
-              "section_title": "9. POWER OF THE MASTERMIND ",
-              "notes": "The Driving Force\n"
-            },
-            {
-              "section_title": "10. TRANSMUTATION OF SEX ",
-              "notes": "Converting Sex Into A Highly Creative Outlet\n"
-            },
-            {
-              "section_title": "11. SUBCONSCIOUS MIND ",
-              "notes": "The Connecting Link\n"
-            },
-            {
-              "section_title": "12. THE BRAIN ",
-              "notes": "A Broadcasting And Receiving Station For Thought\n"
-            },
-            {
-              "section_title": "13. THE SIXTH SENSE ",
-              "notes": "The Door To The Temple Of Wisdom"
-            }
+           
           ],
-          "last_updated": today
+          "last_updated": this_week
         }
       ]
     }  

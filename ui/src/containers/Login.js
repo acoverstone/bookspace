@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { FormGroup, FormControl, FormLabel } from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
+import TermsAndPrivacyModal from "../components/TermsAndPrivacyModal";
 import { LinkContainer } from "react-router-bootstrap";
 import "./Login.css";
 
@@ -12,7 +13,10 @@ export default class Login extends Component {
       isLoading: false,
       email: "",
       password: "",
-      errorText: ""
+      errorText: "",
+
+      termsAndPrivacyModalShow: false,
+      modalType: "terms"                // options are "terms" or "privacy"
     };
   }
 
@@ -66,6 +70,27 @@ export default class Login extends Component {
     }
   }
 
+  clickPrivacy = () => {
+    this.setState({
+      termsAndPrivacyModalShow:true,
+      modalType: "privacy"
+    });
+  }
+
+  clickTerms= () => {
+    this.setState({
+      termsAndPrivacyModalShow:true,
+      modalType: "terms"
+    });
+  }
+
+  closeLargeModal= () => {
+    this.setState({
+      termsAndPrivacyModalShow:false,
+      modalType: "terms"
+    })
+  }
+
   render() {
     return (
       <div className="Login">
@@ -105,8 +130,13 @@ export default class Login extends Component {
             <p className="sign-up no-select">New to Bookspace? Click here to sign up!</p>
           </LinkContainer>
           <p className="error-text-login">{this.state.errorText}</p>
+          <p className="footer"><span onClick={this.clickTerms}>Terms of Use</span> | <span onClick={this.clickPrivacy}>Privacy Policy</span></p>
         </form>
-        
+        <TermsAndPrivacyModal
+          show={this.state.termsAndPrivacyModalShow}
+          onHide={this.closeLargeModal}
+          modaltype={this.state.modalType}
+        />
       </div>
     );
   }
