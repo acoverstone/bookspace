@@ -134,7 +134,7 @@ export default class BookSummary extends Component {
       return (
         <div>
           <h5 className="notes-modal-description-section-header no-select">Book Summary<span className="button-bar"><EmptyBookSummaryButtonBar editBookSummary={this.editForm}/></span></h5>
-          <p className="notes-modal-description-section">Add a quick recap so you don't forget what this book was about.</p>
+          <p className="notes-modal-description-section">Add a quick recap or a top takeaway so you don't forget what this book was about.</p>
         </div>
       );
     }

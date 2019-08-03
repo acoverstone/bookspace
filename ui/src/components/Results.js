@@ -22,7 +22,7 @@ export default class Results extends Component {
         var dateDiffDays;
         try{
           const today = Date.now();
-          const timestampDate = Date.parse(props.timestamp.substring(0,10));
+          const timestampDate = Date.parse(props.timestamp.substring(0,19));
           dateDiffDays = Math.floor( Math.abs(today - timestampDate) / _MS_PER_DAY);
         } catch (e) {
           return null;

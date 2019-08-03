@@ -38,6 +38,7 @@ export default class Result extends Component {
 
 
   render() {
+    // console.log(this.props.result);
     const Description = ({ isHovering = false }) => {
       return (
         <div className="result-body">

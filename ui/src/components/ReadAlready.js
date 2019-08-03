@@ -252,7 +252,7 @@ export default class ReadAlready extends Component {
           (this.state.readList.length === 0 && this.state.searchString !== "")  ? 
             <div className="loaded">
               <p>There are no books that match the search '{this.state.searchString}'.</p>
-              <p >Clear Search</p>
+              <p className="clear-search" onClick={()=>{this.setState({searchString:" "});this.getBooks();}} >Clear Search</p>
             </div>
           : 
             <div>

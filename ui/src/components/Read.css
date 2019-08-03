@@ -18,6 +18,14 @@
   cursor: pointer;
 }
 
+.clear-search {
+  color: #777;
+  margin-top: -10px;
+  cursor: pointer;
+  font-size: 85%;
+  font-weight: 600;
+}
+
 .spinning {
     margin-right: 6px;
     top: 2px;

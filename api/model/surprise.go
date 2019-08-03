@@ -20,7 +20,6 @@ var RecommendedSurprise = Surprise{
 		"xm58YGKUUl4C", // The Lessons of History
 		"QwJ7vgAACAAJ", // Rich Dad Poor Dad
 		"O1MInVXd_aoC", // The Power of Habit
-		"BeY3DwAAQBAJ", //How to fail at almost everything
 		"8bbMjwEACAAJ", // Think And Grow Rich
 		"FmyBAwAAQBAJ", // Sapiens
 	},
@@ -85,7 +84,7 @@ var BiographySurprise = Surprise{
 		"qKff36kiX4cC", // Socrates
 		"6e4cDvhrKhgC", // Steve Jobs
 		"L64OOJGaCKIC", // Ben Franklin
-		"BeY3DwAAQBAJ", // How To Fail At Everything
+		"7FZ6AcGmT0AC", //How to fail at almost everything
 	},
 	Type: "Popular Biographical Titles",
 }
@@ -136,6 +135,7 @@ var ClassicSurprise = Surprise{
 		"HestSXO362YC", // Great Gatsby
 		"YqfPAAAAMAAJ", // Tale of Two Cities
 		"4w1vQRkAVxYC", // On The Road
+		"5qcAEZZibB0C", // Meditations
 	},
 	Type: "Popular Classic Titles",
 }

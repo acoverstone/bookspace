@@ -139,7 +139,7 @@ export default class ToRead extends Component {
           : (this.state.toReadList.length === 0 && this.state.searchString !== "") ? 
             <div className="loaded">
               <p>There are no books that match the search '{this.state.searchString}'.</p>
-              <p >Clear Search</p>
+              <p  className="clear-search" onClick={()=>{this.setState({searchString:" "});this.getBooks();}}>Clear Search</p>
             </div>
           : 
           <Results removeResult={this.removeFromToRead} results={this.state.toReadList} currentUser={this.props.currentUser} showAlertModal={this.props.showAlertModal} resultType="to-read" />
