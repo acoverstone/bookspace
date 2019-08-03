@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"projects/bookcase/api/controller"
-	"projects/bookcase/api/model"
-	"projects/bookcase/api/util"
-	"projects/bookcase/api/util/session"
+	"projects/bookspace/api/controller"
+	"projects/bookspace/api/model"
+	"projects/bookspace/api/util"
+	"projects/bookspace/api/util/session"
 
 	"github.com/rs/cors"
 

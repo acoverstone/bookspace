@@ -9,7 +9,7 @@ export const SampleUser = {
     "id": 0,
     "type": "sample_user",
     "first_name": "Sample",
-    "email": "sample@bookcase.com",
+    "email": "sample@bookspace.com",
     "password": "hf2eC9uvVYZ-miWL3MjczKACUta4ZvepuJmyn7I3KEv_LaZNGzvGTc1Uc8DN0Ij--0tSHLC0kFawbaOSfjadVg==",
     "last_login": "2019-08-02T10:37:07.688034-04:00",
     "recent_searches": [],

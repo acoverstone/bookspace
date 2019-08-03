@@ -102,7 +102,7 @@ export default class Login extends Component {
           </div>
          
           <LinkContainer to="/signup">
-            <p className="sign-up no-select">New to Bookcase? Click here to sign up!</p>
+            <p className="sign-up no-select">New to Bookspace? Click here to sign up!</p>
           </LinkContainer>
           <p className="error-text-login">{this.state.errorText}</p>
         </form>

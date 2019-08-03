@@ -1,6 +1,6 @@
 package controller
 
-import "projects/bookcase/api/util/session"
+import "projects/bookspace/api/util/session"
 
 var (
 	appController         app

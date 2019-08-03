@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"projects/bookcase/api/model"
+	"projects/bookspace/api/model"
 	"time"
 )
 

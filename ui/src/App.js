@@ -120,7 +120,7 @@ class App extends Component {
       !this.state.isAuthenticating &&
       <div className="App container">
         <Navbar className={this.state.headerTriggered ? "nav-shadow" : ""} fixed="top">
-          <Navbar.Brand className="navbar-brand" href="/">Bookcase</Navbar.Brand>
+          <Navbar.Brand className="navbar-brand" href="/">Bookspace</Navbar.Brand>
             <Nav className="ml-auto right-nav no-select">
               {(this.props.location.pathname === "/")  
                 ? <Nav.Link href="/library" className="library-button">Library</Nav.Link> 

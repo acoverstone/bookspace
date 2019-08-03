@@ -3,7 +3,7 @@ package controller
 import (
 	"encoding/json"
 	"net/http"
-	"projects/bookcase/api/model"
+	"projects/bookspace/api/model"
 )
 
 type surprise struct{}

@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"projects/bookcase/api/model"
-	"projects/bookcase/api/util"
+	"projects/bookspace/api/model"
+	"projects/bookspace/api/util"
 	"regexp"
 	"strings"
 
