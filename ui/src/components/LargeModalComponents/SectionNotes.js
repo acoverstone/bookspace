@@ -129,7 +129,7 @@ export default class SectionNotes extends Component {
 
   addSectionNoteApi = async (title, notes) => {
     try {
-      const res = await fetch("http://localhost:8000/api/library/add-section-note", {
+      const res = await fetch("http://167.71.99.96:8000/api/library/add-section-note", {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -162,7 +162,7 @@ export default class SectionNotes extends Component {
 
   deleteSectionNoteApi = async (index) => {
     try {
-      const res = await fetch("http://localhost:8000/api/library/delete-section-note", {
+      const res = await fetch("http://167.71.99.96:8000/api/library/delete-section-note", {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -194,7 +194,7 @@ export default class SectionNotes extends Component {
 
   editSectionNoteApi = async (index, title, notes) => {
     try {
-      const res = await fetch("http://localhost:8000/api/library/edit-section-note", {
+      const res = await fetch("http://167.71.99.96:8000/api/library/edit-section-note", {
         method: 'POST',
         credentials: 'include',
         headers: {

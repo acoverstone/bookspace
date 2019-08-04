@@ -48,7 +48,7 @@ export default class Library extends Component {
 
     // If not available, retreive from api
     try {
-      const res = await fetch("http://localhost:8000/api/books/" + bookID , {
+      const res = await fetch("http://167.71.99.96:8000/api/books/" + bookID , {
         method: 'GET',
         credentials: 'include',
         headers: {

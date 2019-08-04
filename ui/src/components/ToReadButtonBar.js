@@ -19,7 +19,7 @@ export default class ToReadButtonBar extends Component {
 
   removeFromToReadApi = async () => {
     try {
-      const res = await fetch("http://localhost:8000/api/library/remove-to-read", {
+      const res = await fetch("http://167.71.99.96:8000/api/library/remove-to-read", {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -66,7 +66,7 @@ export default class ToReadButtonBar extends Component {
     // Add book to "Read Already" list and remove from "To-Read" list
     addReadAlreadyApi = async () => {
       try {
-        const res = await fetch("http://localhost:8000/api/library/add-read-already", {
+        const res = await fetch("http://167.71.99.96:8000/api/library/add-read-already", {
           method: 'POST',
           credentials: 'include',
           headers: {
@@ -118,7 +118,7 @@ export default class ToReadButtonBar extends Component {
       // Add book to "Reading" list and remove from "To-Read" list
       addReadingApi = async () => {
         try {
-          const res = await fetch("http://localhost:8000/api/library/add-reading-now", {
+          const res = await fetch("http://167.71.99.96:8000/api/library/add-reading-now", {
             method: 'POST',
             credentials: 'include',
             headers: {

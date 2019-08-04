@@ -129,7 +129,7 @@ export default class SearchArea extends Component {
 
   getSurpriseList = async (surpriseType) => {
     try {
-      const url = "http://localhost:8000/api/surprise/" + surpriseType;
+      const url = "http://167.71.99.96:8000/api/surprise/" + surpriseType;
       const res = await fetch(url, {
         method: 'GET',
         credentials: 'include',
@@ -177,7 +177,7 @@ export default class SearchArea extends Component {
 
     // If not available, retreive from api
     try {
-      const res = await fetch("http://localhost:8000/api/books/" + bookID , {
+      const res = await fetch("http://167.71.99.96:8000/api/books/" + bookID , {
         method: 'GET',
         credentials: 'include',
         headers: {
@@ -221,9 +221,9 @@ export default class SearchArea extends Component {
   getBooks = async (searchType, searchString) => {
     var searchEndpoint;
     if(searchType === "author") {
-      searchEndpoint = "http://localhost:8000/api/authors";
+      searchEndpoint = "http://167.71.99.96:8000/api/authors";
     } else {
-      searchEndpoint  = "http://localhost:8000/api/books";
+      searchEndpoint  = "http://167.71.99.96:8000/api/books";
     }
     
     const strippedSearchString = searchString.replace(/[.,/#!$%^&*;:{}=\-_`~()]/g,"");

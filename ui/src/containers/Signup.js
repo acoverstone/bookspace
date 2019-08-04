@@ -81,7 +81,7 @@ export default class Signup extends Component {
     this.setState({ isLoading: true });
 
     try {
-      const res = await fetch('http://localhost:8000/api/signup', {
+      const res = await fetch('http://167.71.99.96:8000/api/signup', {
         method: 'POST',
         credentials: 'include',
         headers: {
