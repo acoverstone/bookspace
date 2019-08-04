@@ -155,7 +155,7 @@ export default class SectionNotes extends Component {
 
       return true;
     } catch (e) {
-      console.log(e.message);
+      // console.log(e.message);
       return false;
     }
   }
@@ -187,7 +187,7 @@ export default class SectionNotes extends Component {
 
       return true;
     } catch (e) {
-      console.log(e.message);
+      // console.log(e.message);
       return false;
     }
   }
@@ -221,7 +221,7 @@ export default class SectionNotes extends Component {
 
       return true;
     } catch (e) {
-      console.log(e.message);
+      // console.log(e.message);
       return false;
     }
   }

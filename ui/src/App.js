@@ -42,7 +42,7 @@ class App extends Component {
       }
     }
     catch(error) {
-      console.log(error);
+      // console.log(error);
     }
     this.setState({ isAuthenticating: false });
   }
@@ -86,8 +86,8 @@ class App extends Component {
      
     }
     catch(error) {
-      console.log(error);
-      alert("Logout Not successful, pelase try again.");
+      // console.log(error);
+      alert("Logout unsuccessful, pelase try again.");
       this.props.history.push("/");
     }
   }

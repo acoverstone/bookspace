@@ -21,7 +21,7 @@ export default class Home extends Component {
   }
 
   setSearchResults = results => {
-    console.log(results);   // For seeing search results
+    // console.log(results);   // For seeing search results
     this.setState({searchResults: results, surpriseType:""});
   }
 

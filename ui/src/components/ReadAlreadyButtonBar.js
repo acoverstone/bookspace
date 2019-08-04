@@ -41,13 +41,13 @@ export default class ReadAlreadyButtonBar extends Component {
         return true;
       } else {
         this.props.showAlertModal("Oops.", "There was an error removing '" + this.props.result.Title + "' from your Read Already List. Please refresh and try again.");
-        console.log("Invalid bookID - " + this.props.result.BookID);
+        // console.log("Invalid bookID - " + this.props.result.BookID);
         return false;
       }
         
     } catch (e) {
       this.props.showAlertModal("Oops.", "Something went wrong - please refresh and try again.")
-      console.log(e.message);
+      // console.log(e.message);
       return false;
     }
   }
@@ -87,13 +87,13 @@ export default class ReadAlreadyButtonBar extends Component {
         return true;
       } else {
         this.props.showAlertModal("Oops.", "There was an error adding '" + this.props.result.Title + "' to your Reading List. Please refresh and try again.");
-        console.log("Invalid bookID - " + this.props.result.BookID);
+        // console.log("Invalid bookID - " + this.props.result.BookID);
         return false;
       }
         
     } catch (e) {
       this.props.showAlertModal("Oops.", "Something went wrong - please refresh and try again.")
-      console.log(e.message);
+      // console.log(e.message);
       return false;
     }
   }

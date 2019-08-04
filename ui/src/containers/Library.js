@@ -65,7 +65,7 @@ export default class Library extends Component {
       return resJson;
         
     } catch (e) {
-      console.log(e.message);
+      // console.log(e.message);
       return null;
     }
   }

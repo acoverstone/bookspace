@@ -146,7 +146,7 @@ export default class SearchArea extends Component {
       const resJson = await res.json();
       return resJson;
     } catch (e) {
-      console.log(e.message);
+      // console.log(e.message);
       return null;
     }
   }
@@ -194,7 +194,7 @@ export default class SearchArea extends Component {
       return resJson;
         
     } catch (e) {
-      console.log(e.message);
+      // console.log(e.message);
       return null;
     }
   }
@@ -246,7 +246,7 @@ export default class SearchArea extends Component {
       const resJson = await res.json();
       return resJson;
     } catch (e) {
-      console.log(e.message);
+      // console.log(e.message);
       return null;
     }
   }

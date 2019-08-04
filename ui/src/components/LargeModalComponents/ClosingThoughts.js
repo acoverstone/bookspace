@@ -69,7 +69,7 @@ export default class ClosingThoughts extends Component {
       return true;
     } catch (e) {
 
-      console.log(e.message);
+      // console.log(e.message);
       return false;
     }
   }

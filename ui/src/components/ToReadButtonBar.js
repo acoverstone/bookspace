@@ -12,7 +12,7 @@ export default class ToReadButtonBar extends Component {
     if(this.props.currentUser !== null && this.props.currentUser["type"] !== "sample_user") {
       this.removeFromToReadApi()
     } else {
-      console.log("Not authenticated.")
+      // console.log("Not authenticated.")
       this.props.showAlertModal("Oops.", "Login or Signup to remove a book from your 'To-Read' List.")
     }
   }
@@ -42,13 +42,13 @@ export default class ToReadButtonBar extends Component {
         return true;
       } else {
         this.props.showAlertModal("Oops.", "There was an error removing '" + this.props.result.Title + "' from your To-Read List. Please refresh and try again.");
-        console.log("Invalid bookID - " + this.props.result.BookID);
+        // console.log("Invalid bookID - " + this.props.result.BookID);
         return false;
       }
         
     } catch (e) {
       this.props.showAlertModal("Oops.", "Something went wrong - please refresh and try again.")
-      console.log(e.message);
+      // console.log(e.message);
       return false;
     }
   }
@@ -58,7 +58,7 @@ export default class ToReadButtonBar extends Component {
     if(this.props.currentUser !== null && this.props.currentUser["type"] !== "sample_user") {
       this.addReadAlreadyApi()
     } else {
-      console.log("Not authenticated.")
+      // console.log("Not authenticated.")
       this.props.showAlertModal("Oops.", "Login or Signup to add a book to your 'Read Already' List.");
     }
   }
@@ -97,12 +97,12 @@ export default class ToReadButtonBar extends Component {
           }
         } else {
           this.props.showAlertModal("Oops.", "There was an error adding '" + this.props.result.Title + "' to your Read Already List. Please refresh and try again.");
-          console.log("Invalid bookID - " + this.props.result.BookID);
+          // console.log("Invalid bookID - " + this.props.result.BookID);
         }
         
       } catch (e) {
         this.props.showAlertModal("Oops.", "Something went wrong - please try again.")
-        console.log(e.message);
+        // console.log(e.message);
       }
     }
 
@@ -110,7 +110,7 @@ export default class ToReadButtonBar extends Component {
       if(this.props.currentUser !== null && this.props.currentUser["type"] !== "sample_user") {
         this.addReadingApi()
       } else {
-        console.log("Not authenticated.")
+        // console.log("Not authenticated.")
         this.props.showAlertModal("Oops.", "Login or Signup to add a book to your 'Reading' List.");
       }
     }
@@ -149,12 +149,12 @@ export default class ToReadButtonBar extends Component {
             }
           } else {
             this.props.showAlertModal("Oops.", "There was an error adding '" + this.props.result.Title + "' to your Reading List. Please refresh and try again.");
-            console.log("Invalid bookID - " + this.props.result.BookID);
+            // console.log("Invalid bookID - " + this.props.result.BookID);
           }
           
         } catch (e) {
           this.props.showAlertModal("Oops.", "Something went wrong - please try again.")
-          console.log(e.message);
+          // console.log(e.message);
         }
       }
   

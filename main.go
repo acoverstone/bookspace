@@ -39,7 +39,7 @@ func main() {
 	})
 
 	// Add this additonal goroutine to monitor for profiling - comment out as needed
-	// Go here with application runnin: http://localhost:8080/debug/pprof/
+	// Go here with application running: http://localhost:8080/debug/pprof/
 	// go http.ListenAndServe(":8080", nil)
 
 	// Serve application https and with DefaultServeMux

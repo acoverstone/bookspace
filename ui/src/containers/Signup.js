@@ -105,7 +105,7 @@ export default class Signup extends Component {
       this.props.history.push("/");
     
     } catch (error) {
-      console.log(error.message);
+      // console.log(error.message);
       if(error.message === "422") {
         this.setState({errorText: "This email already exists in the database, please reset your password or choose another email.", isLoading: false });
       } else {

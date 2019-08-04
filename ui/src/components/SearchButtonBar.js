@@ -45,12 +45,12 @@ export default class SearchButtonBar extends Component {
         this.props.currentUser["library"]["to_read_list"].push(this.props.result.BookID)
         this.props.showAlertModal("Done.", "'" + this.props.result.Title + "' has been added to your To-Read list.");
       } else {
-        console.log("Invalid bookID - " + this.props.result.BookID);
+        // console.log("Invalid bookID - " + this.props.result.BookID);
       }
       
     } catch (e) {
       this.props.showAlertModal("Oops.", "Something went wrong - please try again.")
-      console.log(e.message);
+      // console.log(e.message);
     }
   }
 
@@ -89,12 +89,12 @@ export default class SearchButtonBar extends Component {
         this.props.showAlertModal("Done.", "'" + this.props.result.Title + "' has been added to your Read Already list.");
       } else {
         this.props.showAlertModal("Oops.", "There was an error adding '" + this.props.result.Title + "' to your Read Already List. Please refresh and try again.");
-        console.log("Invalid bookID - " + this.props.result.BookID);
+        // console.log("Invalid bookID - " + this.props.result.BookID);
       }
       
     } catch (e) {
       this.props.showAlertModal("Oops.", "Something went wrong - please try again.")
-      console.log(e.message);
+      // console.log(e.message);
     }
   }
 
@@ -133,12 +133,12 @@ export default class SearchButtonBar extends Component {
         this.props.showAlertModal("Done.", "'" + this.props.result.Title + "' has been added to your Reading list.");
       } else {
         this.props.showAlertModal("Oops.", "There was an error adding '" + this.props.result.Title + "' to your Reading List. Please refresh and try again.");
-        console.log("Invalid bookID - " + this.props.result.BookID);
+        // console.log("Invalid bookID - " + this.props.result.BookID);
       }
       
     } catch (e) {
       this.props.showAlertModal("Oops.", "Something went wrong - please try again.")
-      console.log(e.message);
+      // console.log(e.message);
     }
   }
 

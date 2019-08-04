@@ -65,7 +65,7 @@ export default class Login extends Component {
       
     } catch (e) {
       // otherwise alert error
-      console.log(e.message);
+      // console.log(e.message);
       this.setState({ isLoading: false, errorText: "Incorrect email or passord, please try again." });
     }
   }
