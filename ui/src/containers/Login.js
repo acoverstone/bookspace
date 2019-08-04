@@ -127,7 +127,7 @@ export default class Login extends Component {
           </div>
          
           <LinkContainer to="/signup">
-            <p className="sign-up no-select">New to Bookspace? Click here to sign up!</p>
+            <p className="sign-up no-select">New to Bookspace? Click here to <b>Signup!</b></p>
           </LinkContainer>
           <p className="error-text-login">{this.state.errorText}</p>
           <p className="footer"><span onClick={this.clickTerms}>Terms of Use</span> | <span onClick={this.clickPrivacy}>Privacy Policy</span></p>
