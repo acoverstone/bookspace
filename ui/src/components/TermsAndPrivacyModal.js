@@ -42,7 +42,7 @@ export default class TermsAndPrivacyModal extends Component {
         <p className="notes-modal-description-section">By continuing to access or use our Service after those revisions become effective, you agree to be bound by the revised terms. If you do not agree to the new terms, please stop using the Service.</p>
 
         <h5 className="notes-modal-description-section-subheader">Contact Us</h5>
-        <p className="notes-modal-description-section">If you have any questions about these Terms, please contact us.</p>
+        <p className="notes-modal-description-section">If you have any questions about these Terms, please contact us: acoverst@gmail.com</p>
       </div>
     );
   }
@@ -116,6 +116,7 @@ export default class TermsAndPrivacyModal extends Component {
         <h5 className="notes-modal-description-section-subheader">Service Providers</h5>
         <p className="notes-modal-description-section">We may employ third party companies and individuals to facilitate our Service ("Service Providers"), to provide the Service on our behalf, to perform Service-related services or to assist us in analyzing how our Service is used.</p>
         <p className="notes-modal-description-section">These third parties have access to your Personal Data only to perform these tasks on our behalf and are obligated not to disclose or use it for any other purpose.</p>
+        <p className="notes-modal-description-section">We utilize Google Books API for Book Information - any content submitted through the Books API, including your name or nicknames, may be made publicly available on Google services as described by the Books Privacy Policy at https://books.google.com/googlebooks/privacy.html </p>
 
         <h5 className="notes-modal-description-section-subheader">Links To Other Sites</h5>
         <p className="notes-modal-description-section">Our Service may contain links to other sites that are not operated by us. If you click on a third party link, you will be directed to that third party's site. We strongly advise you to review the Privacy Policy of every site you visit.</p>
@@ -132,7 +133,7 @@ export default class TermsAndPrivacyModal extends Component {
 
         <h5 className="notes-modal-description-section-subheader">Contact Us</h5>
         <p className="notes-modal-description-section">If you have any questions about this Privacy Policy, please contact us:</p>
-        <p className="notes-modal-description-section">By email: support@bookcase.app</p>
+        <p className="notes-modal-description-section">By email: acoverst@gmail.com</p>
 
       </div>
     );
