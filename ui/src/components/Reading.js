@@ -59,7 +59,7 @@ export default class Reading extends Component {
   async getBooks() {
     if(this.props.currentUser) {
       var initialReadList = this.sortBooks(this.getReadingNow()).slice(0, this.state.loadedPage * BOOKS_PER_PAGE);
-      if(initialReadList === null) {
+      if(initialReadList === null || initialReadList.length === 0) {
         initialReadList = [];
         this.setState({isLoading: false});
       }
@@ -79,8 +79,11 @@ export default class Reading extends Component {
             bookList.push({...initialReadList[i], BookID:bookDetails.BookID, Authors:bookDetails.Authors, Description:bookDetails.Description, Image:bookDetails.Image, Title:bookDetails.Title, Subtitle:bookDetails.Subtitle})// ...bookDetails})  
           }
         }
+        if(i % 3 === 0 || i === initialReadList.length - 1) {
+          await this.setState({readList: bookList, isLoading: false});
+        }
       }
-      await this.setState({readList: bookList, isLoading: false});
+      
 
       // Add books to cache
       this.props.addBooksToCache(bookDetailList);
