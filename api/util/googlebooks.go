@@ -24,7 +24,7 @@ var client = http.Client{
 // https://developers.google.com/apis-explorer/?hl=en_US#p/books/v1/books.volumes.list
 // QueryParams: maxResults=15, orderBy=relevance, printType=books, showPreorders=true
 func SearchBooks(query string) ([]byte, error) {
-	response, err := client.Get(fmt.Sprintf("https://www.googleapis.com/books/v1/volumes?q=%v&maxResults=15&orderBy=relevance&printType=books&showPreorders=true&key=%v", url.QueryEscape(query), os.Getenv("GOOGLE_BOOKS_API_KEY")))
+	response, err := client.Get(fmt.Sprintf("https://www.googleapis.com/books/v1/volumes?q=%v&maxResults=15&orderBy=relevance&printType=books&showPreorders=true&key=%v&country=US", url.QueryEscape(query), os.Getenv("GOOGLE_BOOKS_API_KEY")))
 	if err != nil {
 		return nil, fmt.Errorf("error contacting Google Books API: %v", err)
 	}
@@ -41,7 +41,7 @@ func SearchBooks(query string) ([]byte, error) {
 // https://developers.google.com/apis-explorer/?hl=en_US#p/books/v1/books.volumes.list
 // QueryParams: maxResults=15, orderBy=relevance, printType=books, showPreorders=true
 func SearchBooksByAuthor(query string) ([]byte, error) {
-	response, err := client.Get(fmt.Sprintf("https://www.googleapis.com/books/v1/volumes?q=%v+inauthor:%v&maxResults=15&orderBy=relevance&printType=books&showPreorders=true&key=%v", url.QueryEscape(query), url.QueryEscape(query), os.Getenv("GOOGLE_BOOKS_API_KEY")))
+	response, err := client.Get(fmt.Sprintf("https://www.googleapis.com/books/v1/volumes?q=%v+inauthor:%v&maxResults=15&orderBy=relevance&printType=books&showPreorders=true&key=%v&country=US", url.QueryEscape(query), url.QueryEscape(query), os.Getenv("GOOGLE_BOOKS_API_KEY")))
 	if err != nil {
 		return nil, fmt.Errorf("error contacting Google Books API: %v", err)
 	}
