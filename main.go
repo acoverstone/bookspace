@@ -33,7 +33,7 @@ func main() {
 	controller.Startup(globalSessions)
 	// c := cors.AllowAll()
 	c := cors.New(cors.Options{
-		AllowedOrigins:   []string{"http://localhost", "http://localhost:3000"},
+		AllowedOrigins:   []string{os.Getenv("BOOKS_BASE_URL"), os.Getenv("BOOKS_BASE_URL") + ":3000"},
 		AllowCredentials: true,
 		AllowedMethods:   []string{"POST", "GET", "OPTIONS", "PUT", "DELETE"},
 	})
