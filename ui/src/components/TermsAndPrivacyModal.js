@@ -12,9 +12,9 @@ export default class TermsAndPrivacyModal extends Component {
       <div>
         <h4><span id="notes-modal-title">Terms of Use</span><br/><span id="notes-modal-subtitle" style={{fontSize:"50%"}}>Last Updated: August 03, 2019</span></h4>      
         <br />
-        <p className="notes-modal-description-section">Please read these Terms and Conditions ("Terms", "Terms and Conditions") carefully before using the www.bookspace.app website (the "Service") operated by Bookspace ("us", "we", or "our").</p>
+        <p className="notes-modal-description-section">Please read these Terms and Conditions ("Terms", "Terms and Conditions") carefully before using the www.bookspace.app website (the "Service") operated by BookSpace ("us", "we", or "our").</p>
         <p className="notes-modal-description-section">Your access to and use of the Service is conditioned on your acceptance of and compliance with these Terms. These Terms apply to all visitors, users and others who access or use the Service.</p>
-        <p className="notes-modal-description-section">By accessing or using the Service you agree to be bound by these Terms. If you disagree with any part of the terms then you may not access the Service. The Terms and Conditions agreement for Bookspace has been created with the help of <a href="https://www.freeprivacypolicy.com/free-terms-and-conditions-generator/">FreePrivacyPolicy.com Terms and Conditions Generator</a>.</p>
+        <p className="notes-modal-description-section">By accessing or using the Service you agree to be bound by these Terms. If you disagree with any part of the terms then you may not access the Service. The Terms and Conditions agreement for BookSpace has been created with the help of <a href="https://www.freeprivacypolicy.com/free-terms-and-conditions-generator/">FreePrivacyPolicy.com Terms and Conditions Generator</a>.</p>
 
         <h5 className="notes-modal-description-section-subheader">Accounts</h5>
         <p className="notes-modal-description-section">When you create an account with us, you must provide us information that is accurate, complete, and current at all times. Failure to do so constitutes a breach of the Terms, which may result in immediate termination of your account on our Service.</p>
@@ -22,8 +22,8 @@ export default class TermsAndPrivacyModal extends Component {
         <p className="notes-modal-description-section">You agree not to disclose your password to any third party. You must notify us immediately upon becoming aware of any breach of security or unauthorized use of your account.</p>
 
         <h5 className="notes-modal-description-section-subheader">Links To Other Web Sites</h5>
-        <p className="notes-modal-description-section">Our Service may contain links to third-party web sites or services that are not owned or controlled by Bookspace.</p>
-        <p className="notes-modal-description-section">Bookspace has no control over, and assumes no responsibility for, the content, privacy policies, or practices of any third party web sites or services. You further acknowledge and agree that Bookspace shall not be responsible or liable, directly or indirectly, for any damage or loss caused or alleged to be caused by or in connection with use of or reliance on any such content, goods or services available on or through any such web sites or services.</p>
+        <p className="notes-modal-description-section">Our Service may contain links to third-party web sites or services that are not owned or controlled by BookSpace.</p>
+        <p className="notes-modal-description-section">BookSpace has no control over, and assumes no responsibility for, the content, privacy policies, or practices of any third party web sites or services. You further acknowledge and agree that BookSpace shall not be responsible or liable, directly or indirectly, for any damage or loss caused or alleged to be caused by or in connection with use of or reliance on any such content, goods or services available on or through any such web sites or services.</p>
         <p className="notes-modal-description-section">We strongly advise you to read the terms and conditions and privacy policies of any third-party web sites or services that you visit.</p>
 
         <h5 className="notes-modal-description-section-subheader">Termination</h5>
@@ -52,8 +52,8 @@ export default class TermsAndPrivacyModal extends Component {
       <div>
         <h4><span id="notes-modal-title">Privacy Policy</span><br/><span id="notes-modal-subtitle" style={{fontSize:"50%"}}>Effective Date: August 03, 2019</span></h4>
         <br />
-        <p className="notes-modal-description-section">Bookspace ("us", "we", or "our") operates the www.bookspace.app website (the "Service").</p>
-        <p className="notes-modal-description-section">This page informs you of our policies regarding the collection, use, and disclosure of personal data when you use our Service and the choices you have associated with that data. Our Privacy Policy  for Bookspace is created with the help of the <a href="https://www.freeprivacypolicy.com/free-privacy-policy-generator.php">Free Privacy Policy Generator</a>.</p>
+        <p className="notes-modal-description-section">BookSpace ("us", "we", or "our") operates the www.bookspace.app website (the "Service").</p>
+        <p className="notes-modal-description-section">This page informs you of our policies regarding the collection, use, and disclosure of personal data when you use our Service and the choices you have associated with that data. Our Privacy Policy  for BookSpace is created with the help of the <a href="https://www.freeprivacypolicy.com/free-privacy-policy-generator.php">Free Privacy Policy Generator</a>.</p>
         <p className="notes-modal-description-section">We use your data to provide and improve the Service. By using the Service, you agree to the collection and use of information in accordance with this policy. Unless otherwise defined in this Privacy Policy, terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, accessible from www.bookspace.app</p>
 
         <h5 className="notes-modal-description-section-subheader">Information Collection And Use</h5>
@@ -81,7 +81,7 @@ export default class TermsAndPrivacyModal extends Component {
         </ul>
 
         <h5 className="notes-modal-description-section-subheader">Use of Data</h5>
-        <p className="notes-modal-description-section">Bookspace uses the collected data for various purposes:</p>    
+        <p className="notes-modal-description-section">BookSpace uses the collected data for various purposes:</p>    
         <ul>
             <li className="notes-modal-description-section">To provide and maintain the Service</li>
             <li className="notes-modal-description-section">To notify you about changes to our Service</li>
@@ -96,15 +96,15 @@ export default class TermsAndPrivacyModal extends Component {
         <p className="notes-modal-description-section">Your information, including Personal Data, may be transferred to — and maintained on — computers located outside of your state, province, country or other governmental jurisdiction where the data protection laws may differ than those from your jurisdiction.</p>
         <p className="notes-modal-description-section">If you are located outside United States and choose to provide information to us, please note that we transfer the data, including Personal Data, to United States and process it there.</p>
         <p className="notes-modal-description-section">Your consent to this Privacy Policy followed by your submission of such information represents your agreement to that transfer.</p>
-        <p className="notes-modal-description-section">Bookspace will take all steps reasonably necessary to ensure that your data is treated securely and in accordance with this Privacy Policy and no transfer of your Personal Data will take place to an organization or a country unless there are adequate controls in place including the security of your data and other personal information.</p>
+        <p className="notes-modal-description-section">BookSpace will take all steps reasonably necessary to ensure that your data is treated securely and in accordance with this Privacy Policy and no transfer of your Personal Data will take place to an organization or a country unless there are adequate controls in place including the security of your data and other personal information.</p>
 
         <h5 className="notes-modal-description-section-subheader">Disclosure Of Data</h5>
 
         <h5 className="notes-modal-description-section-subheader">Legal Requirements</h5>
-        <p className="notes-modal-description-section">Bookspace may disclose your Personal Data in the good faith belief that such action is necessary to:</p>
+        <p className="notes-modal-description-section">BookSpace may disclose your Personal Data in the good faith belief that such action is necessary to:</p>
         <ul>
             <li className="notes-modal-description-section">To comply with a legal obligation</li>
-            <li className="notes-modal-description-section">To protect and defend the rights or property of Bookspace</li>
+            <li className="notes-modal-description-section">To protect and defend the rights or property of BookSpace</li>
             <li className="notes-modal-description-section">To prevent or investigate possible wrongdoing in connection with the Service</li>
             <li className="notes-modal-description-section">To protect the personal safety of users of the Service or the public</li>
             <li className="notes-modal-description-section">To protect against legal liability</li>

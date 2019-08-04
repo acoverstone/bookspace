@@ -47,7 +47,7 @@ export default class Home extends Component {
           <Row>
             <Col>
               <div className={this.state.searchResults.length > 0 ? "lander has-results" : "lander"}>
-                <h1>Bookspace</h1>
+                <h1>BookSpace</h1>
                 {(this.props.currentUser==null)
                   ? <p>A simple way to organize your reading.</p>
                   : <p>Welcome back {this.props.currentUser["first_name"]}, search for books below.</p>
