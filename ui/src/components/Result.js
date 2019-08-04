@@ -36,6 +36,10 @@ export default class Result extends Component {
     this.setState({isHoveringDescription: false})
   }
 
+  getAmazonSearchString = () => {
+    var queryString = this.props.result.Title.toLowerCase();
+    return "https://www.amazon.com/s?k=" + queryString + "&i=stripbooks"
+  }
 
   render() {
     // console.log(this.props.result);
@@ -86,7 +90,9 @@ export default class Result extends Component {
             <ButtonBar />
           </div>
         
-          <img className="result-cover" src={this.props.result.Image} alt={this.props.result.Title}  />
+          <a href={this.getAmazonSearchString()} target="_blank" rel="noopener noreferrer">
+            <img className="result-cover" src={this.props.result.Image} alt={this.props.result.Title}  />
+            </a>
           <Card.Title  className="result-title">{this.props.result.Title}</Card.Title>
           <Card.Subtitle  className="result-author">{this.getAuthors()}</Card.Subtitle>
           

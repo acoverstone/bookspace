@@ -239,7 +239,7 @@ export default class ReadAlready extends Component {
         <Col xs={{span:12}}  >
           <Col xs={{span:12}}  md={{span:8, offset:2}} lg={{span:6, offset:3}}>
             <SearchBar searchType={this.state.searchType} searchAuthor={this.searchAuthor} searchTitle={this.searchTitle} onInputChange={this.onSearchChange} onEnter={this.onEnter} autoFocus={false}/>
-            {(this.props.currentUser==null)
+            {(this.props.currentUser==null || this.props.currentUser["type"] === "sample_user")
                 ?  <div><p className="not-logged-in-msg no-select" ><span><a href="/login">Login</a></span> or <span><a href="/signup">Signup</a></span> to start your own Library.</p></div>
                 :  <p className="not-logged-in-msg no-select" ></p>
               }
