@@ -155,7 +155,9 @@ export default class SearchArea extends Component {
     var books = []
     for(var i = 0; i < bookList.length; i++) {
       var bookDetails = await this.getBookDetails(bookList[i]);
-      books.push(bookDetails);
+      if(bookDetails != null) {
+        books.push(bookDetails);
+      }
 
       // keeps from taking so long to load the first time
       if(i % 3 === 0 || i === bookList.length - 1){
@@ -163,6 +165,10 @@ export default class SearchArea extends Component {
         this.setState({ surpriseIsLoading: false });
       }
     }
+    if(books.length === 0) {
+      this.setState({errorText:"We're sorry, we are having trouble fetching results right now. Please refresh and try again."})
+    }
+
     this.state.bookCache.addBooksToCache(books);
     return books;
   }

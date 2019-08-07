@@ -38,7 +38,8 @@ export default class Result extends Component {
 
   getAmazonSearchString = () => {
     var queryString = this.props.result.Title.toLowerCase();
-    return "https://www.amazon.com/s?k=" + queryString + "&i=stripbooks"
+    var authorString = this.props.result.Authors.length > 0 ? this.props.result.Authors[0] : "";
+    return "https://www.amazon.com/s?k=" + queryString + " " + authorString + "&i=stripbooks";
   }
 
   render() {
