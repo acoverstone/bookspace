@@ -161,8 +161,7 @@ export default class SearchArea extends Component {
 
       // keeps from taking so long to load the first time
       if(i % 3 === 0 || i === bookList.length - 1){
-        this.props.setSurpriseResults(books, surpriseType);
-        this.setState({ surpriseIsLoading: false });
+        await this.props.setSurpriseResults(books, surpriseType);
       }
     }
     if(books.length === 0) {
