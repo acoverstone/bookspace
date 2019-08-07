@@ -40,7 +40,7 @@ export default class BookSummary extends Component {
 
   addBookSummaryApi = async (summary) => {
     try {
-      const res = await fetch("http://167.71.99.96:8000/api/library/add-book-summary", {
+      const res = await fetch(process.env.REACT_APP_BASE_URL + "/api/library/add-book-summary", {
         method: 'POST',
         credentials: 'include',
         headers: {

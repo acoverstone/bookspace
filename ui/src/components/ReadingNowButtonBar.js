@@ -18,7 +18,7 @@ export default class ReadingNowButtonBar extends Component {
 
   removeReadingNowApi = async () => {
     try {
-      const res = await fetch("http://167.71.99.96:8000/api/library/remove-reading-now", {
+      const res = await fetch(process.env.REACT_APP_BASE_URL + "/api/library/remove-reading-now", {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -63,7 +63,7 @@ export default class ReadingNowButtonBar extends Component {
 
   finishReadingApi = async () => {
     try {
-      const res = await fetch("http://167.71.99.96:8000/api/library/set-reading-now", {
+      const res = await fetch(process.env.REACT_APP_BASE_URL + "/api/library/set-reading-now", {
         method: 'POST',
         credentials: 'include',
         headers: {

@@ -42,7 +42,7 @@ export default class ClosingThoughts extends Component {
 
   addClosingThoughtApi = async (review, rating) => {
     try {
-      const res = await fetch("http://167.71.99.96:8000/api/library/add-closing-thoughts", {
+      const res = await fetch(process.env.REACT_APP_BASE_URL + "/api/library/add-closing-thoughts", {
         method: 'POST',
         credentials: 'include',
         headers: {

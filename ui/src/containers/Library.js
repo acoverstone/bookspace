@@ -48,7 +48,7 @@ export default class Library extends Component {
 
     // If not available, retreive from api
     try {
-      const res = await fetch("http://167.71.99.96:8000/api/books/" + bookID , {
+      const res = await fetch(process.env.REACT_APP_BASE_URL + "/api/books/" + bookID , {
         method: 'GET',
         credentials: 'include',
         headers: {
@@ -62,7 +62,11 @@ export default class Library extends Component {
       }
 
       var resJson = await res.json();
-      return resJson;
+      if("BookID" in resJson) {
+        return resJson;
+      } else {
+        return null;
+      }
         
     } catch (e) {
       // console.log(e.message);

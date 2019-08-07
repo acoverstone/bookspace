@@ -236,7 +236,7 @@ func bookJSONToBook(item map[string]interface{}) (model.Book, error) {
 		}
 		if imageLinks, ok := volumeInfo["imageLinks"].(map[string]interface{}); ok {
 			if image, ok := imageLinks["thumbnail"].(string); ok {
-				book.Image = image
+				book.Image = strings.Replace(image, "http://", "https://", 1)
 			}
 		}
 		if language, ok := volumeInfo["language"].(string); ok {

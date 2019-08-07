@@ -33,7 +33,7 @@ func main() {
 	controller.Startup(globalSessions)
 	// c := cors.AllowAll()
 	c := cors.New(cors.Options{
-		AllowedOrigins:   []string{os.Getenv("BOOKS_BASE_URL"), os.Getenv("BOOKS_BASE_URL") + ":3000"},
+		AllowedOrigins:   []string{os.Getenv("BOOKS_BASE_URL"), os.Getenv("BOOKS_BASE_URL") + ":3000", "https://bookspace.app", "https://www.bookspace.app"},
 		AllowCredentials: true,
 		AllowedMethods:   []string{"POST", "GET", "OPTIONS", "PUT", "DELETE"},
 	})
@@ -45,7 +45,11 @@ func main() {
 	// Serve application https and with DefaultServeMux
 	// Could replace defaultServeMux with middleware (see how to setup in tutorials)
 	// Could replace ListenAndServe with ListenAndServeTLS
+	// if os.Getenv("BOOKS_ENV") == "prod" {
+	// 	http.ListenAndServeTLS(":8000", os.Getenv("BOOKS_CERTS")+"cert.pem", os.Getenv("BOOKS_CERTS")+"key.pem", c.Handler(http.DefaultServeMux))
+	// } else {
 	http.ListenAndServe(":8000", c.Handler(http.DefaultServeMux))
+	// }
 }
 
 // Creates a couchbase bucket and sets it in the model - be sure to close this db in the main function

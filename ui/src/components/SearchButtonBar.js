@@ -24,7 +24,7 @@ export default class SearchButtonBar extends Component {
   // Add book to "To-Read" list
   addToReadApi = async () => {
     try {
-      const res = await fetch("http://167.71.99.96:8000/api/library/add-to-read", {
+      const res = await fetch(process.env.REACT_APP_BASE_URL + "/api/library/add-to-read", {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -65,7 +65,7 @@ export default class SearchButtonBar extends Component {
   // Add book to "Read Already" list
   addReadAlreadyApi = async () => {
     try {
-      const res = await fetch("http://167.71.99.96:8000/api/library/add-read-already", {
+      const res = await fetch(process.env.REACT_APP_BASE_URL + "/api/library/add-read-already", {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -109,7 +109,7 @@ export default class SearchButtonBar extends Component {
   // Add book to "Reading" list
   addReadingNowApi = async () => {
     try {
-      const res = await fetch("http://167.71.99.96:8000/api/library/add-reading-now", {
+      const res = await fetch(process.env.REACT_APP_BASE_URL + "/api/library/add-reading-now", {
         method: 'POST',
         credentials: 'include',
         headers: {

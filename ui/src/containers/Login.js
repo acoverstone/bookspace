@@ -35,7 +35,7 @@ export default class Login extends Component {
     this.setState({ isLoading: true });
     try {
 
-      const res = await fetch('http://167.71.99.96:8000/api/login', {
+      const res = await fetch(process.env.REACT_APP_BASE_URL + '/api/login', {
         method: 'POST',
         credentials: 'include',
         headers: {

@@ -102,7 +102,7 @@ export default class BookSummary extends Component {
 
   addLessonLearnedApi = async (title, description, reference, highlight) => {
     try {
-      const res = await fetch("http://167.71.99.96:8000/api/library/add-lesson-learned", {
+      const res = await fetch( process.env.REACT_APP_BASE_URL + "/api/library/add-lesson-learned", {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -137,7 +137,7 @@ export default class BookSummary extends Component {
 
   deleteLessonLearnedApi = async (index) => {
     try {
-      const res = await fetch("http://167.71.99.96:8000/api/library/delete-lesson-learned", {
+      const res = await fetch( process.env.REACT_APP_BASE_URL + "/api/library/delete-lesson-learned", {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -169,7 +169,7 @@ export default class BookSummary extends Component {
 
   editLessonLearnedApi = async (index, title, description, reference, highlight) => {
     try {
-      const res = await fetch("http://167.71.99.96:8000/api/library/edit-lesson-learned", {
+      const res = await fetch( process.env.REACT_APP_BASE_URL + "/api/library/edit-lesson-learned", {
         method: 'POST',
         credentials: 'include',
         headers: {

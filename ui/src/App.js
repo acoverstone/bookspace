@@ -24,7 +24,7 @@ class App extends Component {
   async componentWillMount() {
     try {
       window.addEventListener('scroll', this.handleScroll);
-      const res = await fetch('http://167.71.99.96:8000/api/login', {
+      const res = await fetch(process.env.REACT_APP_BASE_URL + '/api/login', {
         method: 'GET',
         credentials: 'include'
       });
@@ -71,7 +71,7 @@ class App extends Component {
 
   handleLogout = async event => {
     try {
-      const res = await fetch('http://167.71.99.96:8000/api/logout', {
+      const res = await fetch(process.env.REACT_APP_BASE_URL + '/api/logout', {
         method: 'GET',
         credentials: 'include'
       });

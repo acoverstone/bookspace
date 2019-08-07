@@ -18,7 +18,7 @@ export default class ReadAlreadyButtonBar extends Component {
 
   removeReadAlreadyApi = async () => {
     try {
-      const res = await fetch("http://167.71.99.96:8000/api/library/remove-read-already", {
+      const res = await fetch(process.env.REACT_APP_BASE_URL + "/api/library/remove-read-already", {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -62,7 +62,7 @@ export default class ReadAlreadyButtonBar extends Component {
 
   readNowApi = async () => {
     try {
-      const res = await fetch("http://167.71.99.96:8000/api/library/set-reading-now", {
+      const res = await fetch(process.env.REACT_APP_BASE_URL + "/api/library/set-reading-now", {
         method: 'POST',
         credentials: 'include',
         headers: {
