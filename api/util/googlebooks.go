@@ -56,7 +56,7 @@ func SearchBooksByAuthor(query string) ([]byte, error) {
 
 // GetBook returns a book from Google Books API for given ID.
 func GetBook(id string) ([]byte, error) {
-	response, err := client.Get(fmt.Sprintf("https://www.googleapis.com/books/v1/volumes/%v?=%v&country=US", url.QueryEscape(id), os.Getenv("GOOGLE_BOOKS_API_KEY")))
+	response, err := client.Get(fmt.Sprintf("https://www.googleapis.com/books/v1/volumes/%v?key=%v&country=US", url.QueryEscape(id), os.Getenv("GOOGLE_BOOKS_API_KEY")))
 	if err != nil {
 		return nil, fmt.Errorf("error contacting Google Books API: %v", err)
 	}
